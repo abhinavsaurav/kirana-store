@@ -1,28 +1,51 @@
 // import logo from './logo.svg';
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+	faShoppingCart,
+	faSearch,
+	faMapMarkedAlt,
+	faGhost,
+	faShoppingBasket,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Redirect,
+} from "react-router-dom";
 
-import "./App.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import DefaultPage from "./components/DefaultPage";
 import Login from "./components/login/Login";
+import Layout from "./components/Layout/Layout";
+import classes from "./App.module.scss";
 
-library.add(faShoppingCart);
+library.add(
+	faShoppingCart,
+	faSearch,
+	faMapMarkedAlt,
+	faGhost,
+	faShoppingBasket
+);
 
 function App() {
 	return (
-		<div className="App">
+		<div className={classes.App}>
 			<Router>
-				<Header />
-				<main>
-					<switch>
-						<Route path="/" exact component={DefaultPage} />
-						<Route path="/login" exact component={Login} />
-					</switch>
-				</main>
-				<Footer />
+				<Layout>
+					<main>
+						<Switch>
+							<Route path="/" exact>
+								{/* <div>Below</div> */}
+								<DefaultPage />
+							</Route>
+							<Route path="/login" exact component={Login} />
+							<Route path="/">
+								{/* Just using as a catch-all if user passed any other link then also it will just redirect to / */}
+								<Redirect to="/" />
+							</Route>
+						</Switch>
+					</main>
+				</Layout>
 			</Router>
 		</div>
 	);
