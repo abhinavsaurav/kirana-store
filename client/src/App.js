@@ -31,16 +31,18 @@ function App() {
 	return (
 		<div className={classes.App}>
 			<Router>
+				{/**
+				 *  Layout Component starts here
+				 *
+				 *  */}
 				<Layout>
 					<main>
 						<Switch>
 							<Route path="/" exact>
-								{/* <div>Below</div> */}
 								<DefaultPage />
 							</Route>
 							<Route path="/login" exact component={Login} />
 							<Route path="/">
-								{/* Just using as a catch-all if user passed any other link then also it will just redirect to / */}
 								<Redirect to="/" />
 							</Route>
 						</Switch>
@@ -52,3 +54,11 @@ function App() {
 }
 
 export default App;
+
+/**
+ *
+ *
+ *
+ *
+ *
+ */
