@@ -5,7 +5,7 @@ const CardItem = ({ img, name, className }) => {
 	return (
 		<div className={classes[className]}>
 			<img src={img} alt={"dummy"} className={classes["img-card"]} />
-			<div>{name}</div>
+			<div className={classes.name}>{name}</div>
 		</div>
 	);
 };
