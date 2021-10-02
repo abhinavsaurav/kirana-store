@@ -160,6 +160,10 @@ $border-radius: 5px;
 		// color: green;
 		border: 1 px solid white;
 	}
+
+	@media (max-width: 840px) {
+		width: 1024px;
+	}
 }
 
 *,

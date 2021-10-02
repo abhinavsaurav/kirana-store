@@ -9,4 +9,12 @@
 
 	z-index: 4;
 	border: 1px solid blue;
+
+	// TODO : Probably add custom width in pixel to make the component behave like
+	// not zoomable
+
+	// width: 1440px;
+	@media (max-width: 800px) {
+		width: 1024px;
+	}
 }
