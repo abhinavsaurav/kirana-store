@@ -17,7 +17,11 @@
 	.header {
 		font-size: large;
 	}
-	@media (min-width: 2260px) {
+}
+
+@media (min-width: 2260px) {
+	.card-body {
+		height: 700px;
 		.header {
 			font-size: 3rem;
 		}
