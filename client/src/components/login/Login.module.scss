@@ -1,3 +1,43 @@
 .error {
 	color: red;
 }
+.form {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	width: 100vw;
+	height: 85vh;
+	.link-cont {
+		// display: flex;
+		text-align: center;
+		// height: 10vh;
+		margin-bottom: 5px;
+		padding: 10px;
+	}
+	.submit-btn {
+		// background-color: yellow;
+		// height: 5vh;
+		margin: 10px;
+	}
+}
+.form-container {
+	display: table;
+	margin: 5px;
+	border-spacing: 20px;
+
+	.uname,
+	.pass {
+		display: table-row;
+
+		label,
+		input {
+			display: table-cell;
+		}
+
+		label {
+			text-align: right;
+		}
+	}
+}
