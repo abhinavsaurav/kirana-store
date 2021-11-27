@@ -16,7 +16,7 @@ const FilterList = () => {
 						color="orange"
 						noOfStars="5"
 						defaultRating="4.6" // the changes to this will not reflect until the next refresh due to useMemo
-						isHoverDisabled="true"
+						isHoverDisabled="false"
 					/>
 				</div>
 			</div>

@@ -1,9 +1,11 @@
 import React from 'react';
 import Star from './Star';
+import classes from './StarContainer.module.scss';
 
 const StarContainer = ({
 	index,
 	starColor,
+	starBorderColor,
 	rating,
 	isHoverDisabled,
 	hoverRating,
@@ -45,7 +47,8 @@ const StarContainer = ({
 
 	return (
 		<div
-			style={{ color: '', cursor: 'pointer', display: 'inline-block' }}
+			style={{ color: starBorderColor }}
+			className={classes['star-wrapper']}
 			onMouseEnter={() => fixedStarsCheck(onMouseEnter, index)}
 			onMouseLeave={() => fixedStarsCheck(onMouseLeave)}
 			onClick={() => fixedStarsCheck(onSaveRating)}
