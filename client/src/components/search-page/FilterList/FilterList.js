@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import StarRating from '../../UI/star-rating/StarRating';
 import FilterLinks from './FilterLinks';
 import classes from './FilterList.module.scss';
@@ -12,7 +12,12 @@ const FilterList = () => {
 					<span>Customer Review</span>
 				</div>
 				<div className={classes['filter-main']}>
-					<StarRating />
+					<StarRating
+						color="orange"
+						noOfStars="5"
+						defaultRating="4.6" // the changes to this will not reflect until the next refresh due to useMemo
+						isHoverDisabled="true"
+					/>
 				</div>
 			</div>
 			<div className={classes['filter-section']}>

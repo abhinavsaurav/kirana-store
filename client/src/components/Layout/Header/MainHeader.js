@@ -10,7 +10,7 @@ const MainHeader = () => {
 	const history = useHistory();
 
 	const handleSearchBtnClick = () => {
-		console.log(searchText + ' ');
+		// console.log(searchText + ' ');
 		if (searchText !== '') {
 			history.push(`/search?item=${searchText}`);
 			// will not set the search text to '' here and should be done on clicking the main link
