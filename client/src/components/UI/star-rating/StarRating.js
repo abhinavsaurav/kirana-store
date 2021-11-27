@@ -4,6 +4,7 @@ import classes from './StarRating.module.scss';
 
 const StarRating = ({
 	color,
+	starBorderColor = 'orange',
 	noOfStars = 5,
 	defaultRating = 0,
 	isHoverDisabled = false,
@@ -43,6 +44,7 @@ const StarRating = ({
 					onMouseEnter={onMouseEnter}
 					onMouseLeave={onMouseLeave}
 					onSaveRating={onSaveRating}
+					starBorderColor={starBorderColor}
 				/>
 			);
 		});
