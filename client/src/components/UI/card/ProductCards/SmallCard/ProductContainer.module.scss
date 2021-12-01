@@ -1,0 +1,35 @@
+.name {
+	// font-size: 1.15rem;
+	overflow: auto;
+
+	&:hover {
+		color: rgb(182, 58, 58);
+	}
+}
+
+.rating {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 40%;
+	justify-content: flex-start;
+	gap: 6px;
+	margin: 2.5px 0;
+	.count {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #007185;
+	}
+
+	.count:hover {
+		text-decoration: underline;
+		color: rgb(182, 58, 58);
+	}
+}
+
+.price {
+	box-sizing: border-box;
+	font-size: 1.15rem;
+	margin: 2.5px 0;
+}
