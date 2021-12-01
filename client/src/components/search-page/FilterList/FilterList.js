@@ -5,19 +5,49 @@ import classes from './FilterList.module.scss';
 
 const FilterList = () => {
 	return (
-		<div>
+		<div className={classes.filter}>
 			{/* TODO: Probably category include it and add its subcategory once integration is done*/}
 			<div className={classes['filter-section']}>
 				<div className={classes['filter-name']}>
 					<span>Customer Review</span>
 				</div>
 				<div className={classes['filter-main']}>
-					<StarRating
-						color="orange"
-						noOfStars="5"
-						defaultRating="4.6" // the changes to this will not reflect until the next refresh due to useMemo
-						isHoverDisabled="false"
-					/>
+					<div className={classes['flex-container']}>
+						<StarRating
+							color="orange"
+							noOfStars="5"
+							defaultRating="4" // the changes to this will not reflect until the next refresh due to useMemo
+							isHoverDisabled="true"
+						/>
+						<label>& up</label>
+					</div>
+					<div className={classes['flex-container']}>
+						<StarRating
+							color="orange"
+							noOfStars="5"
+							defaultRating="3" // the changes to this will not reflect until the next refresh due to useMemo
+							isHoverDisabled="true"
+						/>
+						<label>& up</label>
+					</div>
+					<div className={classes['flex-container']}>
+						<StarRating
+							color="orange"
+							noOfStars="5"
+							defaultRating="2" // the changes to this will not reflect until the next refresh due to useMemo
+							isHoverDisabled="true"
+						/>
+						<label>& up</label>
+					</div>
+					<div className={classes['flex-container']}>
+						<StarRating
+							color="orange"
+							noOfStars="5"
+							defaultRating="1" // the changes to this will not reflect until the next refresh due to useMemo
+							isHoverDisabled="true"
+						/>
+						<label>& up</label>
+					</div>
 				</div>
 			</div>
 			<div className={classes['filter-section']}>

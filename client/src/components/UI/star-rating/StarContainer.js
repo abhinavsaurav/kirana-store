@@ -29,7 +29,7 @@ const StarContainer = ({
 		}
 
 		return 'none';
-	}, [rating, hoverRating, index, starColor, isHoverDisabled]);
+	}, [rating, hoverRating, index, starColor]);
 
 	/**
 	 *
