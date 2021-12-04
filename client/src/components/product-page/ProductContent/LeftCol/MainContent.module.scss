@@ -1,0 +1,21 @@
+.imgs-wrapper {
+	display: flex;
+	justify-content: center;
+	// enable it to make it as a container
+	width: 400px;
+	height: 400px;
+
+	.img-container {
+		display: flex;
+
+		// align-items: center;
+		// justify-content: center;
+		height: 100%;
+
+		img {
+			object-fit: contain;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	}
+}

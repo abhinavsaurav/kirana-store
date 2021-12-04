@@ -24,6 +24,7 @@ import Layout from './components/Layout/Layout';
 import SearchPage from './components/search-page/SearchPage';
 
 import classes from './App.module.scss';
+import ProductPage from './components/product-page/ProductPage';
 
 library.add(
 	faShoppingCart,
@@ -53,6 +54,7 @@ function App() {
 							<Route path="/search" exact>
 								<SearchPage />
 							</Route>
+							<Route path="/products/:id" exact component={ProductPage} />
 							<Route path="/">
 								<Redirect to="/" />
 							</Route>
