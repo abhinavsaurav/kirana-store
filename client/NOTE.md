@@ -23,3 +23,9 @@ Below is for the sales search
 ```
 also if the search is made without any keyword it just shows loading instead of loading anything
 ```
+
+## 2-12-21
+
+big card implementation remaining
+
+Caching -> research it and how to implement it here to store the data probably

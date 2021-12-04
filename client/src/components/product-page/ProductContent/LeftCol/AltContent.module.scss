@@ -1,0 +1,18 @@
+.alt-imgs {
+	width: 95%;
+	height: 25%;
+
+	.img-list {
+		list-style-type: none;
+
+		display: flex;
+		justify-content: center;
+		gap: 5px;
+		margin: 10px;
+	}
+
+	/* 
+		the css for the child elements should be checked in file where 
+		it has been generated due to css classes 
+	*/
+}
