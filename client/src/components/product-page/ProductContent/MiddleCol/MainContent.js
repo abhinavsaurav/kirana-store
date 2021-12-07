@@ -53,21 +53,25 @@ const MainContent = ({ data }) => {
 				<table>
 					<tbody>
 						<tr>
-							<td>MRP :</td>
+							<td>MRP </td>
+							<td>:</td>
 							<td>{data.price}</td>
 						</tr>
 						<tr>
-							<td>Price :</td>
+							<td>Price</td>
+							<td>:</td>
 							<td>{data.salePrice ? data.salePrice : data.price}</td>
 						</tr>
 						<tr>
-							<td>You Save :</td>
+							<td>You Save </td>
+							<td>:</td>
 							<td>
 								Rs. {data.salePrice ? data.price - data.salePrice : 0}(% not
 								added)
 							</td>
 						</tr>
 						<tr>
+							<td></td>
 							<td></td>
 							<td>Inclusive of all taxes</td>
 						</tr>
