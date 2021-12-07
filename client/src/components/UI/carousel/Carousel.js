@@ -3,10 +3,10 @@ import { useState, useCallback, useRef } from "react";
 
 import { Link } from "react-router-dom";
 import classes from "./Carousel.module.scss";
-import pic4 from "../../assets/pictures/carousel/pic4.png";
-import pic2 from "../../assets/pictures/carousel/pic2.png";
-import pic3 from "../../assets/pictures/carousel/pic3.png";
-import pic1 from "../../assets/pictures/carousel/pic1.png";
+import pic4 from "../../../assets/pictures/carousel/pic4.png";
+import pic2 from "../../../assets/pictures/carousel/pic2.png";
+import pic3 from "../../../assets/pictures/carousel/pic3.png";
+import pic1 from "../../../assets/pictures/carousel/pic1.png";
 import { useEffect } from "react";
 
 // default data

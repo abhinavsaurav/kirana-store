@@ -1,11 +1,23 @@
 import React from "react";
-import Carousel from "./UI/Carousel";
+import Carousel from "./UI/carousel/Carousel";
 import Card from "./UI/card/Card";
-
+import classes from "./DefaultPage.module.scss";
 // Mocking my data here
 
 const DefaultPage = () => {
 	// console.log(singleItem);
+
+	// TODO : Assign the signed in page and else
+	// const cardName1 = isSignedIn || "Shop Now & more";
+	const cardName1 = "Shop Now & more";
+	const cardName2 = "Shop Now & more";
+	const cardName3 = "Shop Now & more";
+	const cardName4 = "Shop Now & more";
+	const cardName5 = "Shop Now & more";
+	const cardName6 = "Shop Now & more";
+	const cardName7 = "Shop Now & more";
+	const cardName8 = "Shop Now & more";
+
 	const singleItem = [
 		{
 			id: 1,
@@ -84,26 +96,61 @@ const DefaultPage = () => {
 			{/* {console.log(singleItem)} */}
 			{/* // will have a */}
 			<Carousel />
-			<div
-				style={{
-					display: "flex",
-					flexWrap: "wrap",
-					justifyContent: "space-evenly",
-					alignItems: "space-evenly`",
-					rowGap: "5px",
-					padding: "5px",
-					marginTop: "",
-					zIndex: "4",
-				}}
-			>
-				<Card noOfElem={singleItem.length} itemsData={singleItem} />
-				<Card noOfElem={packOfFour.length} itemsData={packOfFour} />
-				<Card noOfElem={singleItem.length} itemsData={singleItem} />
-				<Card noOfElem={packOfFour.length} itemsData={packOfFour} />
-				<Card noOfElem={singleItem.length} itemsData={singleItem} />
-				<Card noOfElem={packOfFour.length} itemsData={packOfFour} />
-				<Card noOfElem={singleItem.length} itemsData={singleItem} />
-				<Card noOfElem={packOfFour.length} itemsData={packOfFour} />
+			<div className={classes.defaultcards} style={{}}>
+				{/**
+				 *
+				 *
+				 * Probably make a loop and iterate it using a map for
+				 * producing the jsx element again and again
+				 *
+				 *
+				 *
+				 */}
+				<Card
+					noOfElem={singleItem.length || 1}
+					itemsData={singleItem}
+					header={cardName1}
+				/>
+				<Card
+					noOfElem={packOfFour.length}
+					itemsData={packOfFour}
+					header={cardName2}
+				/>
+				<Card
+					noOfElem={singleItem.length}
+					itemsData={singleItem}
+					header={cardName3}
+				/>
+				<Card
+					noOfElem={packOfFour.length}
+					itemsData={packOfFour}
+					header={cardName4}
+				/>
+				<Card
+					noOfElem={packOfFour.length}
+					itemsData={packOfFour}
+					header={cardName6}
+				/>
+				<Card
+					noOfElem={singleItem.length}
+					itemsData={singleItem}
+					header={cardName5}
+				/>
+				<Card
+					noOfElem={packOfFour.length}
+					itemsData={packOfFour}
+					header={cardName8}
+				/>
+				<Card
+					noOfElem={singleItem.length}
+					itemsData={singleItem}
+					header={cardName7}
+				/>
+				{/* <Card
+					noOfElem={singleItem.length}
+					itemsData={singleItem}
+					header={cardName8}
+				/> */}
 			</div>
 		</>
 	);
