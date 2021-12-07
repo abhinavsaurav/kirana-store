@@ -25,7 +25,7 @@ const ProductPage = (props) => {
 			const fetchRandomImages = async (data) => {
 				const randPage = await Math.floor(Math.random() * 100);
 				const res2 = await fetch(
-					`https://picsum.photos/v2/list?page=${randPage}&limit=5`
+					`https://picsum.photos/v2/list?page=${randPage}&limit=4`
 				);
 				const data2 = await res2.json();
 
@@ -38,7 +38,7 @@ const ProductPage = (props) => {
 	}, [id]);
 
 	if (data && data.altImage) {
-		console.log(data);
+		// console.log(data);
 		return (
 			<div className={classes['main-container']}>
 				<Suggestion>
