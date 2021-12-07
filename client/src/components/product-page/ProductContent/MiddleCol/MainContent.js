@@ -3,6 +3,15 @@ import StarRating from '../../../UI/star-rating/StarRating';
 import classes from './MainContent.module.scss';
 
 const MainContent = ({ data }) => {
+	function processDescription(data) {
+		console.log(data.replace(/\./g, ';'));
+		return data
+			.replace(/,/g, ';')
+			.replace(/\./g, ';')
+			.split(';')
+			.map((data) => (data.length > 1 ? <li>{data}</li> : ''));
+	}
+
 	console.log(data);
 	return (
 		<div className={classes.container}>
@@ -67,14 +76,17 @@ const MainContent = ({ data }) => {
 			</div>
 			<div className={classes['item-information']}>
 				<div className={classes.heading}>
-					<span>About this item</span>
+					<span>About this item :</span>
 				</div>
 				<div className={classes['heading-content']}>
-					<span>
+					<ul>
 						{typeof data.description === 'string'
-							? data.description
+							? processDescription(data.description)
 							: 'Data problem could be corrupted'}
-					</span>
+						<li>
+							<Link to="#">See more product details</Link>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>

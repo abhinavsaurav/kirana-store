@@ -46,7 +46,27 @@
 
 	.item-information {
 		.heading {
-			font-size: 1.25rem;
+			font-size: 1.3rem;
+			padding: 1rem 0;
+		}
+
+		.heading-content ul {
+			margin: 1rem;
+			margin-top: 0;
+		}
+
+		.heading-content ul li {
+			padding: 0.5rem;
+			// font-size: 1rem;
+		}
+
+		.heading-content ul li a {
+			color: rgb(64, 64, 204);
+		}
+
+		.heading-content ul li a:hover {
+			color: #b63a3a;
+			text-decoration: underline;
 		}
 	}
 }
