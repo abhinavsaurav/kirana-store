@@ -1,5 +1,6 @@
-import { Fragment } from "react";
+// import { Fragment } from "react";
 import CardItem from "./CardItem";
+import classes from "./CardItems.module.scss";
 
 const CardItems = ({ nelem, elemData }) => {
 	// Currently only configuring for one or four elements but can be configured easily for
@@ -17,7 +18,7 @@ const CardItems = ({ nelem, elemData }) => {
 		);
 	});
 
-	return <Fragment>{renderItems}</Fragment>;
+	return <div className={classes.wrapper}>{renderItems}</div>;
 };
 
 export default CardItems;
