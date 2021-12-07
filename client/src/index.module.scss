@@ -12,6 +12,10 @@ code {
     monospace;
 } */
 
+html {
+	font-size: 16px;
+}
+
 :global(*) {
 	padding: 0px;
 	margin: 0px;

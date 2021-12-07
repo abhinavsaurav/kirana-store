@@ -29,3 +29,7 @@ also if the search is made without any keyword it just shows loading instead of 
 big card implementation remaining
 
 Caching -> research it and how to implement it here to store the data probably
+
+## 5-12-21
+
+zoom container for the product image zooming in

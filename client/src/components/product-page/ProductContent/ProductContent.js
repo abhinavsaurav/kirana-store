@@ -1,32 +1,47 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AltContent from './LeftCol/AltContent';
 
-import MainContent from './LeftCol/MainContent';
+import LeftMainContent from './LeftCol/MainContent';
+import MiddleMainContent from './MiddleCol/MainContent';
 import classes from './ProductContent.module.scss';
 
 const ProductContent = ({ data }) => {
 	// console.log(data);
-	const { image } = data;
-	const [activeLink, setActiveLink] = useState(image);
+	data.altImage[5] = { download_url: data.image };
+	const [activeData, setActiveData] = useState(data.altImage[5]);
 
 	const altImageRow = data.altImage.map((data) => {
 		// console.log(data);
 		return (
-			<li className={classes['alt-img-container']}>
-				<img src={data.download_url} alt={`image by ${data.author}`} />
+			<li
+				key={data.id}
+				onClick={() => setActiveData(data)}
+				onMouseEnter={() => setActiveData(data)}
+				className={classes['alt-img-container']}
+			>
+				<img src={data.download_url} alt={`by ${data.author}`} />
 			</li>
 		);
 	});
 
+	const changeActiveData = () => {
+		return setActiveData;
+	};
+
 	return (
 		<div className={classes['container']}>
 			<div className={classes['col-left']}>
-				<MainContent>
-					<img src={activeLink} alt={data.title} />
-				</MainContent>
+				<LeftMainContent>
+					<img src={activeData.download_url} alt={activeData.title} />
+				</LeftMainContent>
 				<AltContent>{altImageRow}</AltContent>
 			</div>
-			<div className={classes['col-middle']}>top middle container</div>
+			<div className={classes['col-middle']}>
+				<MiddleMainContent
+					data={data}
+					setActiveLeftColData={changeActiveData}
+				/>
+			</div>
 			<div className={classes['col-right']}>right checkout container</div>
 		</div>
 	);

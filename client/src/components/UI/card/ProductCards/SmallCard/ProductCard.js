@@ -14,7 +14,7 @@ const ProductCard = ({ data, width, height }) => {
 			>
 				<Link className={classes.linkwrapper} to={`/products/${id}`}>
 					<div id={id} className={classes['product-img']}>
-						<img alt="product image" src={image} />
+						<img alt={title} src={image} />
 					</div>
 				</Link>
 				<div className={classes['product-details-container']}>
