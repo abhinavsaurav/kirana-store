@@ -3,6 +3,8 @@ import AltContent from './LeftCol/AltContent';
 
 import LeftMainContent from './LeftCol/MainContent';
 import MiddleMainContent from './MiddleCol/MainContent';
+import RightMainContent from './RightCol/MainContent';
+import Share from './RightCol/Share';
 import classes from './ProductContent.module.scss';
 
 const ProductContent = ({ data }) => {
@@ -42,7 +44,10 @@ const ProductContent = ({ data }) => {
 					setActiveLeftColData={changeActiveData}
 				/>
 			</div>
-			<div className={classes['col-right']}>right checkout container</div>
+			<div className={classes['col-right']}>
+				<Share data={data} />
+				<RightMainContent data={data} />
+			</div>
 		</div>
 	);
 };

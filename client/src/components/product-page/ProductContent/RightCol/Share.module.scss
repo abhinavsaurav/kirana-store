@@ -1,0 +1,20 @@
+.share-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	// width: 50%;
+	font-size: 1.15rem;
+	a {
+		display: flex;
+		// vertical-align: baseline;
+		// width: 15%;
+		// height: 15%;
+		align-items: center;
+		justify-content: center;
+		transform: scale(0.9);
+
+		span {
+			padding: 0 4px;
+		}
+	}
+}
