@@ -41,11 +41,14 @@ const ProductPage = (props) => {
 		// console.log(data);
 		return (
 			<div className={classes['main-container']}>
-				<Suggestion>
-					This is suggestions and will contain data later propbably
-				</Suggestion>
-				<GoBack message="Back to results" />
-				<ProductContent data={data} />
+				<div className={classes['page-container']}>
+					<Suggestion>
+						This is suggestions and will contain data later propbably
+					</Suggestion>
+
+					<GoBack message="Back to results" />
+					<ProductContent data={data} />
+				</div>
 			</div>
 		);
 	}
