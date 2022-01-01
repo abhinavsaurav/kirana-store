@@ -3,11 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink, useHistory } from 'react-router-dom';
 
 import classes from './MainHeader.module.scss';
+import Modal from '../../UI/modal/Modal';
 
 const MainHeader = () => {
 	const [searchText, setSearchText] = useState('');
+	const [showPinModal, setShowPinModal] = useState(false);
 	// const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const history = useHistory();
+
+	const toggleShowPinModal = () => {
+		setShowPinModal(!showPinModal);
+	};
+	// const toggleModal
 
 	const handleSearchBtnClick = () => {
 		// console.log(searchText + ' ');
@@ -41,11 +48,16 @@ const MainHeader = () => {
 				<NavLink
 					exact
 					activeClassName={classes.active} // check about this part when to be active as its added in the above thing
-					to="/pin"
+					to="#"
 					className={classes.pin}
+					onClick={(e) => toggleShowPinModal()}
 				>
-					Deliver to
+					<span>Deliver to</span>
 					<FontAwesomeIcon icon="map-marked-alt" />
+					<Modal
+						show={showPinModal}
+						toggleShowModal={toggleShowPinModal}
+					></Modal>
 				</NavLink>
 				<div className={classes['search-select']}>
 					<select>
