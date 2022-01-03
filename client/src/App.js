@@ -26,6 +26,8 @@ import SearchPage from './components/search-page/SearchPage';
 import classes from './App.module.scss';
 import ProductPage from './components/product-page/ProductPage';
 
+import CartProvider from './contexts/cart/CartProvider';
+
 library.add(
 	faShoppingCart,
 	faSearch,
@@ -39,29 +41,31 @@ library.add(
 function App() {
 	return (
 		<div className={classes.App}>
-			<Router>
-				{/**
-				 *  Layout Component starts here
-				 *
-				 *  */}
-				<Layout>
-					<main>
-						<Switch>
-							<Route path="/" exact>
-								<DefaultPage />
-							</Route>
-							<Route path="/login" exact component={Login} />
-							<Route path="/search" exact>
-								<SearchPage />
-							</Route>
-							<Route path="/products/:id" exact component={ProductPage} />
-							<Route path="/">
-								<Redirect to="/" />
-							</Route>
-						</Switch>
-					</main>
-				</Layout>
-			</Router>
+			<CartProvider>
+				<Router>
+					{/**
+					 *  Layout Component starts here
+					 *
+					 *  */}
+					<Layout>
+						<main>
+							<Switch>
+								<Route path="/" exact>
+									<DefaultPage />
+								</Route>
+								<Route path="/login" exact component={Login} />
+								<Route path="/search" exact>
+									<SearchPage />
+								</Route>
+								<Route path="/products/:id" exact component={ProductPage} />
+								<Route path="/">
+									<Redirect to="/" />
+								</Route>
+							</Switch>
+						</main>
+					</Layout>
+				</Router>
+			</CartProvider>
 		</div>
 	);
 }
