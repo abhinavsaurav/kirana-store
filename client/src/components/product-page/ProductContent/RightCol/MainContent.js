@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Lock from '../../../UI/Icons/Lock/Lock';
 import classes from './MainContent.module.scss';
 
@@ -7,6 +8,9 @@ const MainContent = ({ data }) => {
 
 	// setting the quantity here and
 	const [quantity, setQuantity] = useState(1);
+	// dummy quantity
+	if (quantity) {
+	} // ! this line needs to be removed
 
 	return (
 		<div className={classes.container}>
@@ -62,10 +66,10 @@ const MainContent = ({ data }) => {
 				</span>
 			</div>
 			<div className={classes.secureTransaction}>
-				<a href="#">
+				<Link to="#">
 					<Lock width="1.25rem" height="1.25rem" />
 					<span>Secure Transaction</span>{' '}
-				</a>
+				</Link>
 			</div>
 			<hr />
 			<div className={classes.pin}>PIN should be added here</div>

@@ -4,7 +4,8 @@ import classes from './ProductCard.module.scss';
 
 const ProductCard = ({ data, width, height }) => {
 	if (data) {
-		const { id, image, title, rating, price } = data;
+		console.log(data);
+		const { id, image, title, rating, price, name } = data;
 		// console.log(price);
 
 		return (
@@ -21,7 +22,8 @@ const ProductCard = ({ data, width, height }) => {
 					<div className="wrapper">
 						<ProductContainer
 							id={id}
-							title={title}
+							name={name}
+							title={title} //might need to remove this
 							rating={rating}
 							price={price}
 						/>
