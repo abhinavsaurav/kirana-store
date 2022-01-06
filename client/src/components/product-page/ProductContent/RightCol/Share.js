@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import EmailIcon from '../../../UI/Icons/ShareIcons/EmailIcon';
 import FacebookIcon from '../../../UI/Icons/ShareIcons/FacebookIcon';
 import TwitterIcon from '../../../UI/Icons/ShareIcons/TwitterIcon';
@@ -10,15 +11,15 @@ const Share = (props) => {
 			<a href="mailto:?body:hi%20there%20&subject=check%20this%20out">
 				<span>Share</span>
 			</a>
-			<a href="#">
+			<Link to="#">
 				<EmailIcon width="23" height="23" />
-			</a>
-			<a href="#">
+			</Link>
+			<Link to="#">
 				<FacebookIcon width="20" height="20" />
-			</a>
-			<a href="#">
+			</Link>
+			<Link to="#">
 				<TwitterIcon width="20" height="20" />
-			</a>
+			</Link>
 		</div>
 	);
 };

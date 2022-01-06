@@ -63,7 +63,7 @@ const MainHeader = () => {
 					<span>Deliver to</span>
 					<FontAwesomeIcon icon="map-marked-alt" />
 					<Modal show={showPinModal} toggleShowModal={toggleShowPinModal}>
-						<img src={Pic1} />
+						<img src={Pic1} alt="dummy" />
 					</Modal>
 				</NavLink>
 				<div className={classes['search-select']}>
@@ -102,7 +102,7 @@ const MainHeader = () => {
 						Cart
 					</div>
 					<Modal show={showCartModal} toggleShowModal={toggleShowCartModal}>
-						<img src={Pic1} />
+						<img src={Pic1} alt="dummy" />
 					</Modal>
 				</NavLink>
 			</nav>
