@@ -6,7 +6,11 @@ const defaultCartState = {
 	totalAmount: 0,
 };
 
+// This is a reducer for react hook (useReducer) to perform some action on the
 const cartReducer = (state, action) => {
+	// ? why is it action.item and not action.items
+	// ! because we are passing a object below {type and item } item is coming from the adding cart btn
+
 	if (action.type === 'ADD') {
 		const updatedTotalAmount = state.totalAmount + action.item.price;
 
@@ -29,7 +33,7 @@ const cartReducer = (state, action) => {
 			updatedItems = [...state.items];
 			updatedItems[itemPresentInCartIndex] = updatedItem;
 		} else {
-			updatedItems = state.items.concat(action.items);
+			updatedItems = state.items.concat(action.item);
 		}
 
 		return {
@@ -56,6 +60,8 @@ const cartReducer = (state, action) => {
 	}
 };
 
+// NOTE: Context Provider for Cart
+// It allows consuming components to subscribe to context changes.
 const CartProvider = (props) => {
 	const [cartState, dispatchCartActions] = useReducer(
 		cartReducer,
