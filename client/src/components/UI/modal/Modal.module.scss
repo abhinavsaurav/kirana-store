@@ -1,0 +1,32 @@
+.modal {
+	// display:none;
+	background-color: #9f9f9f9f;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	min-width: 100%;
+	min-height: 100%;
+	// transform: translate(-50%, -50%);
+
+	.modal-content {
+		padding: 10px;
+		min-width: 60%;
+		min-height: 60%;
+		max-width: 60%;
+		max-height: 60%;
+		overflow: hidden;
+		background-color: white;
+		transform: translate(50%, -50%);
+		position: absolute;
+		top: 50%;
+		right: 50%;
+
+		.closeBtn {
+			position: relative;
+			float: right;
+			// margin: 20px;
+			// top: 0;
+		}
+	}
+}

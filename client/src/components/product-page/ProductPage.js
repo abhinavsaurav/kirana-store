@@ -12,10 +12,12 @@ const ProductPage = (props) => {
 
 	useEffect(() => {
 		if (id) {
+			console.log(id);
 			// This results in a object of data
 			const fetchProductDetail = async (id) => {
-				const res1 = await fetch(`https://fakestoreapi.com/products/${id}`);
-				const data1 = await res1.json();
+				// const res1 = await fetch(`https://fakestoreapi.com/products/${id}`);
+				const response = await fetch(`/products/${id}`);
+				const data1 = await response.json();
 
 				// console.log(res);
 				return data1;
@@ -41,11 +43,14 @@ const ProductPage = (props) => {
 		// console.log(data);
 		return (
 			<div className={classes['main-container']}>
-				<Suggestion>
-					This is suggestions and will contain data later propbably
-				</Suggestion>
-				<GoBack message="Back to results" />
-				<ProductContent data={data} />
+				<div className={classes['page-container']}>
+					<Suggestion>
+						This is suggestions and will contain data later propbably
+					</Suggestion>
+
+					<GoBack message="Back to results" />
+					<ProductContent data={data} />
+				</div>
 			</div>
 		);
 	}
