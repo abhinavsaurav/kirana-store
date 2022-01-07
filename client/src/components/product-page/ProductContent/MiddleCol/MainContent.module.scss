@@ -27,8 +27,12 @@
 			color: #b63a3a;
 		}
 
-		.rating a span {
+		.rating a {
 			margin: 0 0.5rem 0.5rem;
+		}
+
+		.rating a span {
+			margin-right: 1px;
 		}
 	}
 
