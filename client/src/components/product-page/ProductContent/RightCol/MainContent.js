@@ -1,16 +1,26 @@
+import { useContext } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import CartContext from '../../../../contexts/cart/CartContext';
 import Lock from '../../../UI/Icons/Lock/Lock';
 import classes from './MainContent.module.scss';
 
 const MainContent = ({ data }) => {
-	const checkTotalQuant = data.quantity;
+	const cartCtx = useContext(CartContext);
+
+	// console.log(data);
+	const checkTotalQuant = data.countInStock;
 
 	// setting the quantity here and
-	const [quantity, setQuantity] = useState(1);
-	// dummy quantity
-	if (quantity) {
-	} // ! this line needs to be removed
+	const [totalQuantity, setTotalQuantity] = useState(checkTotalQuant);
+	const [cartItemQuantity, setCartItemQuantity] = useState(1);
+
+	const addToCartHandler = (e, check) => {
+		console.log('hi' + data);
+		console.log(+cartItemQuantity);
+
+		cartCtx.addItem({ ...data, amount: +cartItemQuantity });
+	};
 
 	return (
 		<div className={classes.container}>
@@ -35,8 +45,10 @@ const MainContent = ({ data }) => {
 			<div className={classes['quantity']}>
 				<span>Quantity: </span>
 				<span>
-					<select onChange={(e) => setQuantity(e.target.value)}>
-						{Array(6)
+					<select onChange={(e) => setCartItemQuantity(e.target.value)}>
+						{Array(
+							totalQuantity > 5 ? 5 : totalQuantity !== 0 ? totalQuantity : 1
+						)
 							.fill(0)
 							.map((data, ind) => ind + 1)
 							.map((data) => (
@@ -50,6 +62,7 @@ const MainContent = ({ data }) => {
 					<button
 						className={classes['add-btn']}
 						disabled={checkTotalQuant >= 1 ? false : true}
+						onClick={addToCartHandler}
 					>
 						Add to Cart
 					</button>
