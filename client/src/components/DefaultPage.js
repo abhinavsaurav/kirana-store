@@ -39,6 +39,20 @@ const DefaultPage = () => {
 			{/* {console.log(singleItem)} */}
 			{/* // will have a */}
 			<Carousel />
+			<div className={classes['products-container']} style={{}}>
+				<div className={classes.wrapper} style={{}}>
+					{productsData.map((data) => {
+						return (
+							<ProductCard
+								key={data._id}
+								data={data}
+								width="225px"
+								height="300px"
+							/>
+						);
+					})}
+				</div>
+			</div>
 			<div className={classes.defaultcards} style={{}}>
 				{/**
 				 *
@@ -94,20 +108,6 @@ const DefaultPage = () => {
 					itemsData={singleItem}
 					header={cardName8}
 				/> */}
-			</div>
-			<div className={classes['products-container']} style={{}}>
-				<div className={classes.wrapper} style={{}}>
-					{productsData.map((data) => {
-						return (
-							<ProductCard
-								key={data._id}
-								data={data}
-								width="225px"
-								height="300px"
-							/>
-						);
-					})}
-				</div>
 			</div>
 		</div>
 	);

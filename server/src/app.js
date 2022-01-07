@@ -1,20 +1,23 @@
 const express = require('express');
-const app = express();
-const Product = require('./models/product');
+const {
+	routeNotFound,
+	errorHandler,
+} = require('../middleware/errorMiddleware');
+
 require('./config/db');
+
+const app = express();
+const productRouter = require('./routes/product');
+
+// app.use(express.json());
 
 app.get('/', (req, res) => {
 	res.send('Kirana-store-api working!');
 });
 
-app.get('/products', async (req, res) => {
-	try {
-		const products = await Product.find({});
-		console.log('sending products data');
-		res.send(products);
-	} catch (e) {
-		res.status(500).send();
-	}
-});
+app.use('/products', productRouter);
+
+app.use(routeNotFound);
+app.use(errorHandler);
 
 module.exports = app;
