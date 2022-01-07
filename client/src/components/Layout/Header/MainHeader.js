@@ -3,11 +3,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink, useHistory } from 'react-router-dom';
 
 import classes from './MainHeader.module.scss';
+import Modal from '../../UI/modal/Modal';
+
+// just to test the modal taking in pics this can be removed
+import Pic1 from '../../../assets/pictures/carousel/pic1.png';
 
 const MainHeader = () => {
 	const [searchText, setSearchText] = useState('');
+	const [showPinModal, setShowPinModal] = useState(false);
+	const [showCartModal, setShowCartModal] = useState(false);
 	// const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 	const history = useHistory();
+
+	const toggleShowPinModal = () => {
+		setShowPinModal(!showPinModal);
+	};
+
+	const toggleShowCartModal = () => {
+		setShowCartModal(!showCartModal);
+	};
 
 	const handleSearchBtnClick = () => {
 		// console.log(searchText + ' ');
@@ -41,11 +56,15 @@ const MainHeader = () => {
 				<NavLink
 					exact
 					activeClassName={classes.active} // check about this part when to be active as its added in the above thing
-					to="/pin"
+					to="#"
 					className={classes.pin}
+					onClick={(e) => toggleShowPinModal()}
 				>
-					Deliver to
+					<span>Deliver to</span>
 					<FontAwesomeIcon icon="map-marked-alt" />
+					<Modal show={showPinModal} toggleShowModal={toggleShowPinModal}>
+						<img src={Pic1} alt="dummy" />
+					</Modal>
 				</NavLink>
 				<div className={classes['search-select']}>
 					<select>
@@ -74,14 +93,18 @@ const MainHeader = () => {
 				>
 					Login/off
 				</NavLink>
-
-				<div className={classes['cart-btn']}>
-					<span>
-						<FontAwesomeIcon icon="shopping-cart" />
-						{` 10`}
-					</span>
-					Cart
-				</div>
+				<NavLink to="#" onClick={(e) => toggleShowCartModal()}>
+					<div className={classes['cart-btn']}>
+						<span>
+							<FontAwesomeIcon icon="shopping-cart" />
+							{` 10`}
+						</span>
+						Cart
+					</div>
+					<Modal show={showCartModal} toggleShowModal={toggleShowCartModal}>
+						<img src={Pic1} alt="dummy" />
+					</Modal>
+				</NavLink>
 			</nav>
 		</header>
 	);

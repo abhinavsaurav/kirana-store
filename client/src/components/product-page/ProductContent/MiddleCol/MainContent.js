@@ -3,6 +3,17 @@ import StarRating from '../../../UI/star-rating/StarRating';
 import classes from './MainContent.module.scss';
 
 const MainContent = ({ data }) => {
+	// * salePrice should be added for discounts
+	const {
+		name,
+		rating,
+		brand,
+		numReviews,
+		price,
+		description,
+		category,
+		salePrice,
+	} = data;
 	function processDescription(data) {
 		console.log(data.replace(/\./g, ';'));
 		return data
@@ -16,13 +27,13 @@ const MainContent = ({ data }) => {
 	return (
 		<div className={classes.container}>
 			<div className={classes.title}>
-				<span>{data.title}</span>
+				<span>{name}</span>
 			</div>
 			<div className={classes.brand}>
 				{/* Currently making the brand as the category */}
-				<Link to={`/search?item=dummy&category=${data.category}`}>
+				<Link to={`/search?category=${category}&brand=${brand}`}>
 					<span>Brand : </span>
-					<span>{data.category}</span>
+					<span>{brand}</span>
 				</Link>
 			</div>
 			<div className={classes.links}>
@@ -33,15 +44,17 @@ const MainContent = ({ data }) => {
 								color="orange"
 								noOfStars="5"
 								defaultRating={
-									(data.rating.rate * 10) % 10 >= 5
-										? Math.ceil(data.rating.rate)
-										: Math.floor(data.rating.rate)
+									(rating * 10) % 10 >= 5
+										? Math.ceil(rating)
+										: Math.floor(rating)
 								}
 								isHoverDisabled="true"
 							/>
 						</span>
-
-						<span>{data.rating.count} ratings</span>
+						{/* <Link to="#"> */}
+						<span>{numReviews}</span>
+						<span>&nbsp;reviews</span>
+						{/* </Link> */}
 					</Link>
 				</div>
 				{/**
@@ -53,21 +66,22 @@ const MainContent = ({ data }) => {
 				<table>
 					<tbody>
 						<tr>
-							<td>MRP :</td>
-							<td>{data.price}</td>
+							<td>MRP </td>
+							<td>:</td>
+							<td>{price}</td>
 						</tr>
 						<tr>
-							<td>Price :</td>
-							<td>{data.salePrice ? data.salePrice : data.price}</td>
+							<td>Price</td>
+							<td>:</td>
+							<td>{salePrice ? salePrice : price}</td>
 						</tr>
 						<tr>
-							<td>You Save :</td>
-							<td>
-								Rs. {data.salePrice ? data.price - data.salePrice : 0}(% not
-								added)
-							</td>
+							<td>You Save </td>
+							<td>:</td>
+							<td>Rs. {salePrice ? price - salePrice : 0}(% not added)</td>
 						</tr>
 						<tr>
+							<td></td>
 							<td></td>
 							<td>Inclusive of all taxes</td>
 						</tr>
@@ -80,8 +94,8 @@ const MainContent = ({ data }) => {
 				</div>
 				<div className={classes['heading-content']}>
 					<ul>
-						{typeof data.description === 'string'
-							? processDescription(data.description)
+						{typeof description === 'string'
+							? processDescription(description)
 							: 'Data problem could be corrupted'}
 						<li>
 							<Link to="#">See more product details</Link>
