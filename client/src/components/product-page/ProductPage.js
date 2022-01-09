@@ -12,7 +12,6 @@ const ProductPage = (props) => {
 
 	useEffect(() => {
 		if (id) {
-			console.log(id);
 			// This results in a object of data
 			const fetchProductDetail = async (id) => {
 				// const res1 = await fetch(`https://fakestoreapi.com/products/${id}`);
