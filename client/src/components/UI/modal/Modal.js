@@ -1,9 +1,18 @@
 // import { useState } from 'react';
+import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import classes from './Modal.module.scss';
 
 const Modal = (props) => {
 	// const [showModal, setShowModal] = useState(props.show || false);
+
+	useEffect(() => {
+		if (props.show) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	}, [props.show]);
 
 	const Content = (props) => {
 		if (!props.show) {
@@ -20,9 +29,9 @@ const Modal = (props) => {
 						className={classes.closeBtn}
 						onClick={(e) => props.toggleShowModal()}
 					>
-						&times;
+						<span>x</span>
 					</button>
-					<span>Hi, I am a modal</span>
+					{/* <span>Hi, I am a modal</span> */}
 					{props.children}
 				</div>
 			</div>

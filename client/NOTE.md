@@ -33,3 +33,7 @@ Caching -> research it and how to implement it here to store the data probably
 ## 5-12-21
 
 zoom container for the product image zooming in
+
+# 8-1-22
+
+<!-- TODO The no of items or products that a person can buy by default at a time if quantity is greater than that has been hard-coded include it (which should be 5 so probably needed) -->

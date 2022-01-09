@@ -1,4 +1,5 @@
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import ChevronLeft from '../../UI/Icons/Chevron/ChevronLeft';
 import classes from './GoBack.module.scss';
 
 /**
@@ -17,29 +18,16 @@ const GoBack = (props) => {
 		<div className={classes['go-back']}>
 			<ul>
 				<li className={classes['li-symbol']}>
-					<span>
-						{props.symbol || (
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className={classes['symbol']}
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M15 19l-7-7 7-7"
-								/>
-							</svg>
-						)}
-					</span>
+					{/* {props.symbol ? (
+						<span>{props.symbol}</span>
+					) : ( */}
+					<ChevronLeft className={classes['symbol']} />
+					{/* )} */}
 				</li>
 				<li className={classes['back-link']}>
-					<Link onClick={() => history.goBack()}>
+					<div onClick={() => history.goBack()}>
 						<span>{props.message}</span>
-					</Link>
+					</div>
 				</li>
 			</ul>
 		</div>

@@ -14,16 +14,15 @@ const MainContent = ({ data }) => {
 		category,
 		salePrice,
 	} = data;
+
 	function processDescription(data) {
-		console.log(data.replace(/\./g, ';'));
 		return data
 			.replace(/,/g, ';')
 			.replace(/\./g, ';')
 			.split(';')
-			.map((data) => (data.length > 1 ? <li>{data}</li> : ''));
+			.map((data, ind) => (data.length > 1 ? <li key={ind}>{data}</li> : ''));
 	}
 
-	console.log(data);
 	return (
 		<div className={classes.container}>
 			<div className={classes.title}>

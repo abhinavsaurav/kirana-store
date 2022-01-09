@@ -7,6 +7,8 @@ import Modal from '../../UI/modal/Modal';
 
 // just to test the modal taking in pics this can be removed
 import Pic1 from '../../../assets/pictures/carousel/pic1.png';
+import HeaderCartButton from './HeaderCartButton';
+import Cart from '../../cart/Cart';
 
 const MainHeader = () => {
 	const [searchText, setSearchText] = useState('');
@@ -95,14 +97,11 @@ const MainHeader = () => {
 				</NavLink>
 				<NavLink to="#" onClick={(e) => toggleShowCartModal()}>
 					<div className={classes['cart-btn']}>
-						<span>
-							<FontAwesomeIcon icon="shopping-cart" />
-							{` 10`}
-						</span>
-						Cart
+						<HeaderCartButton />
 					</div>
 					<Modal show={showCartModal} toggleShowModal={toggleShowCartModal}>
-						<img src={Pic1} alt="dummy" />
+						{/* <img src={Pic1} alt="dummy" /> */}
+						<Cart toggleShowModal={toggleShowCartModal} history={history} />
 					</Modal>
 				</NavLink>
 			</nav>
