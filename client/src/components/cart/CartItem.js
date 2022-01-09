@@ -49,7 +49,7 @@ const CartItem = ({
 					<span>{amount}</span>
 					<span>{`|`}</span>
 					<span>
-						<button onClick={deleteBtnHandler}>Delete</button>
+						<button onClick={() => deleteBtnHandler(id)}>Delete</button>
 					</span>
 				</p>
 			</div>
