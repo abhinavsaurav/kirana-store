@@ -4,9 +4,9 @@ import HeaderCartIcon from './HeaderCartIcon';
 
 const HeaderCartButton = () => {
 	const cartCtx = useContext(CartContext);
-	console.log(cartCtx);
+	// console.log(cartCtx);
 	const noOfCartItems = cartCtx.items.reduce((curNumber, item) => {
-		console.log(cartCtx);
+		// console.log(cartCtx);
 		return curNumber + item.amount;
 	}, 0);
 
@@ -17,6 +17,7 @@ const HeaderCartButton = () => {
 				{/* {` 10`} */}
 			</span>
 			<span>{noOfCartItems}</span>
+			<span>{cartCtx.totalAmount}</span>
 			{/* <span>Cart</span> */}
 		</>
 	);
