@@ -17,7 +17,7 @@ const HeaderCartButton = () => {
 				{/* {` 10`} */}
 			</span>
 			<span>{noOfCartItems}</span>
-			<span>{cartCtx.totalAmount}</span>
+			{/* <span>{cartCtx.totalAmount}</span> */}
 			{/* <span>Cart</span> */}
 		</>
 	);

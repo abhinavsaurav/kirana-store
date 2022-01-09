@@ -50,20 +50,27 @@ const cartReducer = (state, action) => {
 	}
 
 	if (action.type === 'REMOVE') {
+		// console.log('Inside the delete reducer ');
 		const existingCartItemIndex = state.items.findIndex(
-			(item) => item.id === action.item.id
+			(item) => item.id === action.id
 		);
 
-		// eslint-disable-next-line
-		const itemToBeUpdated = state.items[existingCartItemIndex];
+		const cartItemToBeUpdated = state.items[existingCartItemIndex];
 
-		// const total
-		// if(amount>1){
-		//     const updatedItem = {...existingItem, price: updatedTotalAmount};
-		// }
-		// return {
-		//     items:
-		// }
+		// currently removing the entire item. So, full price of the item
+		const updatedTotalAmount =
+			state.totalAmount -
+			cartItemToBeUpdated.price * cartItemToBeUpdated.amount;
+
+		// filtering the item out
+		const updatedItemsArray = state.items.filter(
+			(item) => item.id !== action.id
+		);
+
+		return {
+			items: updatedItemsArray,
+			totalAmount: updatedTotalAmount,
+		};
 	}
 };
 
@@ -87,6 +94,10 @@ const CartProvider = (props) => {
 		dispatchCartActions({ type: 'REMOVE', id });
 	};
 
+	// * this takes in two functions responsible for modifying the cart
+	// * and passes it to reducer to perform a action on them
+	// * and a reference to its state is passed inside this making it to change
+	// * the value
 	const cartContext = {
 		items: cartState.items,
 		totalAmount: cartState.totalAmount,

@@ -7,8 +7,9 @@ import CartItem from './CartItem';
 const Cart = (props) => {
 	const cartCtx = useContext(CartContext);
 
-	const deleteBtnHandler = (e) => {
-		console.log('delete btn clicked');
+	const deleteBtnHandler = (id) => {
+		// console.log('delete btn clicked id:' + id);
+		cartCtx.removeItem(id);
 	};
 
 	const cartItemsList = cartCtx.items.map((item) => {
@@ -34,7 +35,7 @@ const Cart = (props) => {
 			<div className={classes['checkout-wrapper']}>
 				<div className={classes['total-price']}>
 					<span className={classes.first}>Total Price:</span>
-					<span>{cartCtx.totalAmount}</span>
+					<span>{cartCtx.totalAmount.toFixed(2)}</span>
 				</div>
 				<div className={classes['checkout-btn']}>
 					<button>
@@ -44,26 +45,6 @@ const Cart = (props) => {
 			</div>
 		</div>
 	);
-
-	// ! need to rewrite below
-
-	// const cartCtx = useContext(CartContext);
-
-	// const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
-	// const hasItems = cartCtx.items.length > 0;
-
-	// const cartItemAddHandler = (item) => {
-	// 	// adding the amount of item explicity here
-	// 	cartCtx.addItem({ ...item, amount: 1 });
-	// };
-
-	// const cartItemRemoveHandler = (id) => {
-	// 	cartCtx.removeItem(id);
-	// };
-
-	// const cartItems = {
-	// 	// needs to be added
-	// };
 };
 
 export default Cart;

@@ -63,6 +63,7 @@
 		padding-right: 3px;
 
 		@media only screen and (min-height: 750px) {
+			// change this to height if want fixed length
 			max-height: 310px;
 		}
 
