@@ -12,17 +12,23 @@ const cartReducer = (state, action) => {
 	// ! because we are passing a object below {type and item } item is coming from the adding cart btn
 
 	if (action.type === 'ADD') {
-		const updatedTotalAmount = state.totalAmount + action.item.price;
+		const updatedTotalAmount =
+			state.totalAmount + +action.item.price * action.item.amount;
+
+		// ! ######### Carefull its _id from the state data ########## !
 
 		const itemPresentInCartIndex = state.items.findIndex(
 			(item) => item.id === action.item.id
 		);
-
+		console.log(itemPresentInCartIndex);
 		const itemToBeUpdated = state.items[itemPresentInCartIndex];
-
+		// console.log(itemToBeUpdated);
 		let updatedItems;
 
 		if (itemToBeUpdated) {
+			console.log('Im reaching here');
+			console.log(itemPresentInCartIndex);
+			console.log(itemToBeUpdated);
 			// updating the item price if the item exist by cumulating the price
 			const updatedItem = {
 				...itemToBeUpdated,
@@ -34,6 +40,7 @@ const cartReducer = (state, action) => {
 			updatedItems[itemPresentInCartIndex] = updatedItem;
 		} else {
 			updatedItems = state.items.concat(action.item);
+			console.log(updatedItems);
 		}
 
 		return {
@@ -43,14 +50,14 @@ const cartReducer = (state, action) => {
 	}
 
 	if (action.type === 'REMOVE') {
-		// const existingCartItemIndex = state.items.findIndex(
-		// 	(item) => item.id === action.item.id
-		// );
-		// Add the price and then try changing it
-		// const existingItem = state.items[existingCartItemIndex];
-		// const amount = state.totalAmount/existingItem.price;
-		// const updatedTotalAmount = state.totalAmount - existingItem.price;
-		// let updateditem;
+		const existingCartItemIndex = state.items.findIndex(
+			(item) => item.id === action.item.id
+		);
+
+		// eslint-disable-next-line
+		const itemToBeUpdated = state.items[existingCartItemIndex];
+
+		// const total
 		// if(amount>1){
 		//     const updatedItem = {...existingItem, price: updatedTotalAmount};
 		// }
@@ -69,6 +76,10 @@ const CartProvider = (props) => {
 	);
 
 	const addItemToCartHandler = (item) => {
+		// adding id
+		item['id'] = item['_id'];
+		//deleting _id
+		delete item['_id'];
 		dispatchCartActions({ type: 'ADD', item });
 	};
 

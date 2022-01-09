@@ -11,7 +11,8 @@ const MainContent = ({ data }) => {
 	// console.log(data);
 	const checkTotalQuant = data.countInStock;
 
-	// setting the quantity here and
+	// TODO setting the quantity here and
+	// eslint-disable-next-line
 	const [totalQuantity, setTotalQuantity] = useState(checkTotalQuant);
 	const [cartItemQuantity, setCartItemQuantity] = useState(1);
 
@@ -52,7 +53,9 @@ const MainContent = ({ data }) => {
 							.fill(0)
 							.map((data, ind) => ind + 1)
 							.map((data) => (
-								<option value={data}>{data}</option>
+								<option key={data} value={data}>
+									{data}
+								</option>
 							))}
 					</select>
 				</span>

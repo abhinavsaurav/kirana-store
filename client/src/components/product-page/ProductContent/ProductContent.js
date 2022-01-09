@@ -6,17 +6,23 @@ import MiddleMainContent from './MiddleCol/MainContent';
 import RightMainContent from './RightCol/MainContent';
 import Share from './RightCol/Share';
 import classes from './ProductContent.module.scss';
+import { useEffect } from 'react';
 
 const ProductContent = ({ data }) => {
 	// console.log(data);
 	data.altImage[5] = { download_url: data.image };
 	const [activeData, setActiveData] = useState(data.altImage[5]);
 
-	const altImageRow = data.altImage.map((data) => {
+	// Setting the data to the default image whenever the data changes
+	useEffect(() => {
+		setActiveData(data.altImage[5]);
+	}, [data]);
+
+	const altImageRow = data.altImage.map((data, ind) => {
 		// console.log(data);
 		return (
 			<li
-				key={data.id}
+				key={ind}
 				onClick={() => setActiveData(data)}
 				onMouseEnter={() => setActiveData(data)}
 				className={classes['alt-img-container']}

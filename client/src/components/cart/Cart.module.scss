@@ -1,0 +1,123 @@
+.flex-wrapper {
+	display: flex;
+	flex-direction: column;
+
+	.checkout-wrapper {
+		.total-price {
+			display: flex;
+			justify-content: flex-end;
+			font-size: 1.5rem;
+			border-top: 1px solid #afafaf;
+			margin: 5px 0 2px;
+			padding-top: 2px;
+
+			.first {
+				margin-right: auto;
+			}
+		}
+		.checkout-btn {
+			display: flex;
+			margin: 5px 0;
+			justify-content: flex-end;
+			// position: relative;
+			// float: right;
+
+			button {
+				background: gold;
+				border: 0.5px solid #3f3f3f;
+				// box-shadow: 1px 0 0 0.2px #7f7f7f;
+				padding: 5px;
+				border-radius: 5px;
+
+				&:active {
+					border: 0.5px solid #7f7f7f;
+				}
+			}
+		}
+	}
+}
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	// flex: 1;
+	width: 100%;
+	.header {
+		font-size: 1.4rem;
+	}
+
+	.col-name {
+		border-bottom: 1px solid #afafaf;
+		margin-bottom: 5px;
+		div {
+			// display: table-cell;
+			padding-right: 5px; //2px scroll and 3px for content
+			float: right;
+		}
+	}
+
+	.list-cart-item {
+		// flex-grow: 1;
+		min-width: 100%;
+		min-height: 200px;
+		max-height: 300px;
+		padding-right: 3px;
+
+		@media only screen and (min-height: 750px) {
+			max-height: 310px;
+		}
+
+		@media only screen and (min-height: 960px) {
+			max-height: 450px;
+		}
+		@media only screen and (min-height: 1500px) {
+			max-height: 620px;
+		}
+
+		overflow-y: auto;
+
+		&::-webkit-scrollbar {
+			width: 2px; /* Remove scrollbar space */
+			box-shadow: inset 0 0 10px 10px green;
+			border: solid 3px transparent;
+			background: transparent; /* Optional: just make scrollbar invisible */
+		}
+		/* Optional: show position indicator in red */
+		&::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px 10px #dfdfdf;
+			background: #afafaf;
+		}
+	}
+
+	// .total-price {
+	// 	display: flex;
+	// 	justify-content: flex-end;
+	// 	font-size: 1.5rem;
+	// 	border-top: 1px solid #afafaf;
+	// 	margin: 5px 0 2px;
+	// 	padding-top: 2px;
+
+	// 	.first {
+	// 		margin-right: auto;
+	// 	}
+	// }
+
+	// .checkout-btn {
+	// 	display: flex;
+	// 	margin: 5px 0;
+	// 	justify-content: flex-end;
+	// 	// position: relative;
+	// 	// float: right;
+
+	// 	button {
+	// 		background: gold;
+	// 		border: 0.5px solid #3f3f3f;
+	// 		// box-shadow: 1px 0 0 0.2px #7f7f7f;
+	// 		padding: 5px;
+	// 		border-radius: 5px;
+
+	// 		&:active {
+	// 			border: 0.5px solid #7f7f7f;
+	// 		}
+	// 	}
+	// }
+}
