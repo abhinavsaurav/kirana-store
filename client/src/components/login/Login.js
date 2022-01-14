@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './Login.module.scss';
+import { authAction } from '../../store';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Login = (props) => {
 	const [uname, setUname] = useState('');
 	const [pass, setPass] = useState('');
 	const [hasError, setHasError] = useState(false);
+
+	const isAuthenticated = useSelector((state) => {
+		console.log(state);
+		return state.auth.isAuthenticated;
+	});
 
 	/**
 	 *
@@ -92,6 +99,10 @@ The same principle of merging will apply here as well, with an additional check 
 			>
 				Submit
 			</button>
+			<div>
+				<td>Is Authenticated:</td>
+				<td>{isAuthenticated.toString()}</td>
+			</div>
 		</form>
 	);
 };
