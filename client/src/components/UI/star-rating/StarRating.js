@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StarContainer from './StarContainer';
 import classes from './StarRating.module.scss';
 
@@ -13,6 +13,11 @@ const StarRating = ({
 
 	const [rating, setRating] = useState(parseFloat(defaultRating));
 	const [hoverRating, setHoverRating] = useState(0);
+
+	// * Explicitly changine the rating on rating change to re-render
+	useEffect(() => {
+		setRating(defaultRating);
+	}, [defaultRating]);
 
 	const onMouseEnter = (index) => {
 		setHoverRating(index);
