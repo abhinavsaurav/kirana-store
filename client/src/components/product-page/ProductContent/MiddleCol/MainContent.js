@@ -43,9 +43,10 @@ const MainContent = ({ data }) => {
 								color="orange"
 								noOfStars="5"
 								defaultRating={
-									(rating * 10) % 10 >= 5
-										? Math.ceil(rating)
-										: Math.floor(rating)
+									rating
+									// (rating * 10) % 10 >= 5
+									// 	? Math.ceil(rating)
+									// 	: Math.floor(rating)
 								}
 								isHoverDisabled="true"
 							/>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Star from './Star';
 import classes from './StarContainer.module.scss';
+import StarHalf from './StarHalf';
 
 const StarContainer = ({
 	index,
@@ -45,6 +46,16 @@ const StarContainer = ({
 		return execute(index);
 	};
 
+	const halfStarCheck = () => {
+		const checkIfDecimal = rating - index;
+		if (checkIfDecimal > 0 && checkIfDecimal < 1) {
+			if (checkIfDecimal >= 0.5) {
+				return true;
+			}
+		}
+		return false;
+	};
+
 	return (
 		<div
 			style={{ color: starBorderColor }}
@@ -53,7 +64,7 @@ const StarContainer = ({
 			onMouseLeave={() => fixedStarsCheck(onMouseLeave)}
 			onClick={() => fixedStarsCheck(onSaveRating)}
 		>
-			<Star fill={fill} />
+			{halfStarCheck() ? <StarHalf fill={fill} /> : <Star fill={fill} />}
 		</div>
 	);
 };
