@@ -1,45 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProduct } from '../../store/productActions';
 import Suggestion from './Suggestions/Suggestions';
 import GoBack from './GoBack/GoBack';
 import classes from './ProductPage.module.scss';
 import ProductContent from './ProductContent/ProductContent';
 
 const ProductPage = (props) => {
-	const [data, setData] = useState({});
+	const dispatch = useDispatch();
+	const data = useSelector((state) => state.product.activeProduct);
 	let { id } = useParams();
 
 	useEffect(() => {
 		if (id) {
-			// This results in a object of data
-			const fetchProductDetail = async (id) => {
-				// const res1 = await fetch(`https://fakestoreapi.com/products/${id}`);
-				const response = await fetch(`/products/${id}`);
-				const data1 = await response.json();
-
-				// console.log(res);
-				return data1;
-			};
-
-			// This results in a array
-			const fetchRandomImages = async (data) => {
-				const randPage = await Math.floor(Math.random() * 100);
-				const res2 = await fetch(
-					`https://picsum.photos/v2/list?page=${randPage}&limit=4`
-				);
-				const data2 = await res2.json();
-
-				return { ...data, altImage: data2 };
-			};
-			fetchProductDetail(id)
-				.then((res) => fetchRandomImages(res))
-				.then((res) => setData(res));
+			dispatch(fetchProduct(id));
 		}
 	}, [id]);
 
 	if (data && data.altImage) {
-		// console.log(data);
 		return (
 			<div className={classes['main-container']}>
 				<div className={classes['page-container']}>
@@ -48,7 +27,13 @@ const ProductPage = (props) => {
 					</Suggestion>
 
 					<GoBack message="Back to results" />
-					<ProductContent data={data} />
+
+					{/* 
+						// ! Setting this explicitly here will set the default image(0-4) but can be
+						// ! moved up the prop chain or environment variable if required
+						// ! By default the default value is 4 which will be taken if not provided also
+					*/}
+					<ProductContent data={data} defaultImage="4" />
 				</div>
 			</div>
 		);
