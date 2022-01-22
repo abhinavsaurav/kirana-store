@@ -8,18 +8,17 @@ import Share from './RightCol/Share';
 import classes from './ProductContent.module.scss';
 import { useEffect } from 'react';
 
-const ProductContent = ({ data }) => {
-	// console.log(data);
-	data.altImage[5] = { download_url: data.image };
-	const [activeData, setActiveData] = useState(data.altImage[5]);
+const ProductContent = ({ data, defaultImage = 4 }) => {
+	const [activeData, setActiveData] = useState(
+		data.altImage[parseInt(defaultImage)]
+	);
 
 	// Setting the data to the default image whenever the data changes
 	useEffect(() => {
-		setActiveData(data.altImage[5]);
+		setActiveData(data.altImage[parseInt(defaultImage)]);
 	}, [data]);
 
 	const altImageRow = data.altImage.map((data, ind) => {
-		// console.log(data);
 		return (
 			<li
 				key={ind}

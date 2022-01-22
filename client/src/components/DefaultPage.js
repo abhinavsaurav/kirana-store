@@ -1,4 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchAllProducts } from '../store/productActions';
+// import axios from 'axios';
+
 import Carousel from './UI/carousel/Carousel';
 import Card from './UI/card/Card';
 import classes from './DefaultPage.module.scss';
@@ -7,16 +11,12 @@ import ProductCard from './UI/card/ProductCards/SmallCard/ProductCard';
 // Mocking my data here
 
 const DefaultPage = () => {
-	const [productsData, setProductsData] = useState([]);
+	const dispatch = useDispatch();
+	const productsData = useSelector((state) => state.product.products);
+	// const [productsData, setProductsData] = useState([]);
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			const response = await fetch('/products');
-			const data = await response.json();
-			await setProductsData(data);
-			// await console.log(productsData);
-		};
-		fetchProducts();
+		dispatch(fetchAllProducts());
 	}, []);
 
 	// TODO : Assign the signed in page and else
