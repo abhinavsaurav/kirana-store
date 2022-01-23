@@ -6,6 +6,7 @@ import Suggestion from './Suggestions/Suggestions';
 import GoBack from './GoBack/GoBack';
 import classes from './ProductPage.module.scss';
 import ProductContent from './ProductContent/ProductContent';
+import Spinner from '../UI/spinner/Spinner';
 
 const ProductPage = (props) => {
 	const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const ProductPage = (props) => {
 		);
 	}
 
-	return 'Loading...';
+	return <Spinner w="100px" h="100px" p="50px" />;
 };
 
 export default ProductPage;
