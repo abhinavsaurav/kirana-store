@@ -40,7 +40,7 @@ const ProductPage = (props) => {
 		);
 	}
 
-	return <Spinner w="100px" h="100px" p="50px" />;
+	return <Spinner w="100px" h="100px" m="50px" />;
 };
 
 export default ProductPage;
