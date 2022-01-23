@@ -8,6 +8,7 @@ import Card from './UI/card/Card';
 import classes from './DefaultPage.module.scss';
 import DummyData from '../data/DummyData';
 import ProductCard from './UI/card/ProductCards/SmallCard/ProductCard';
+import Spinner from './UI/spinner/Spinner';
 // Mocking my data here
 
 const DefaultPage = () => {
@@ -34,14 +35,11 @@ const DefaultPage = () => {
 
 	const packOfFour = DummyData.packOfFour;
 
-	return (
-		<div className={classes['page-container']}>
-			{/* {console.log(singleItem)} */}
-			{/* // will have a */}
-			<Carousel />
-			<div className={classes['products-container']} style={{}}>
-				<div className={classes.wrapper} style={{}}>
-					{productsData.map((data) => {
+	const AllProducts = (
+		<div className={classes['products-container']} style={{}}>
+			<div className={classes.wrapper} style={{}}>
+				{productsData ? (
+					productsData.map((data) => {
 						return (
 							<ProductCard
 								key={data._id}
@@ -50,9 +48,20 @@ const DefaultPage = () => {
 								height="300px"
 							/>
 						);
-					})}
-				</div>
+					})
+				) : (
+					<Spinner w="100px" h="100px" />
+				)}
 			</div>
+		</div>
+	);
+
+	return (
+		<div className={classes['page-container']}>
+			{/* {console.log(singleItem)} */}
+			{/* // will have a */}
+			<Carousel />
+			{AllProducts}
 			<div className={classes.defaultcards} style={{}}>
 				{/**
 				 *
