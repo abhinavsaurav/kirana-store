@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema(
 	{
@@ -24,11 +26,63 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			default: false,
 		},
+		tokens: [
+			{
+				token: {
+					type: String,
+					required: true,
+				},
+			},
+		],
+		avatar: {
+			type: Buffer, // setting type to Buffer for images
+		},
 	},
 	{
 		timestamps: true,
 	}
 );
+
+// This will run prior to saving the
+userSchema.pre('save', async function (next) {
+	const user = this;
+
+	if (user.isModified('password')) {
+		user.password = await bcrypt.hash(user.password, 8);
+	}
+
+	// console.log(user);
+	next();
+});
+
+// * https://stackoverflow.com/questions/29664499/mongoose-static-methods-vs-instance-methods
+
+userSchema.methods.generateAuthToken = async function () {
+	console.log(process.env.JWT_SECRET);
+	const user = this;
+	const token = jwt.sign({ _id: user.id.toString() }, process.env.JWT_SECRET);
+
+	user.tokens = user.tokens.concat({ token });
+	await user.save();
+
+	return token;
+};
+
+// This method will control the response send from the api req
+userSchema.methods.toJSON = function () {
+	const user = this;
+
+	const userObjects = user.toObject();
+
+	delete userObjects.password;
+	if (!userObjects.isAdmin) {
+		delete userObjects.isAdmin;
+	}
+	delete userObjects.tokens;
+	delete userObjects.avatar; // for not taking lot of time showing image
+
+	return userObjects;
+};
 
 const User = mongoose.model('User', userSchema);
 
