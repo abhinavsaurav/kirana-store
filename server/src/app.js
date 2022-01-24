@@ -8,13 +8,16 @@ require('./config/db');
 
 const app = express();
 const productRouter = require('./routes/product');
+const userRouter = require('./routes/user');
 
-// app.use(express.json());
+// for parsing req body - json
+app.use(express.json());
 
 app.get('/', (req, res) => {
 	res.send('Kirana-store-api working!');
 });
 
+app.use(userRouter);
 app.use('/products', productRouter);
 
 app.use(routeNotFound);
