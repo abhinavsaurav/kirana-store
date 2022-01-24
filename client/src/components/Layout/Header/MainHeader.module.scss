@@ -4,172 +4,173 @@ $searchbar-ht: 70%;
 $border-radius: 5px;
 
 @mixin flex-center-row {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 1.25rem;
-	width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  width: 100%;
 }
 
 @mixin flex-center-column {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 1.25rem;
 }
 
 .header-nav {
-	background: #ff416c; /* fallback for old browsers */
-	background: -webkit-linear-gradient(
-		to right,
-		#ff416c,
-		#ff4b2b
-	); /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to right, #ff416c, #ff4b2b);
-	min-height: 50px;
+  background: #ff416c; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #ff416c,
+    #ff4b2b
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  min-height: 50px;
 
-	div {
-		display: inline-block;
-		box-sizing: border-box;
-		padding: $header-elem-padding;
-	}
+  div {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: $header-elem-padding;
+  }
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
 
-	display: grid;
-	grid-template-columns: 10% 10% 5% auto 3% 10% 10%;
-	grid-template-rows: $header-height;
-	grid-template-areas: "logo pin srchselect srchbar srchbtn login cart";
+  .logo {
+    grid-area: logo;
+    @include flex-center-row;
+    min-height: 40px;
+  }
 
-	.logo {
-		grid-area: logo;
-		@include flex-center-row;
-		min-height: 40px;
-	}
+  .pin {
+    grid-area: pin;
+    @include flex-center-column();
+    min-height: 40px;
+  }
 
-	.pin {
-		grid-area: pin;
-		@include flex-center-column();
-		min-height: 40px;
-	}
+  .search-select {
+    @include flex-center-row;
+    justify-content: flex-end;
+    padding-right: 0;
+    flex-wrap: wrap;
+    min-height: 40px;
+    width: 130%;
 
-	.search-select {
-		@include flex-center-row;
-		justify-content: flex-end;
-		padding-right: 0;
-		flex-wrap: wrap;
-		min-height: 40px;
+    select {
+      grid-area: srchselect;
+      width: 130%;
+      position: relative;
+      height: 70%;
+      // display: inline-block;
+      box-sizing: border-box;
+      padding: $header-elem-padding;
+      border: none;
+      overflow: hidden;
+      border-right: 1px solid black;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+      min-height: 40px;
+    }
+    select:focus {
+      // outline: 1px solid green;
+      border-right: none;
+      // border: 2px solid green;
+      // box-sizing: border-box;
+    }
+  }
 
-		select {
-			grid-area: srchselect;
-			width: 100%;
-			position: relative;
-			height: 70%;
-			// display: inline-block;
-			box-sizing: border-box;
-			padding: $header-elem-padding;
-			border: none;
-			overflow: hidden;
-			border-right: 1px solid black;
-			border-top-left-radius: $border-radius;
-			border-bottom-left-radius: $border-radius;
-			min-height: 40px;
-		}
-		select:focus {
-			// outline: 1px solid green;
-			border-right: none;
-			// border: 2px solid green;
-			// box-sizing: border-box;
-		}
-	}
+  .nav-fill {
+    grid-area: srchbar;
+    @include flex-center-row;
+    justify-content: flex-start;
+    padding-left: 0;
+    padding-right: 0;
+    min-height: 40px;
+    input {
+      // position: relative;
+      width: 100%;
+      height: $searchbar-ht;
+      padding: 0 10px 0 10px;
+      font-size: 1.25rem;
+      box-shadow: none;
+      border: none;
+      // border-radius: 5px;
+      // transform: scale(1);
+      min-height: 40px;
+    }
+    input:focus {
+      outline: none;
+    }
+  }
+  .srchbtn {
+    @include flex-center-column();
+    align-items: flex-start;
+    // box-sizing: border-box;
+    padding-left: 0;
+    min-height: 40px;
 
-	.nav-fill {
-		grid-area: srchbar;
-		@include flex-center-row;
-		justify-content: flex-start;
-		padding-left: 0;
-		padding-right: 0;
-		min-height: 40px;
-		input {
-			// position: relative;
-			width: 100%;
-			height: $searchbar-ht;
-			padding: 0 10px 0 10px;
-			font-size: 1.25rem;
-			box-shadow: none;
-			border: none;
-			// border-radius: 5px;
-			// transform: scale(1);
-			min-height: 40px;
-		}
-		input:focus {
-			outline: none;
-		}
-	}
-	.srchbtn {
-		@include flex-center-column();
-		align-items: flex-start;
-		// box-sizing: border-box;
-		padding-left: 0;
-		min-height: 40px;
+    button {
+      grid-area: srchbtn;
+      height: $searchbar-ht;
+      padding: 0 10px 0 10px;
+      border: none;
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+      border-left: 1px solid black;
+      min-height: 40px;
+      cursor: pointer;
+    }
 
-		button {
-			grid-area: srchbtn;
-			height: $searchbar-ht;
-			padding: 0 10px 0 10px;
-			border: none;
-			border-top-right-radius: $border-radius;
-			border-bottom-right-radius: $border-radius;
-			border-left: 1px solid black;
-			min-height: 40px;
-			cursor: pointer;
-		}
+    button:hover {
+      background-color: gold;
+    }
+  }
 
-		button:hover {
-			background-color: gold;
-		}
-	}
+  .login {
+    grid-area: login;
+    padding: $header-elem-padding;
+    min-height: 40px;
+    @include flex-center-row();
+  }
 
-	.login {
-		grid-area: login;
-		padding: $header-elem-padding;
-		min-height: 40px;
-		@include flex-center-row();
-	}
+  .cart-btn {
+    grid-area: cart;
+    min-height: 40px;
+    @include flex-center-column(); // flex-direction: column;
+  }
 
-	.cart-btn {
-		grid-area: cart;
-		min-height: 40px;
-		@include flex-center-column(); // flex-direction: column;
-	}
+  a {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    // vertical-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  a:hover {
+    color: gold;
+  }
+  .active {
+    // color: green;
+    border: 1 px solid white;
+  }
 
-	a {
-		text-decoration: none;
-		color: white;
-		cursor: pointer;
-		width: 100%;
-		height: 100%;
-		// vertical-align: center;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	a:hover {
-		color: gold;
-	}
-	.active {
-		// color: green;
-		border: 1 px solid white;
-	}
-
-	@media (max-width: 840px) {
-		width: 1024px;
-	}
+  @media (max-width: 840px) {
+    width: 1024px;
+  }
 }
 
 *,
 *:after,
 *:before {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
