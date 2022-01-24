@@ -10,16 +10,26 @@ router.post('/users', async (req, res) => {
 		const token = await user.generateAuthToken();
 
 		// TODO add the mail functionality here
-		console.log('1 ' + user);
-		console.log(token);
+
 		res.status(201).send({ user, token });
 	} catch (e) {
 		res.status(500).send(e);
 	}
 });
 
-router.post('/users/login', async (req, res) => {
-	console.log(req.body);
+router.post('/users/login', async (req, res, next) => {
+	const { email, password } = req.body;
+
+	try {
+		const user = await User.findByCredentials(email, password);
+
+		const token = await user.generateAuthToken();
+
+		res.send({ user, token });
+	} catch (err) {
+		res.status(401);
+		return next(err);
+	}
 });
 
 module.exports = router;
