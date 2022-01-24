@@ -60,12 +60,31 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.generateAuthToken = async function () {
 	console.log(process.env.JWT_SECRET);
 	const user = this;
-	const token = jwt.sign({ _id: user.id.toString() }, process.env.JWT_SECRET);
+	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
 
 	user.tokens = user.tokens.concat({ token });
 	await user.save();
 
 	return token;
+};
+
+// * Using statics as don't need the instance here(methods) so using statics also we are looking it on the model
+userSchema.statics.findByCredentials = async (email, password) => {
+	const user = await User.findOne({ email });
+
+	if (!user) {
+		// throwing a general error
+		throw new Error('Unable to login!');
+	}
+
+	const isHashMatching = await bcrypt.compare(password, user.password);
+
+	if (!isHashMatching) {
+		console.log('im running');
+		throw new Error('Unable to login!');
+	}
+
+	return user;
 };
 
 // This method will control the response send from the api req
