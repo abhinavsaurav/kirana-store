@@ -1,0 +1,59 @@
+.cart-item {
+	display: flex;
+	margin: 5px 0;
+	// display: table-row;
+	overflow: auto;
+	.col--img {
+		display: table-cell;
+		border: 1px dashed black;
+		img {
+			object-fit: contain;
+			width: 100px;
+			height: 100px;
+		}
+	}
+
+	.green {
+		color: green;
+	}
+
+	.red {
+		color: red;
+	}
+
+	.col--item-details {
+		padding: 5px;
+		// display: table-cell;
+		display: flex;
+		flex-direction: column;
+
+		.name a:hover {
+			color: rgb(68, 153, 250);
+			text-decoration: underline;
+		}
+		ul {
+			list-style: none;
+			flex: 1;
+		}
+
+		p span {
+			margin-right: 5px;
+		}
+
+		p span button {
+			background-color: white;
+			border: none;
+			cursor: pointer;
+		}
+
+		p span button:hover {
+			color: red;
+			text-decoration: underline;
+		}
+	}
+
+	.col-item-price {
+		display: table-cell;
+		margin-left: auto;
+	}
+}

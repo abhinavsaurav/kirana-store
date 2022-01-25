@@ -1,0 +1,77 @@
+.container {
+	padding: 1rem;
+	.title {
+		font-size: 1.5rem;
+	}
+
+	.brand {
+		font-size: 1.15rem;
+		padding: 0.25rem 0.25rem 0.5rem 0rem;
+
+		& a:hover {
+			text-decoration: underline;
+			color: #b63a3a;
+		}
+	}
+
+	.links {
+		.rating a {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: flex-start;
+		}
+
+		.rating a:hover {
+			color: #b63a3a;
+		}
+
+		.rating a {
+			margin: 0 0.5rem 0.5rem;
+		}
+
+		.rating a span {
+			margin-right: 1px;
+		}
+	}
+
+	.unified-price {
+		table {
+			border-spacing: 0.25rem;
+		}
+		tr td:nth-child(1) {
+			text-align: end;
+		}
+
+		tr td:nth-child(3) {
+			padding-left: 0.5rem;
+		}
+	}
+
+	.item-information {
+		.heading {
+			font-size: 1.3rem;
+			padding: 1rem 0;
+		}
+
+		.heading-content ul {
+			margin: 1rem;
+			margin-top: 0;
+		}
+
+		.heading-content ul li {
+			padding: 0.5rem;
+			// font-size: 1rem;
+		}
+
+		.heading-content ul li a {
+			color: rgb(64, 64, 204);
+		}
+
+		.heading-content ul li a:hover {
+			color: #b63a3a;
+			text-decoration: underline;
+		}
+	}
+}
