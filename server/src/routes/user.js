@@ -1,8 +1,10 @@
 const express = require('express');
+const authMiddleware = require('../../middleware/authMiddleware');
 const User = require('../models/user');
 const router = express.Router();
 
-router.post('/users', async (req, res) => {
+// Create user
+router.post('/', async (req, res) => {
 	const user = new User(req.body);
 	try {
 		await user.save();
@@ -17,7 +19,8 @@ router.post('/users', async (req, res) => {
 	}
 });
 
-router.post('/users/login', async (req, res, next) => {
+//login user
+router.post('/login', async (req, res, next) => {
 	const { email, password } = req.body;
 
 	try {
@@ -29,6 +32,28 @@ router.post('/users/login', async (req, res, next) => {
 	} catch (err) {
 		res.status(401);
 		return next(err);
+	}
+});
+
+// logout user
+router.post('/logout', authMiddleware, async (req, res, next) => {
+	try {
+		req.user = await req.user.tokens.filter((token) => token !== req.token);
+		await req.user.save();
+		res.send();
+	} catch (err) {
+		next();
+	}
+});
+
+// logout user from all devices
+router.post('/logoutAll', authMiddleware, async (req, res, next) => {
+	try {
+		req.user.tokens = [];
+		await req.user.save();
+		res.send();
+	} catch (err) {
+		next();
 	}
 });
 

@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 	res.send('Kirana-store-api working!');
 });
 
-app.use(userRouter);
+app.use('/users', userRouter);
 app.use('/products', productRouter);
 
 app.use(routeNotFound);
