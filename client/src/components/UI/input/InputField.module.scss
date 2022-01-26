@@ -1,0 +1,12 @@
+input[type='text'],
+input[type='password'] {
+	width: 100%;
+	padding: 4px;
+	font-size: 1.1rem;
+	border: 1px solid pink;
+
+	&:focus-visible {
+		outline: 1px solid salmon;
+		// box-shadow: 1px solid salmon;
+	}
+}

@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import classes from './Login.module.scss';
 import { authAction } from '../../store';
 import { useSelector, useDispatch } from 'react-redux';
+
+import InputField from '../UI/input/InputField';
+import Button from '../UI/button/Button';
+
+import classes from './Login.module.scss';
 
 const Login = (props) => {
 	const [uname, setUname] = useState('');
@@ -68,42 +72,58 @@ The same principle of merging will apply here as well, with an additional check 
 	};
 
 	return (
-		<form onSubmit={handleFormSubmit} className={classes.form}>
-			<div className={classes['form-container']}>
-				<div className={classes.uname}>
-					<label htmlFor="uname">Username :</label>
-					<input
-						type="text"
-						id="uname"
-						value={uname}
-						onChange={(e) => setUname(e.target.value)}
-					/>
+		<div className={classes['container']}>
+			<form onSubmit={handleFormSubmit} className={classes.form}>
+				<h1>Login</h1>
+				<div className={classes['form-container']}>
+					<div className={classes.uname}>
+						<label htmlFor="uname">Username </label>
+						<label>:</label>
+						<InputField
+							type="text"
+							id="uname"
+							value={uname}
+							onChange={(e) => setUname(e.target.value)}
+						/>
+					</div>
+					<div className={classes.pass}>
+						<label className={hasError === true ? 'error' : ''} htmlFor="pass">
+							Password
+						</label>
+						<label>:</label>
+						<InputField
+							type="password"
+							id="pass"
+							value={pass}
+							onChange={verifyPass}
+						/>
+					</div>
 				</div>
-				<div className={classes.pass}>
-					<label className={hasError === true ? 'error' : ''} htmlFor="pass">
-						Password :
-					</label>
-					<input type="password" id="pass" value={pass} onChange={verifyPass} />
+				<div className={classes['btn-container']}>
+					<div className={classes['submit-btn']}>
+						<Button
+							type="submit"
+							// disabled={hasError === true ? true : false}
+							// className={classes['submit-btn']} to override the default style we can specify it
+						>
+							Login
+						</Button>
+					</div>
 				</div>
-			</div>
+				<div className={classes['link-cont']}>
+					<NavLink to="/user-register">New to kirana?</NavLink>
+					&nbsp;&nbsp;
+					<NavLink to="/reset-password">Forgot Password?</NavLink>
+				</div>
 
-			<div className={classes['link-cont']}>
-				<NavLink to="/user-register">New to kirana?</NavLink>
-				&nbsp;&nbsp;
-				<NavLink to="/reset-password">Forgot Password?</NavLink>
-			</div>
-			<button
-				type="submit"
-				// disabled={hasError === true ? true : false}
-				className={classes['submit-btn']}
-			>
-				Submit
-			</button>
-			<div>
-				<td>Is Authenticated:</td>
-				<td>{isAuthenticated.toString()}</td>
-			</div>
-		</form>
+				<div className={classes.check}>
+					<div>
+						<td>Is Authenticated:</td>
+						<td>{isAuthenticated.toString()}</td>
+					</div>
+				</div>
+			</form>
+		</div>
 	);
 };
 
