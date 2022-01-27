@@ -1,0 +1,9 @@
+const PRODUCTION_API_URL = '';
+const DEVELOPMENT_API_URL = 'http://localhost:5000/';
+export const API_URL = PRODUCTION_API_URL || DEVELOPMENT_API_URL;
+export const FETCH_ALL_PRODUCTS = 'fetchAllProducts';
+export const FETCH_PRODUCT = 'fetchProduct';
+export const LOGIN = 'login';
+export const LOADING = 'LOADING';
+export const IDLE = 'IDLE';
+export const ERROR = 'ERROR';
