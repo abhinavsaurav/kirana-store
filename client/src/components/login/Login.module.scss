@@ -12,7 +12,35 @@
 	align-items: center;
 	justify-content: center;
 	padding: 20px;
+	// margin: 0 auto;
+	// border: 1px solid black;
+
+	.login-container {
+		padding: 20px;
+		// border: 1px solid black;
+		margin: 0 auto;
+
+		.error-wrapper {
+			// font-size: 1.1rem;
+			border: 1px solid red;
+			background: rgb(255, 225, 225);
+		}
+
+		.error-wrapper,
+		.login-wrapper {
+			font-size: 1.24rem;
+			border-radius: 10px;
+			padding: 20px;
+			margin: 0 0 20px 0;
+			text-align: center;
+		}
+
+		.login-wrapper {
+			border: 1px solid black;
+		}
+	}
 }
+
 .form {
 	flex-grow: 1;
 	// top: 50%;
