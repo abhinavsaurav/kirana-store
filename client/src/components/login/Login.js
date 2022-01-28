@@ -1,24 +1,151 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { authAction } from '../../store';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { login } from '../../store/authActions';
+import { authDefaultActions } from '../../store/authSlice';
 import InputField from '../UI/input/InputField';
 import Button from '../UI/button/Button';
+import { ERROR_LOGIN_EMAIL, ERROR_LOGIN_SUBMIT } from '../../data/constants';
 
+import Spinner from '../UI/spinner/Spinner';
 import classes from './Login.module.scss';
 
+// Added notes below the export line
 const Login = (props) => {
-	const [uname, setUname] = useState('');
+	const [email, setEmail] = useState('');
 	const [pass, setPass] = useState('');
 	const [hasError, setHasError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 
-	const isAuthenticated = useSelector((state) => {
-		console.log(state);
-		return state.auth.isAuthenticated;
-	});
+	const dispatch = useDispatch();
 
-	/**
+	// auth selectors
+	// const loginStatus = useSelector((state) => state.auth.status);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	// const apiError = useSelector((state) => state.auth.error);
+
+	// useEffect(() => {
+	// 	setErrorMessage(apiError);
+	// }, [apiError]);
+
+	// ? should be done while creating the form but will check after dispatch
+	const validatePassword = (e) => {
+		/**
+		 * TODO : username and password secure and authentication
+		 */
+		const temp = e.target.value;
+		const minPassLength = 8;
+		const maxPassLength = 16;
+		if (!(temp.length >= minPassLength) || !(temp.length <= maxPassLength)) {
+			setHasError(true);
+		} else {
+			setHasError(false);
+		}
+
+		// TODO: This should be checked in handlesubmit form or not or i can create a
+		// checkbox indicating but this is n
+
+		setPass(temp);
+	};
+
+	const validateForm = (username, password) => {
+		if (hasError) {
+			setErrorMessage(ERROR_LOGIN_SUBMIT);
+			return false;
+		}
+	};
+
+	const handleFormSubmit = async (e) => {
+		e.preventDefault();
+		// await dispatch(authDefaultActions.resetAuthError());
+		setErrorMessage('');
+
+		/**
+		 * TODO -> Validation needs to be done
+		 * Mongo form submit i think i need to pass it to the backend
+		 *
+		 */
+		if (!validateForm(email, pass)) {
+		}
+
+		await dispatch(login({ email, pass }));
+		return;
+		// const temp = pass;
+	};
+
+	const loginError = function () {
+		return (
+			<div className={classes.error}>
+				<div className={classes.message}>
+					{errorMessage || 'Something is not right. Please try logging again!'}
+				</div>
+			</div>
+		);
+	};
+
+	return (
+		<div className={classes['container']}>
+			{hasError ? loginError() : ''}
+			<form onSubmit={handleFormSubmit} className={classes.form}>
+				<h1>Login</h1>
+				<div className={classes['form-container']}>
+					<div className={classes.uname}>
+						<label htmlFor="uname">Email </label>
+						<label>:</label>
+						<InputField
+							type="text"
+							id="uname"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+					</div>
+					<div className={classes.pass}>
+						<label className={hasError === true ? 'error' : ''} htmlFor="pass">
+							Password
+						</label>
+						<label>:</label>
+						<InputField
+							type="password"
+							id="pass"
+							value={pass}
+							onChange={validatePassword}
+						/>
+					</div>
+				</div>
+				<div className={classes['btn-container']}>
+					<div className={classes['submit-btn']}>
+						<Button
+							type="submit"
+							// onClick={testFunction}
+							// disabled={hasError === true ? true : false}
+							// className={classes['submit-btn']} to override the default style we can specify it
+						>
+							Login
+						</Button>
+					</div>
+				</div>
+				<div className={classes['link-cont']}>
+					<NavLink to="/user-register">New to kirana?</NavLink>
+					&nbsp;&nbsp;
+					<NavLink to="/reset-password">Forgot Password?</NavLink>
+				</div>
+
+				<div className={classes.check}>
+					<div>
+						<td>Is Authenticated:</td>
+						<td>{isAuthenticated.toString()}</td>
+					</div>
+				</div>
+				{/* {loginStatus === 'loading' ? <Spinner /> : ''} */}
+			</form>
+		</div>
+	);
+};
+
+export default Login;
+
+/**
 	 *
 	 * @param {*} e event
 	 * This should be added in the add user sections
@@ -40,91 +167,3 @@ Using cookies as recommended by @Codemwnci to either store the products, or a ca
 The same principle of merging will apply here as well, with an additional check whether the products in the cookie really are valid ones (they could have been removed since the user made their selection, or the user could have altered the cookie).
 	 *
 	 */
-	const verifyPass = (e) => {
-		/**
-		 * TODO : username and password secure and authentication
-		 */
-		const temp = e.target.value;
-		// const minPassLength = 4;
-		// const maxPassLength = 16;
-		console.log(hasError);
-
-		// TODO: This should be checked in handlesubmit form or not or i can create a
-		// checkbox indicating but this is n
-
-		setPass(temp);
-	};
-
-	const handleFormSubmit = (e) => {
-		e.preventDefault();
-		/**
-		 * Mongo form submit i think i need to pass it to the backend
-		 *
-		 */
-		const temp = pass;
-		const minPassLength = 4;
-		const maxPassLength = 16;
-		if (!(temp.length >= minPassLength) || !(temp.length <= maxPassLength)) {
-			setHasError(true);
-		} else {
-			setHasError(false);
-		}
-	};
-
-	return (
-		<div className={classes['container']}>
-			<form onSubmit={handleFormSubmit} className={classes.form}>
-				<h1>Login</h1>
-				<div className={classes['form-container']}>
-					<div className={classes.uname}>
-						<label htmlFor="uname">Username </label>
-						<label>:</label>
-						<InputField
-							type="text"
-							id="uname"
-							value={uname}
-							onChange={(e) => setUname(e.target.value)}
-						/>
-					</div>
-					<div className={classes.pass}>
-						<label className={hasError === true ? 'error' : ''} htmlFor="pass">
-							Password
-						</label>
-						<label>:</label>
-						<InputField
-							type="password"
-							id="pass"
-							value={pass}
-							onChange={verifyPass}
-						/>
-					</div>
-				</div>
-				<div className={classes['btn-container']}>
-					<div className={classes['submit-btn']}>
-						<Button
-							type="submit"
-							// disabled={hasError === true ? true : false}
-							// className={classes['submit-btn']} to override the default style we can specify it
-						>
-							Login
-						</Button>
-					</div>
-				</div>
-				<div className={classes['link-cont']}>
-					<NavLink to="/user-register">New to kirana?</NavLink>
-					&nbsp;&nbsp;
-					<NavLink to="/reset-password">Forgot Password?</NavLink>
-				</div>
-
-				<div className={classes.check}>
-					<div>
-						<td>Is Authenticated:</td>
-						<td>{isAuthenticated.toString()}</td>
-					</div>
-				</div>
-			</form>
-		</div>
-	);
-};
-
-export default Login;
