@@ -6,6 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
@@ -17,7 +18,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "killp5000": "echo '\ncommand is dangerous\n' && kill -9 $(netstat -lntp | grep 5000 | tr -s ' '|cut -d ' ' -f 7|cut -d'/' -f 1)"
   },
   "author": ""
 }

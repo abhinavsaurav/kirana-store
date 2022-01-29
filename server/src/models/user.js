@@ -58,7 +58,6 @@ userSchema.pre('save', async function (next) {
 // * https://stackoverflow.com/questions/29664499/mongoose-static-methods-vs-instance-methods
 
 userSchema.methods.generateAuthToken = async function () {
-	console.log(process.env.JWT_SECRET);
 	const user = this;
 	const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
 
@@ -74,14 +73,13 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
 	if (!user) {
 		// throwing a general error
-		throw new Error('Unable to login!');
+		throw new Error('Username or password is incorrect!');
 	}
 
 	const isHashMatching = await bcrypt.compare(password, user.password);
 
 	if (!isHashMatching) {
-		console.log('im running');
-		throw new Error('Unable to login!');
+		throw new Error('Username or password is incorrect!');
 	}
 
 	return user;

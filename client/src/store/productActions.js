@@ -1,18 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import kiranaAPI from '../apis/kiranaAPI';
+import { FETCH_ALL_PRODUCTS, FETCH_PRODUCT } from '../data/constants';
 
 export const fetchAllProducts = createAsyncThunk(
-	'fetchAllProducts',
+	FETCH_ALL_PRODUCTS,
 	async () => {
 		try {
 			const response = await axios.get('/products');
 
 			return response.data;
-		} catch (e) {}
+		} catch (e) {
+			return e;
+		}
 	}
 );
 
-export const fetchProduct = createAsyncThunk('fetchProduct', async (id) => {
+export const fetchProduct = createAsyncThunk(FETCH_PRODUCT, async (id) => {
 	const fetchProductDetail = async (id) => {
 		const response = await axios.get(`/products/${id}`);
 		return response.data;

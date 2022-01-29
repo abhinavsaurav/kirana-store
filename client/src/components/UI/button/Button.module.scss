@@ -1,0 +1,22 @@
+.btn {
+	color: white;
+	padding: 10px 20px;
+	// margin: 0 10px;
+	// background-color: yellowgreen;
+	background: linear-gradient(to right, #ff416c, #ff4b2b);
+	// color: white;
+	font-size: 0.8rem;
+	outline: none;
+	border: 0.5px solid;
+	border-radius: 5px;
+
+	&:hover {
+		color: gold;
+	}
+	&:active {
+		// border: 0.5px solid gold;
+		// font-size: 0.7rem;
+		padding: 9px 18px;
+		margin: 1px 2px;
+	}
+}

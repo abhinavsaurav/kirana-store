@@ -1,14 +1,18 @@
 const express = require('express');
+const cors = require('cors');
+
 const {
 	routeNotFound,
 	errorHandler,
 } = require('../middleware/errorMiddleware');
 
 require('./config/db');
+const userRouter = require('./routes/user');
+const productRouter = require('./routes/product');
 
 const app = express();
-const productRouter = require('./routes/product');
-const userRouter = require('./routes/user');
+
+app.use(cors());
 
 // for parsing req body - json
 app.use(express.json());

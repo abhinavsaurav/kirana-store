@@ -1,27 +1,45 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { login } from './authActions';
+import { LOADING, IDLE, ERROR } from '../data/constants';
 
-// ? No manual auth action creator created and is by default and is currently being accessed through store/index.js
+const userInfoFromStorage = localStorage.getItem('userInfo')
+	? JSON.parse(localStorage.getItem('userInfo'))
+	: null;
 
-const authIntialState = { isAuthenticated: false };
+const authIntialState = {
+	isAuthenticated: userInfoFromStorage ? true : false,
+	token: userInfoFromStorage ? userInfoFromStorage.token : null,
+	userInfo: userInfoFromStorage ? userInfoFromStorage.user : {},
+	status: 'idle',
+	error: null,
+};
 
 const authSlice = createSlice({
 	name: 'auth',
 	initialState: authIntialState,
 	reducers: {
-		login(state, action) {
-			// we need to run a check here to authenticate the user and then modify this piece of code
-			// Also we can directly modify as dimmer in the background will take care about the mutability
-			// state.isAuthenticated = true;
-			// but just doing this to test it out
-			// payload property name is fixed kinda
-			console.log(action.payload);
-
-			return { isAuthenticated: true };
+		resetAuthError(state, action) {
+			state.error = null;
 		},
-		getCurrrentAuthStatus(state) {
-			return state;
+	},
+	extraReducers: {
+		[login.pending]: (state, action) => {
+			state.status = LOADING;
+		},
+		[login.fulfilled]: (state, action) => {
+			console.log(action.payload);
+			state.status = IDLE;
+			state.isAuthenticated = true;
+			state.userInfo = action.payload.user;
+			state.token = action.payload.token;
+		},
+		[login.rejected]: (state, action) => {
+			state.status = ERROR;
+			state.isAuthenticated = false;
+			state.error = action.payload;
 		},
 	},
 });
 
 export default authSlice;
+export const authDefaultActions = authSlice.actions;
