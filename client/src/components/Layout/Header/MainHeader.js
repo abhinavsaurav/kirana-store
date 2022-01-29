@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, Link, useHistory } from 'react-router-dom';
 
 import classes from './MainHeader.module.scss';
 import Modal from '../../UI/modal/Modal';
+import Dropdown from '../../UI/dropdown/Dropdown.js';
 
 // just to test the modal taking in pics this can be removed
 import Pic1 from '../../../assets/pictures/carousel/pic1.png';
@@ -96,7 +97,15 @@ const MainHeader = () => {
 					activeClassName={classes.active}
 					className={classes.login}
 				>
-					{auth.isAuthenticated ? `Hi ${auth.userInfo.name}` : `Login/off`}
+					{auth.isAuthenticated ? (
+						<Dropdown defaultValue={`Hi ${auth.userInfo.name}`}>
+							<a href="/search?item='test'">test1</a>
+							<a href="#">test2</a>
+							<a href="#">test3</a>
+						</Dropdown>
+					) : (
+						`Login/off`
+					)}
 				</NavLink>
 				<NavLink to="#" onClick={(e) => toggleShowCartModal()}>
 					<div className={classes['cart-btn']}>
