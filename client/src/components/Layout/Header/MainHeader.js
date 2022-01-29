@@ -9,6 +9,7 @@ import Modal from '../../UI/modal/Modal';
 import Pic1 from '../../../assets/pictures/carousel/pic1.png';
 import HeaderCartButton from './HeaderCartButton';
 import Cart from '../../cart/Cart';
+import useAuth from '../../../hooks/useAuth';
 
 const MainHeader = () => {
 	const [searchText, setSearchText] = useState('');
@@ -17,6 +18,8 @@ const MainHeader = () => {
 	// const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	const history = useHistory();
+
+	const auth = useAuth();
 
 	const toggleShowPinModal = () => {
 		setShowPinModal(!showPinModal);
@@ -93,7 +96,7 @@ const MainHeader = () => {
 					activeClassName={classes.active}
 					className={classes.login}
 				>
-					Login/off
+					{auth.isAuthenticated ? `Hi ${auth.userInfo.name}` : `Login/off`}
 				</NavLink>
 				<NavLink to="#" onClick={(e) => toggleShowCartModal()}>
 					<div className={classes['cart-btn']}>

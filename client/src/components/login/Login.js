@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import useAuth from '../../hooks/useAuth';
 
 import { login } from '../../store/authActions';
 import { authDefaultActions } from '../../store/authSlice';
-import { ERROR_LOGIN_EMAIL, ERROR_LOGIN_SUBMIT } from '../../data/constants';
+import {
+	LOADING,
+	EMAIL_VALIDATION_PATTERN,
+	ERROR_LOGIN_SUBMIT,
+} from '../../data/constants';
 
 import Button from '../UI/button/Button';
 import Spinner from '../UI/spinner/Spinner';
@@ -14,84 +19,66 @@ import classes from './Login.module.scss';
 
 // Added notes below the export line
 const Login = (props) => {
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const location = useLocation();
+
 	const [email, setEmail] = useState('');
 	const [pass, setPass] = useState('');
 	const [hasError, setHasError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 
-	const dispatch = useDispatch();
-
 	// auth selectors
-	const loginStatus = useSelector((state) => state.auth.status);
-	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-	const apiError = useSelector((state) => state.auth.error);
+	const auth = useAuth();
+	const apiError = auth.error;
 
-	// useEffect(() => {
-	// 	setErrorMessage(apiError);
-	// }, [apiError]);
+	const redirect = location.search ? location.search.split('=')[1] : '/';
 
-	// ? should be done while creating the form but will check after dispatch
-	const validatePassword = (e) => {
-		/**
-		 * TODO : username and password secure and authentication
-		 */
-		const temp = e.target.value;
-		// const minPassLength = 8;
-		// const maxPassLength = 16;
-		// if (!(temp.length >= minPassLength) || !(temp.length <= maxPassLength)) {
-		// 	setHasError(true);
-		// } else {
-		// 	setHasError(false);
-		// }
+	useEffect(() => {
+		if (apiError) {
+			setHasError(true);
+			setErrorMessage(apiError.message);
+		} else {
+			setHasError(false);
+		}
+	}, [apiError]);
 
-		// TODO: This should be checked in handlesubmit form or not or i can create a
-		// checkbox indicating but this is n
+	useEffect(() => {
+		if (auth.isAuthenticated) {
+			history.push(redirect);
+		}
+	}, [history, auth.isAuthenticated, redirect]);
 
-		setPass(temp);
-	};
+	const validateForm = (email, password) => {
+		const emailRE = EMAIL_VALIDATION_PATTERN;
+		const validEmail = emailRE.test(email);
 
-	const validateForm = (username, password) => {
-		// check the end of the regex
-		const usernameRE =
-			/^[a-zA-Z][a-zA-Z0-9_-]{4,}@[a-zA-Z0-9]{2,}\.(com|in|[a-zA-Z]{2,3})/g;
-
-		console.log(usernameRE.test(username));
-		if (!usernameRE.test(username)) {
+		if (!validEmail) {
 			return false;
 		}
 
-		// For password the only test at login we are doing is checking the length
-		// The other test we must be doing should be done during the signup page
-		if (password.length < 8 && password.length > 20) {
+		if (password.length < 8 || password.length > 20) {
 			return false;
 		}
-		// if (hasError) {
-		// 	return false;
-		// }
 
 		return true;
 	};
 
+	// * FORM HANDLER
 	const handleFormSubmit = async (e) => {
 		e.preventDefault();
 		await dispatch(authDefaultActions.resetAuthError());
 		setErrorMessage('');
 
-		/**
-		 * TODO -> Validation needs to be done
-		 * Mongo form submit i think i need to pass it to the backend
-		 *
-		 */
-		if (!validateForm(email, pass)) {
+		// const formVal
+		if (validateForm(email, pass) === false) {
 			setHasError(true);
 			setErrorMessage(ERROR_LOGIN_SUBMIT);
 			return false;
 		}
 
+		setHasError(false);
 		await dispatch(login({ email, pass }));
-
-		// return;
-		// const temp = pass;
 	};
 
 	const loginError = function () {
@@ -99,8 +86,7 @@ const Login = (props) => {
 			<div className={classes['error-wrapper']}>
 				<div className={classes.error}>
 					<div className={classes.message}>
-						{apiError ||
-							errorMessage ||
+						{errorMessage ||
 							'Something is not right. Please try logging again!'}
 					</div>
 				</div>
@@ -139,7 +125,7 @@ const Login = (props) => {
 									type="password"
 									id="pass"
 									value={pass}
-									onChange={validatePassword}
+									onChange={(e) => setPass(e.target.value)}
 								/>
 							</div>
 						</div>
@@ -164,10 +150,10 @@ const Login = (props) => {
 						<div className={classes.check}>
 							<div>
 								<td>Is Authenticated:</td>
-								<td>{isAuthenticated.toString()}</td>
+								<td>{auth.isAuthenticated.toString()}</td>
 							</div>
 						</div>
-						{/* {loginStatus === 'loading' ? <Spinner /> : ''} */}
+						{auth.status === LOADING ? <Spinner w="20px" h="20px" /> : ''}
 					</form>
 				</div>
 			</div>

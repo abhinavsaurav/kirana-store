@@ -2,10 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import { login } from './authActions';
 import { LOADING, IDLE, ERROR } from '../data/constants';
 
+const userInfoFromStorage = localStorage.getItem('userInfo')
+	? JSON.parse(localStorage.getItem('userInfo'))
+	: null;
+
 const authIntialState = {
-	isAuthenticated: false,
-	token: null,
-	userInfo: {},
+	isAuthenticated: userInfoFromStorage ? true : false,
+	token: userInfoFromStorage ? userInfoFromStorage.token : null,
+	userInfo: userInfoFromStorage ? userInfoFromStorage.user : {},
 	status: 'idle',
 	error: null,
 };

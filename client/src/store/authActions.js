@@ -8,6 +8,9 @@ export const login = createAsyncThunk(LOGIN, async (data, thunkAPI) => {
 			email: data.email,
 			password: data.pass,
 		});
+
+		localStorage.setItem('userInfo', JSON.stringify(response.data));
+
 		return response.data;
 	} catch (err) {
 		if (!err.response) {
