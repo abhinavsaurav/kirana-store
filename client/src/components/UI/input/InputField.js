@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './InputField.module.scss';
 
-const InputField = ({ id, type, value, onChange, placeholder }) => {
+const InputField = ({ id, type, value, onChange, placeholder, ...props }) => {
 	return (
 		<React.Fragment>
 			<input
@@ -10,6 +10,7 @@ const InputField = ({ id, type, value, onChange, placeholder }) => {
 				value={value}
 				onChange={onChange}
 				placeholder={placeholder ?? null}
+				{...props}
 			/>
 		</React.Fragment>
 	);

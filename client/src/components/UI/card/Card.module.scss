@@ -1,4 +1,6 @@
 .card-body {
+	background: white;
+	border-radius: 10px;
 	border: 1px solid red;
 	width: 24%;
 	height: 400px;
@@ -19,11 +21,11 @@
 	}
 }
 
-@media (min-width: 2260px) {
-	.card-body {
-		height: 700px;
-		.header {
-			font-size: 3rem;
-		}
-	}
-}
+// @media (min-width: 2260px) {
+// 	.card-body {
+// 		// height: 700px;
+// 		.header {
+// 			// font-size: 3rem;
+// 		}
+// 	}
+// }

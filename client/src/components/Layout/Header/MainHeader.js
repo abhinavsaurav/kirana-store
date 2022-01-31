@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink, Link, useHistory } from 'react-router-dom';
+import { NavLink, Link, useHistory, Redirect } from 'react-router-dom';
 
-import classes from './MainHeader.module.scss';
+import useAuth from '../../../hooks/useAuth';
+import useDimension from '../../../hooks/useDimension';
+
+import Cart from '../../cart/Cart';
 import Modal from '../../UI/modal/Modal';
 import Dropdown from '../../UI/dropdown/Dropdown.js';
 import InputField from '../../UI/input/InputField.js';
-
-// just to test the modal taking in pics this can be removed
-import Pic1 from '../../../assets/pictures/carousel/pic1.png';
 import HeaderCartButton from './HeaderCartButton';
-import Cart from '../../cart/Cart';
-import useAuth from '../../../hooks/useAuth';
-import useDimension from '../../../hooks/useDimension';
-import { useEffect } from 'react';
-// import useDimension from '../../../hooks/useDimension';
+
+import classes from './MainHeader.module.scss';
+import Pic1 from '../../../assets/pictures/carousel/pic1.png';
 
 const MainHeader = () => {
 	const [searchText, setSearchText] = useState('');
@@ -94,16 +92,23 @@ const MainHeader = () => {
 		</div>
 	);
 
-	const SearchBar = () => (
-		<div className={classes[`search-bar`]}>
-			<InputField
-				type="text"
-				value={searchText}
-				onChange={(e) => setSearchText(e.target.value)}
-				onKeyUp={checkEnterKeyPress}
-			/>
-		</div>
-	);
+	// * Below commented code for search bar but it doesn't factor in the compoenent change making
+	// * this unnecessary complicated for some reason
+	// const runner = (e) => {
+	// 	console.log(e.target.value);
+	// 	setSearchText(e.target.value);
+	// };
+
+	// const SearchBar = (props) => (
+	// 	<div className={classes[`search-bar`]}>
+	// 		<InputField
+	// 			type="text"
+	// 			value={searchText}
+	// 			onChange={props.onChange}
+	// 			onKeyUp={props.onKeyUp}
+	// 		/>
+	// 	</div>
+	// );
 
 	const SearchBtn = () => (
 		<div className={classes.searchbtn}>
@@ -114,9 +119,9 @@ const MainHeader = () => {
 	);
 
 	const LoginStatus = () => (
-		<NavLink
+		<div
 			exact
-			to="/login"
+			// to="/login"
 			activeClassName={classes.active}
 			className={classes.login}
 		>
@@ -127,9 +132,9 @@ const MainHeader = () => {
 					<a href="#">test3</a>
 				</Dropdown>
 			) : (
-				`Login/off`
+				<NavLink to="/login">Login/off</NavLink>
 			)}
-		</NavLink>
+		</div>
 	);
 
 	const CartBtn = () => (
@@ -148,6 +153,7 @@ const MainHeader = () => {
 		</NavLink>
 	);
 
+	// Maybe
 	const [dynamicWidth, setDynamicWidth] = useState(dimension.width);
 	useEffect(() => {
 		setDynamicWidth(dimension.width);
@@ -163,7 +169,14 @@ const MainHeader = () => {
 				<div className={classes['search-elem']}>
 					<div className={classes['outline-elem']}>
 						<Category />
-						<SearchBar />
+						<div className={classes[`search-bar`]}>
+							<InputField
+								type="text"
+								value={searchText}
+								onChange={(e) => setSearchText(e.target.value)}
+								onKeyUp={checkEnterKeyPress}
+							/>
+						</div>
 						<SearchBtn />
 					</div>
 				</div>
