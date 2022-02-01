@@ -1,12 +1,16 @@
-import classes from './Dropdown.module.scss';
 import { Link } from 'react-router-dom';
+
+import ChevronDown from '../Icons/Chevron/ChevronDown';
+
+import classes from './Dropdown.module.scss';
 
 const Dropdown = (props) => {
 	return (
 		<div className="wrapper">
 			<div className={classes.dropdown}>
 				<a href="#" className={classes.btn}>
-					{props.defaultValue || `Default value`}
+					<span>{props.defaultValue || `Default value`}</span>
+					<ChevronDown className={classes.symbol} />
 				</a>
 				<div className={classes['dropdown-content']}>
 					{props.children || (

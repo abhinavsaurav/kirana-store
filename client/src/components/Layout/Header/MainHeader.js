@@ -1,26 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink, Link, useHistory } from 'react-router-dom';
+import { NavLink, Link, useHistory, Redirect } from 'react-router-dom';
 
-import classes from './MainHeader.module.scss';
+import useAuth from '../../../hooks/useAuth';
+import useDimension from '../../../hooks/useDimension';
+
+import Cart from '../../cart/Cart';
 import Modal from '../../UI/modal/Modal';
 import Dropdown from '../../UI/dropdown/Dropdown.js';
-
-// just to test the modal taking in pics this can be removed
-import Pic1 from '../../../assets/pictures/carousel/pic1.png';
+import InputField from '../../UI/input/InputField.js';
 import HeaderCartButton from './HeaderCartButton';
-import Cart from '../../cart/Cart';
-import useAuth from '../../../hooks/useAuth';
+
+import classes from './MainHeader.module.scss';
+import Pic1 from '../../../assets/pictures/carousel/pic1.png';
 
 const MainHeader = () => {
 	const [searchText, setSearchText] = useState('');
 	const [showPinModal, setShowPinModal] = useState(false);
 	const [showCartModal, setShowCartModal] = useState(false);
-	// const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	const history = useHistory();
 
 	const auth = useAuth();
+
+	// still not performant enough
+	const dimension = useDimension();
 
 	const toggleShowPinModal = () => {
 		setShowPinModal(!showPinModal);
@@ -48,74 +52,137 @@ const MainHeader = () => {
 		}
 	};
 
+	// **********************************************
+	// * Header sections
+	// **********************************************
+
+	const Logo = () => (
+		<NavLink
+			exact
+			activeClassName={classes.active}
+			to="/"
+			className={classes.logo}
+		>
+			KiranaStore
+		</NavLink>
+	);
+
+	const Pin = () => (
+		<NavLink
+			exact
+			activeClassName={classes.active} // check about this part when to be active as its added in the above thing
+			to="#"
+			className={classes.pin}
+			onClick={(e) => toggleShowPinModal()}
+		>
+			<span>Deliver to</span>
+			<FontAwesomeIcon icon="map-marked-alt" />
+			<Modal show={showPinModal} toggleShowModal={toggleShowPinModal}>
+				<img src={Pic1} alt="dummy" />
+			</Modal>
+		</NavLink>
+	);
+
+	const Category = () => (
+		<div className={`${classes['search-select']} ${classes.category}`}>
+			<select>
+				<option>All</option>
+				<option>nonedddddd</option>
+			</select>
+		</div>
+	);
+
+	// * Below commented code for search bar but it doesn't factor in the compoenent change making
+	// * this unnecessary complicated for some reason
+	// const runner = (e) => {
+	// 	console.log(e.target.value);
+	// 	setSearchText(e.target.value);
+	// };
+
+	// const SearchBar = (props) => (
+	// 	<div className={classes[`search-bar`]}>
+	// 		<InputField
+	// 			type="text"
+	// 			value={searchText}
+	// 			onChange={props.onChange}
+	// 			onKeyUp={props.onKeyUp}
+	// 		/>
+	// 	</div>
+	// );
+
+	const SearchBtn = () => (
+		<div className={classes.searchbtn}>
+			<button onClick={handleSearchBtnClick}>
+				<FontAwesomeIcon icon="search" />
+			</button>
+		</div>
+	);
+
+	const LoginStatus = () => (
+		<div
+			exact
+			// to="/login"
+			activeClassName={classes.active}
+			className={classes.login}
+		>
+			{auth.isAuthenticated ? (
+				<Dropdown defaultValue={`Hi ${auth.userInfo.name}`}>
+					<a href="/search?item='test'">test1</a>
+					<a href="#">test2</a>
+					<a href="#">test3</a>
+				</Dropdown>
+			) : (
+				<NavLink to="/login">Login/off</NavLink>
+			)}
+		</div>
+	);
+
+	const CartBtn = () => (
+		<NavLink
+			to="#"
+			onClick={(e) => toggleShowCartModal()}
+			className={classes['cart-wrapper']}
+		>
+			<div className={classes['cart-btn']}>
+				<HeaderCartButton />
+			</div>
+			<Modal show={showCartModal} toggleShowModal={toggleShowCartModal}>
+				{/* <img src={Pic1} alt="dummy" /> */}
+				<Cart toggleShowModal={toggleShowCartModal} history={history} />
+			</Modal>
+		</NavLink>
+	);
+
+	// Maybe
+	const [dynamicWidth, setDynamicWidth] = useState(dimension.width);
+	useEffect(() => {
+		setDynamicWidth(dimension.width);
+	}, [dimension.width]);
+
 	return (
 		<header>
-			<nav className={classes['header-nav']}>
-				<NavLink
-					exact
-					activeClassName={classes.active}
-					to="/"
-					className={classes.logo}
-				>
-					KiranaStore
-				</NavLink>
-				<NavLink
-					exact
-					activeClassName={classes.active} // check about this part when to be active as its added in the above thing
-					to="#"
-					className={classes.pin}
-					onClick={(e) => toggleShowPinModal()}
-				>
-					<span>Deliver to</span>
-					<FontAwesomeIcon icon="map-marked-alt" />
-					<Modal show={showPinModal} toggleShowModal={toggleShowPinModal}>
-						<img src={Pic1} alt="dummy" />
-					</Modal>
-				</NavLink>
-				<div className={classes['search-select']}>
-					<select>
-						<option>All</option>
-						<option>nonedddddd</option>
-					</select>
-				</div>
-				<div className={classes['nav-fill']}>
-					<input
-						type="text"
-						value={searchText}
-						onChange={(e) => setSearchText(e.target.value)}
-						onKeyUp={checkEnterKeyPress}
-					/>
-				</div>
-				<div className={classes.srchbtn}>
-					<button onClick={handleSearchBtnClick}>
-						<FontAwesomeIcon icon="search" />
-					</button>
-				</div>
-				<NavLink
-					exact
-					to="/login"
-					activeClassName={classes.active}
-					className={classes.login}
-				>
-					{auth.isAuthenticated ? (
-						<Dropdown defaultValue={`Hi ${auth.userInfo.name}`}>
-							<a href="/search?item='test'">test1</a>
-							<a href="#">test2</a>
-							<a href="#">test3</a>
-						</Dropdown>
-					) : (
-						`Login/off`
-					)}
-				</NavLink>
-				<NavLink to="#" onClick={(e) => toggleShowCartModal()}>
-					<div className={classes['cart-btn']}>
-						<HeaderCartButton />
+			<nav className={classes['header-nav']} style={{ width: dynamicWidth }}>
+				{/* <div className={classes['nav-content-wrapper']}> */}
+				{/* <div>Width:{dimension.width}</div> */}
+				<Logo />
+				<Pin />
+				<div className={classes['search-elem']}>
+					<div className={classes['outline-elem']}>
+						<Category />
+						<div className={classes[`search-bar`]}>
+							<InputField
+								type="text"
+								value={searchText}
+								onChange={(e) => setSearchText(e.target.value)}
+								onKeyUp={checkEnterKeyPress}
+							/>
+						</div>
+						<SearchBtn />
 					</div>
-					<Modal show={showCartModal} toggleShowModal={toggleShowCartModal}>
-						{/* <img src={Pic1} alt="dummy" /> */}
-						<Cart toggleShowModal={toggleShowCartModal} history={history} />
-					</Modal>
-				</NavLink>
+				</div>
+				<LoginStatus />
+				<CartBtn />
+				{/* </div> */}
 			</nav>
 		</header>
 	);

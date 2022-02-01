@@ -60,8 +60,10 @@ const DefaultPage = () => {
 		<div className={classes['page-container']}>
 			{/* {console.log(singleItem)} */}
 			{/* // will have a */}
-			<Carousel />
-			{AllProducts}
+			<div className={classes.banner}>
+				<Carousel />
+			</div>
+			<div className={classes['product-catalogue']}>{AllProducts}</div>
 			<div className={classes.defaultcards} style={{}}>
 				{/**
 				 *

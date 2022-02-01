@@ -1,5 +1,24 @@
+$card-background-color: white;
+
 .page-container {
+	margin: 0 auto;
+	max-width: 1500px;
+
+	.banner {
+		height: 250px;
+		overflow: visible;
+	}
+
+	.product-catalogue {
+		display: flex;
+		padding: 15px;
+		// align-items: center;
+		// justify-content: center;
+		background: transparent;
+	}
+
 	.defaultcards {
+		position: relative;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-evenly;
@@ -8,8 +27,8 @@
 		padding: 15px;
 		// marginTop: "",
 
-		z-index: 4;
-		border: 1px solid blue;
+		z-index: 2;
+		// border: 1px solid blue;
 
 		// TODO : Probably add custom width in pixel to make the component behave like
 		// not zoomable
@@ -21,6 +40,12 @@
 	}
 
 	.products-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+
+		z-index: 2;
 		width: 100%;
 		margin: 0 auto;
 
@@ -28,7 +53,7 @@
 			display: flex;
 			flex-wrap: wrap;
 			gap: 10px;
-			border: 1px solid green;
+			// border: 1px solid green;
 		}
 	}
 }
