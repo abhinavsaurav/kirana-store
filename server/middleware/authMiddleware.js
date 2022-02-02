@@ -3,6 +3,11 @@ const User = require('../src/models/user');
 
 const authMiddleware = async (req, res, next) => {
 	try {
+		console.log(req.headers.authorization);
+		if (!req.headers.authorization) {
+			throw new Error('Please authenticate');
+		}
+
 		// get the token to verify the id
 		const token = await req.headers['authorization'].replace('Bearer ', '');
 		const _id_decoded = await jwt.verify(token, process.env.JWT_SECRET);

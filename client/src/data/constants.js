@@ -7,6 +7,7 @@ export const API_URL = PRODUCTION_API_URL || DEVELOPMENT_API_URL;
 export const FETCH_ALL_PRODUCTS = 'fetchAllProducts';
 export const FETCH_PRODUCT = 'fetchProduct';
 export const LOGIN = 'login';
+export const LOGOUT = 'logout';
 export const LOADING = 'LOADING';
 export const IDLE = 'IDLE';
 export const ERROR = 'ERROR';
