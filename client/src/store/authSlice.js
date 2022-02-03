@@ -27,7 +27,6 @@ const authSlice = createSlice({
 			state.status = LOADING;
 		},
 		[login.fulfilled]: (state, action) => {
-			console.log(action.payload);
 			state.status = IDLE;
 			state.isAuthenticated = true;
 			state.userInfo = action.payload.user;
