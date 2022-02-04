@@ -143,9 +143,9 @@ const Login = (props) => {
 							</div>
 						</div>
 						<div className={classes['link-cont']}>
-							<NavLink to="/user-register">New to kirana?</NavLink>
+							<NavLink to="/users/signup">New to kirana?</NavLink>
 							&nbsp;&nbsp;
-							<NavLink to="/reset-password">Forgot Password?</NavLink>
+							<NavLink to="/users/password">Forgot Password?</NavLink>
 						</div>
 
 						<div className={classes.check}>
