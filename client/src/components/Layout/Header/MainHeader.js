@@ -8,7 +8,7 @@ import LoginStatus from './main-header-sections/LoginStatus';
 import Cart from '../../cart/Cart';
 import Modal from '../../UI/modal/Modal';
 import InputField from '../../UI/input/InputField.js';
-import HeaderCartButton from './HeaderCartButton';
+import HeaderCartButton from './main-header-sections/HeaderCartButton';
 
 import classes from './MainHeader.module.scss';
 import Pic1 from '../../../assets/pictures/carousel/pic1.png';
