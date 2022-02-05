@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllProducts } from '../store/productActions';
 // import axios from 'axios';
@@ -18,7 +18,7 @@ const DefaultPage = () => {
 
 	useEffect(() => {
 		dispatch(fetchAllProducts());
-	}, []);
+	}, [dispatch]);
 
 	// TODO : Assign the signed in page and else
 	// const cardName1 = isSignedIn || "Shop Now & more";
@@ -39,16 +39,33 @@ const DefaultPage = () => {
 		<div className={classes['products-container']} style={{}}>
 			<div className={classes.wrapper} style={{}}>
 				{productsData ? (
-					productsData.map((data) => {
-						return (
-							<ProductCard
-								key={data._id}
-								data={data}
-								width="225px"
-								height="300px"
-							/>
-						);
-					})
+					productsData.message ? (
+						<div
+							style={{
+								width: '100%',
+								height: '300px',
+								color: 'white',
+								// border: '1px solid white',
+								// background: 'white',
+							}}
+						>
+							<h2>
+								Failed to load data. Please refresh again! This is not properly
+								handled so needs to be redone
+							</h2>
+						</div>
+					) : (
+						productsData.map((data) => {
+							return (
+								<ProductCard
+									key={data._id}
+									data={data}
+									width="225px"
+									height="300px"
+								/>
+							);
+						})
+					)
 				) : (
 					<Spinner w="100px" h="100px" />
 				)}

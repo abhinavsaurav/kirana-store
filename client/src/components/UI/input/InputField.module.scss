@@ -10,3 +10,30 @@ input[type='password'] {
 		// box-shadow: 1px solid salmon;
 	}
 }
+
+input[type='file'] {
+	flex-grow: 1;
+}
+
+.variant1 {
+	width: 100%;
+	// box-sizing: border-box;
+	padding: 5px 0;
+	label {
+		display: block;
+		padding: 5px;
+		padding-left: 2px;
+		font-size: 1rem;
+	}
+
+	input {
+		font-size: 0.875rem;
+		padding: 10px;
+		width: 100% !important;
+		border-radius: 5px;
+	}
+
+	// &:{
+	// 	padding: 2px;
+	// }
+}

@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink, Link, useHistory, Redirect } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
-import useAuth from '../../../hooks/useAuth';
 import useDimension from '../../../hooks/useDimension';
 
+import LoginStatus from './main-header-sections/LoginStatus';
 import Cart from '../../cart/Cart';
 import Modal from '../../UI/modal/Modal';
-import Dropdown from '../../UI/dropdown/Dropdown.js';
 import InputField from '../../UI/input/InputField.js';
-import HeaderCartButton from './HeaderCartButton';
+import HeaderCartButton from './main-header-sections/HeaderCartButton';
 
 import classes from './MainHeader.module.scss';
 import Pic1 from '../../../assets/pictures/carousel/pic1.png';
@@ -21,9 +20,6 @@ const MainHeader = () => {
 
 	const history = useHistory();
 
-	const auth = useAuth();
-
-	// still not performant enough
 	const dimension = useDimension();
 
 	const toggleShowPinModal = () => {
@@ -92,24 +88,6 @@ const MainHeader = () => {
 		</div>
 	);
 
-	// * Below commented code for search bar but it doesn't factor in the compoenent change making
-	// * this unnecessary complicated for some reason
-	// const runner = (e) => {
-	// 	console.log(e.target.value);
-	// 	setSearchText(e.target.value);
-	// };
-
-	// const SearchBar = (props) => (
-	// 	<div className={classes[`search-bar`]}>
-	// 		<InputField
-	// 			type="text"
-	// 			value={searchText}
-	// 			onChange={props.onChange}
-	// 			onKeyUp={props.onKeyUp}
-	// 		/>
-	// 	</div>
-	// );
-
 	const SearchBtn = () => (
 		<div className={classes.searchbtn}>
 			<button onClick={handleSearchBtnClick}>
@@ -118,27 +96,8 @@ const MainHeader = () => {
 		</div>
 	);
 
-	const LoginStatus = () => (
-		<div
-			exact
-			// to="/login"
-			activeClassName={classes.active}
-			className={classes.login}
-		>
-			{auth.isAuthenticated ? (
-				<Dropdown defaultValue={`Hi ${auth.userInfo.name}`}>
-					<a href="/search?item='test'">test1</a>
-					<a href="#">test2</a>
-					<a href="#">test3</a>
-				</Dropdown>
-			) : (
-				<NavLink to="/login">Login/off</NavLink>
-			)}
-		</div>
-	);
-
 	const CartBtn = () => (
-		<NavLink
+		<button
 			to="#"
 			onClick={(e) => toggleShowCartModal()}
 			className={classes['cart-wrapper']}
@@ -150,7 +109,7 @@ const MainHeader = () => {
 				{/* <img src={Pic1} alt="dummy" /> */}
 				<Cart toggleShowModal={toggleShowCartModal} history={history} />
 			</Modal>
-		</NavLink>
+		</button>
 	);
 
 	// Maybe
@@ -166,6 +125,7 @@ const MainHeader = () => {
 				{/* <div>Width:{dimension.width}</div> */}
 				<Logo />
 				<Pin />
+				{/** //! Below div encapsulates the search bar along with its category and searchbtn as a whole  */}
 				<div className={classes['search-elem']}>
 					<div className={classes['outline-elem']}>
 						<Category />
@@ -180,7 +140,7 @@ const MainHeader = () => {
 						<SearchBtn />
 					</div>
 				</div>
-				<LoginStatus />
+				<LoginStatus classes={classes} />
 				<CartBtn />
 				{/* </div> */}
 			</nav>
@@ -189,3 +149,21 @@ const MainHeader = () => {
 };
 
 export default MainHeader;
+
+// * Below commented code for search bar but it doesn't factor in the compoenent change making
+// * this unnecessary complicated for some reason
+// const runner = (e) => {
+// 	console.log(e.target.value);
+// 	setSearchText(e.target.value);
+// };
+
+// const SearchBar = (props) => (
+// 	<div className={classes[`search-bar`]}>
+// 		<InputField
+// 			type="text"
+// 			value={searchText}
+// 			onChange={props.onChange}
+// 			onKeyUp={props.onKeyUp}
+// 		/>
+// 	</div>
+// );

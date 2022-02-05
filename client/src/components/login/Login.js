@@ -49,9 +49,10 @@ const Login = (props) => {
 		}
 	}, [history, auth.isAuthenticated, redirect]);
 
-	const validateForm = (email, password) => {
+	const validateForm = async (email, password) => {
 		const emailRE = EMAIL_VALIDATION_PATTERN;
-		const validEmail = emailRE.test(email);
+		// REGEX needs time to check the pattern so was causing strange bugs
+		const validEmail = await emailRE.test(email);
 
 		if (!validEmail) {
 			return false;
@@ -69,9 +70,9 @@ const Login = (props) => {
 		e.preventDefault();
 		await dispatch(authDefaultActions.resetAuthError());
 		setErrorMessage('');
-
 		// const formVal
-		if (validateForm(email, pass) === false) {
+		if (!validateForm(email, pass)) {
+			console.log('Checking this is working ifne');
 			setHasError(true);
 			setErrorMessage(ERROR_LOGIN_SUBMIT);
 			return false;
@@ -142,9 +143,9 @@ const Login = (props) => {
 							</div>
 						</div>
 						<div className={classes['link-cont']}>
-							<NavLink to="/user-register">New to kirana?</NavLink>
+							<NavLink to="/users/signup">New to kirana?</NavLink>
 							&nbsp;&nbsp;
-							<NavLink to="/reset-password">Forgot Password?</NavLink>
+							<NavLink to="/users/password">Forgot Password?</NavLink>
 						</div>
 
 						<div className={classes.check}>

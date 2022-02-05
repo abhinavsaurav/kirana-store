@@ -20,6 +20,7 @@ import {
 
 import DefaultPage from './components/DefaultPage';
 import Login from './components/login/Login';
+import Signup from './components/signup/Signup';
 import Layout from './components/Layout/Layout';
 import SearchPage from './components/search-page/SearchPage';
 
@@ -49,19 +50,22 @@ function App() {
 					 *  */}
 					<Layout>
 						<main>
-							<Switch>
-								<Route path="/" exact>
-									<DefaultPage />
-								</Route>
-								<Route path="/login" exact component={Login} />
-								<Route path="/search" exact>
-									<SearchPage />
-								</Route>
-								<Route path="/products/:id" exact component={ProductPage} />
-								<Route path="/">
-									<Redirect to="/" />
-								</Route>
-							</Switch>
+							<div className={classes['main-wrapper']}>
+								<Switch>
+									<Route path="/" exact>
+										<DefaultPage />
+									</Route>
+									<Route path="/login" exact component={Login} />
+									<Route path="/users/signup" component={Signup} />
+									<Route path="/search" exact>
+										<SearchPage />
+									</Route>
+									<Route path="/products/:id" exact component={ProductPage} />
+									<Route path="/">
+										<Redirect to="/" />
+									</Route>
+								</Switch>
+							</div>
 						</main>
 					</Layout>
 				</Router>

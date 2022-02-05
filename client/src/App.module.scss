@@ -6,6 +6,12 @@
 
 	main {
 		flex-grow: 1;
+
+		.main-wrapper {
+			margin: 0 auto;
+			display: flex;
+			justify-content: center;
+		}
 	}
 }
 

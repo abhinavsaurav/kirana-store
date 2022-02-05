@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
 //login user
 router.post('/login', async (req, res, next) => {
 	const { email, password } = req.body;
-	console.log(req.body);
+
 	try {
 		const user = await User.findByCredentials(email, password);
 
@@ -38,11 +38,14 @@ router.post('/login', async (req, res, next) => {
 // logout user
 router.post('/logout', authMiddleware, async (req, res, next) => {
 	try {
-		req.user = await req.user.tokens.filter((token) => token !== req.token);
+		req.user.tokens = await req.user.tokens.filter(
+			(tokens) => tokens.token !== req.token
+		);
+
 		await req.user.save();
 		res.send();
 	} catch (err) {
-		next();
+		next(err);
 	}
 });
 

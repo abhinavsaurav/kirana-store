@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login } from './authActions';
+import { login, logout } from './authActions';
 import { LOADING, IDLE, ERROR } from '../data/constants';
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -27,7 +27,6 @@ const authSlice = createSlice({
 			state.status = LOADING;
 		},
 		[login.fulfilled]: (state, action) => {
-			console.log(action.payload);
 			state.status = IDLE;
 			state.isAuthenticated = true;
 			state.userInfo = action.payload.user;
@@ -35,7 +34,19 @@ const authSlice = createSlice({
 		},
 		[login.rejected]: (state, action) => {
 			state.status = ERROR;
+			state.error = action.payload;
+		},
+		[logout.pending]: (state, action) => {
+			state.status = LOADING;
+		},
+		[logout.fulfilled]: (state, action) => {
+			state.status = IDLE;
 			state.isAuthenticated = false;
+			state.userInfo = {};
+			state.token = null;
+		},
+		[logout.rejected]: (state, action) => {
+			state.status = ERROR;
 			state.error = action.payload;
 		},
 	},
