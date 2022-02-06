@@ -1,9 +1,11 @@
 import { useReducer } from 'react';
 import CartContext from './CartContext';
 
+const localCartData = JSON.parse(localStorage.getItem('cartData'));
+
 const defaultCartState = {
-	items: [],
-	totalAmount: 0,
+	items: localCartData.items ?? [],
+	totalAmount: localCartData.amount ?? 0,
 };
 
 // This is a reducer for react hook (useReducer) to perform some action on the

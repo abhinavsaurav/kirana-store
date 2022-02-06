@@ -43,20 +43,13 @@ library.add(
 );
 
 function App() {
-	// const [loading, setLoading] = useState(true);
-	// const auth = useAuth();
-
 	useEffect(() => {
 		const elem = document.getElementById('pre-loader');
-		elem.remove();
-		clearInterval(window.timeoutId);
-	});
-	// 	return elem.removeEventListener('loading');
-	// }, []);
-
-	// if (loading) {
-	// 	return 'loading';
-	// }
+		if (elem) {
+			elem.remove();
+			clearInterval(window.timeoutId);
+		}
+	}, []);
 
 	return (
 		<div id="app" className={classes.App}>

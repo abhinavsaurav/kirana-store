@@ -1,9 +1,21 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import CartContext from '../../../../contexts/cart/CartContext';
 import HeaderCartIcon from '../../../UI/Icons/Cart/HeaderCartIcon';
 
 const HeaderCartButton = () => {
 	const cartCtx = useContext(CartContext);
+
+	// * Storing the cart details to localStorage.
+	// TODO: Need to modify it to dispatch a request to cart to db if logged in
+	useEffect(() => {
+		const data = {
+			items: cartCtx.items,
+			amount: cartCtx.totalAmount,
+		};
+		// storing this locally
+		localStorage.setItem('cartData', JSON.stringify(data));
+	}, [cartCtx.items, cartCtx.totalAmount]);
+
 	// console.log(cartCtx);
 	const noOfCartItems = cartCtx.items.reduce((curNumber, item) => {
 		// console.log(cartCtx);
