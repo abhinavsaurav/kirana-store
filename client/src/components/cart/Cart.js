@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import classes from './Cart.module.scss';
 import CartContext from '../../contexts/cart/CartContext';
 import CartItem from './CartItem';
@@ -6,6 +7,7 @@ import CartItem from './CartItem';
 // Cart will be displayed on the modal and below is the action just for that
 const Cart = (props) => {
 	const cartCtx = useContext(CartContext);
+	const history = useHistory();
 
 	const deleteBtnHandler = (id) => {
 		// console.log('delete btn clicked id:' + id);
@@ -23,6 +25,15 @@ const Cart = (props) => {
 		);
 	});
 
+	const handleCheckoutButtonClick = (toggleShowModal) => {
+		if (cartCtx.items.length === 0) {
+			console.log('Nothing in cart');
+			return;
+		}
+		history.push('/address-select');
+		toggleShowModal();
+	};
+
 	return (
 		<div className={classes['flex-wrapper']}>
 			<div className={classes.wrapper}>
@@ -38,7 +49,9 @@ const Cart = (props) => {
 					<span>{cartCtx.totalAmount.toFixed(2)}</span>
 				</div>
 				<div className={classes['checkout-btn']}>
-					<button>
+					<button
+						onClick={(e) => handleCheckoutButtonClick(props.toggleShowModal)}
+					>
 						<span>Proceed to Checkout</span>
 					</button>
 				</div>
