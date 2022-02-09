@@ -46,6 +46,9 @@ const authSlice = createSlice({
 			state.token = null;
 		},
 		[logout.rejected]: (state, action) => {
+			state.isAuthenticated = false;
+			state.userInfo = {};
+			state.token = null;
 			state.status = ERROR;
 			state.error = action.payload;
 		},

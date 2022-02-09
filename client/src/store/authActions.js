@@ -44,6 +44,7 @@ export const logout = createAsyncThunk(LOGOUT, async (token, thunkAPI) => {
 
 		return;
 	} catch (err) {
+		localStorage.removeItem('userInfo');
 		console.log(err);
 		if (!err.response) {
 			throw err;

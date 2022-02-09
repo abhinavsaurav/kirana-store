@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
 import { logout } from '../../../../store/authActions';
 import Dropdown from '../../../UI/dropdown/Dropdown.js';
@@ -8,16 +8,16 @@ const LoginStatus = ({ classes }) => {
 	const auth = useAuth();
 	const dispatch = useDispatch();
 	const history = useHistory();
-	const location = useLocation();
+	// const location = useLocation();
 
 	const actionDispatcher = async (e) => {
 		e.preventDefault();
 		console.log('firing');
 		await dispatch(logout(auth.token));
 
-		if (location.pathname !== '/') {
-			history.push('/');
-		}
+		// if (location.pathname !== '/') {
+		history.push('/login');
+		// }
 	};
 
 	return (
