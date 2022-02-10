@@ -9,6 +9,7 @@ const {
 require('./config/db');
 const userRouter = require('./routes/user');
 const productRouter = require('./routes/product');
+const cartRouter = require('./routes/cart');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRouter);
 app.use('/products', productRouter);
+app.use('/carts/', cartRouter);
 
 app.use(routeNotFound);
 app.use(errorHandler);

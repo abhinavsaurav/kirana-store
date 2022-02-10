@@ -3,7 +3,7 @@ const User = require('../src/models/user');
 
 const authMiddleware = async (req, res, next) => {
 	try {
-		console.log(req.headers.authorization);
+		// console.log(req.headers.authorization);
 		if (!req.headers.authorization) {
 			throw new Error('Please authenticate');
 		}
