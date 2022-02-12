@@ -1,5 +1,8 @@
 import { useReducer } from 'react';
 import CartContext from './CartContext';
+import useAuth from '../../hooks/useAuth';
+import { useDispatch } from 'react-redux';
+import kiranaAPI from '../../apis/kiranaAPI';
 
 const localCartData = JSON.parse(localStorage.getItem('cartData'));
 
@@ -17,7 +20,7 @@ const cartReducer = (state, action) => {
 		const updatedTotalAmount =
 			state.totalAmount + +action.item.price * action.item.amount;
 
-		// ! ######### Carefull its _id from the state data ########## !
+		// ######### Carefull its _id from the state data ########## !
 
 		const itemPresentInCartIndex = state.items.findIndex(
 			(item) => item.id === action.item.id
@@ -74,11 +77,30 @@ const cartReducer = (state, action) => {
 			totalAmount: updatedTotalAmount,
 		};
 	}
+
+	if (action.type === 'RESET_CART') {
+		return {
+			items: [],
+			totalAmount: 0,
+		};
+	}
+
+	if (action.type === 'UPDATE_CART_ITEMS') {
+		// either do this or add using the add action type
+		return {};
+	}
+
+	if (action.type === 'REPLACE_CART') {
+		return state;
+	}
 };
 
 // NOTE: Context Provider for Cart
 // It allows consuming components to subscribe to context changes.
 const CartProvider = (props) => {
+	const auth = useAuth();
+	const dispatch = useDispatch();
+
 	const [cartState, dispatchCartActions] = useReducer(
 		cartReducer,
 		defaultCartState
@@ -87,13 +109,55 @@ const CartProvider = (props) => {
 	const addItemToCartHandler = (item) => {
 		// adding id
 		item['id'] = item['_id'];
+		item['qty'] = item['amount'];
 		//deleting _id
 		delete item['_id'];
+		delete item['amount'];
+
 		dispatchCartActions({ type: 'ADD', item });
 	};
 
 	const removeItemFromCartHandler = (id) => {
 		dispatchCartActions({ type: 'REMOVE', id });
+	};
+
+	const getItemsFromDBToCartHandler = async () => {
+		if (auth.isAuthenticated) {
+			const response = await kiranaAPI.get('/carts/me', {
+				token: auth.token,
+			});
+
+			console.log(response.data);
+
+			dispatch({ type: 'REPLACE_CART', data: response.data });
+		}
+	};
+
+	const updateItemsFromCartHandler = async (items, totalAmount) => {
+		console.log('Is this even working bro?');
+		if (auth.isAuthenticated) {
+			console.log('im firing here bro');
+			console.log(auth.token);
+			const response = await kiranaAPI.post(
+				'/carts/me',
+				{
+					cartItems: items,
+					amount: totalAmount,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${auth.token}`,
+					},
+				}
+			);
+			console.log(response.data);
+
+			dispatch({ type: 'REPLACE_CART', data: response.data });
+		}
+	};
+
+	const resetItemsFromCartHandler = (id) => {
+		dispatchCartActions({ type: 'RESET_CART' });
 	};
 
 	// * this takes in two functions responsible for modifying the cart
@@ -105,6 +169,9 @@ const CartProvider = (props) => {
 		totalAmount: cartState.totalAmount,
 		addItem: addItemToCartHandler,
 		removeItem: removeItemFromCartHandler,
+		getItemsFromDB: getItemsFromDBToCartHandler,
+		updateItems: updateItemsFromCartHandler,
+		resetItems: resetItemsFromCartHandler,
 	};
 
 	return (

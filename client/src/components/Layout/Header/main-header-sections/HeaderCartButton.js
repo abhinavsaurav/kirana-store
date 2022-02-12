@@ -1,8 +1,10 @@
 import { useContext, useEffect } from 'react';
 import CartContext from '../../../../contexts/cart/CartContext';
 import HeaderCartIcon from '../../../UI/Icons/Cart/HeaderCartIcon';
+import useAuth from '../../../../hooks/useAuth';
 
 const HeaderCartButton = () => {
+	const auth = useAuth();
 	const cartCtx = useContext(CartContext);
 
 	// * Storing the cart details to localStorage.
@@ -15,6 +17,12 @@ const HeaderCartButton = () => {
 		// storing this locally
 		localStorage.setItem('cartData', JSON.stringify(data));
 	}, [cartCtx.items, cartCtx.totalAmount]);
+
+	useEffect(() => {
+		if (auth.isAuthenticated) {
+			cartCtx.updateItems(cartCtx.items, cartCtx.totalAmount);
+		}
+	}, [auth.isAuthenticated, cartCtx.items, cartCtx.totalAmount]);
 
 	// console.log(cartCtx);
 	const noOfCartItems = cartCtx.items.reduce((curNumber, item) => {

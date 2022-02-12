@@ -14,6 +14,41 @@ router.get('/me', authMiddleware, cartMiddleware, (req, res, next) => {
 	}
 });
 
+router.post('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
+	try {
+		const cartObject = req.cart.toObject();
+
+		console.log(cartObject);
+
+		const data = req.body.cartItems;
+
+		if (cartObject.cartItems.length === 0) {
+			data.concat(cartObject.cartItems);
+			// console.log(data);
+			// req.cart.cartItems.concat(req.body.cartItems);
+			// req.cart.amount += +req.body.amount;
+
+			req.cart.cartItems = data;
+			req.cart.amount += +req.body.amount;
+
+			console.log('----------');
+			// await req.cart.save();
+		} else {
+		}
+		// data.map(obj => {
+		// 	obj.id.
+		// })
+
+		console.log('----------');
+
+		await req.cart.save();
+		res.send(req.cart);
+		// console.log(cartObject);
+	} catch (err) {
+		next(err);
+	}
+});
+
 // For performing update request on the cart
 router.patch('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
 	const allowedUpdates = ['cartItems', 'totalAmount'];
