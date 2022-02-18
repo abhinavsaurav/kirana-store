@@ -43,6 +43,7 @@ library.add(
 );
 
 function App() {
+	// * For removing the intial pre-loading screen
 	useEffect(() => {
 		const elem = document.getElementById('pre-loader');
 		if (elem) {

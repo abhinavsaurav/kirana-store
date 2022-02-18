@@ -46,7 +46,7 @@ const Cart = (props) => {
 			<div className={classes['checkout-wrapper']}>
 				<div className={classes['total-price']}>
 					<span className={classes.first}>Total Price:</span>
-					<span>{cartCtx.totalAmount.toFixed(2)}</span>
+					<span>{cartCtx.totalPrice.toFixed(2)}</span>
 				</div>
 				<div className={classes['checkout-btn']}>
 					<button

@@ -10,7 +10,7 @@ const LoginStatus = ({ classes }) => {
 	const history = useHistory();
 	// const location = useLocation();
 
-	const actionDispatcher = async (e) => {
+	const logoutDispatcher = async (e) => {
 		e.preventDefault();
 		console.log('firing');
 		await dispatch(logout(auth.token));
@@ -30,7 +30,7 @@ const LoginStatus = ({ classes }) => {
 			{auth.isAuthenticated ? (
 				<Dropdown defaultValue={`Hi ${auth.userInfo.name}`}>
 					<a href="/search?item='test'">My profile</a>
-					<a href="#" onClick={actionDispatcher}>
+					<a href="#" onClick={logoutDispatcher}>
 						Log out
 					</a>
 					{/* <a href="#">test3</a> */}
