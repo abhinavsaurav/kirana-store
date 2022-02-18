@@ -2,6 +2,7 @@ const express = require('express');
 const authMiddleware = require('../../middleware/authMiddleware');
 const cartMiddleware = require('../../middleware/cartMiddleware');
 const Cart = require('../models/cart');
+const chalk = require('chalk');
 
 const router = express.Router();
 
@@ -16,34 +17,47 @@ router.get('/me', authMiddleware, cartMiddleware, (req, res, next) => {
 
 router.post('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
 	try {
-		const cartObject = req.cart.toObject();
+		// TODO MAYBE REMOVE THE BELOW LINE IF FRONTEND CHANGES ARE MADE
 
-		console.log(cartObject);
-
+		req.body.cartItems.forEach((item) => {
+			if (item.amount) {
+				item.qty = item.amount;
+			}
+		});
 		const data = req.body.cartItems;
 
-		if (cartObject.cartItems.length === 0) {
-			data.concat(cartObject.cartItems);
-			// console.log(data);
-			// req.cart.cartItems.concat(req.body.cartItems);
-			// req.cart.amount += +req.body.amount;
-
+		if (req.cart.cartItems.length === 0) {
+			// * When cart is empty on login and there are cartItems
 			req.cart.cartItems = data;
-			req.cart.amount += +req.body.amount;
-
-			console.log('----------');
-			// await req.cart.save();
 		} else {
-		}
-		// data.map(obj => {
-		// 	obj.id.
-		// })
+			console.log(chalk.inverse.yellow(req.cart));
+			console.log(req.body.cartItems);
 
-		console.log('----------');
+			// * Cart items when there
+			// ! Need to improve time complexity here or atleast use the for loop instead of foreach
+			req.cart.cartItems.forEach((item) => {
+				req.body.cartItems.forEach((newItem) => {
+					// console.log(newItem);
+					if (newItem.id === item.id.toString()) {
+						item.qty += +newItem.qty;
+					}
+				});
+			});
+		}
+
+		// * calculating the total amount
+		const initialVal = 0;
+		const totalAmount = await req.cart.cartItems.reduce(
+			(currentVal, item) =>
+				currentVal + parseInt(item.qty) * parseFloat(item.price),
+			initialVal
+		);
+
+		req.cart.totalAmount = parseFloat(totalAmount);
 
 		await req.cart.save();
+
 		res.send(req.cart);
-		// console.log(cartObject);
 	} catch (err) {
 		next(err);
 	}
