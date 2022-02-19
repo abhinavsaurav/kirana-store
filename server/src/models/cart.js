@@ -7,7 +7,12 @@ const cartSchema = new mongoose.Schema(
 			required: true,
 			ref: 'User', // Linking the cart to the user
 		},
-		totalAmount: {
+		totalPrice: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
+		totalQty: {
 			type: Number,
 			required: true,
 			default: 0.0,
@@ -23,7 +28,7 @@ const cartSchema = new mongoose.Schema(
 					type: String,
 					required: true,
 				},
-				qty: { type: Number, required: true },
+				qty: { type: Number, required: true }, // this refers to qty
 				image: { type: String, required: true }, // Storing the image as a string for now
 				altImage: [
 					{

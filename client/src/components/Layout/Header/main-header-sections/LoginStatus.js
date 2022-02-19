@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import CartContext from '../../../../contexts/cart/CartContext';
 import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
@@ -8,13 +10,15 @@ const LoginStatus = ({ classes }) => {
 	const auth = useAuth();
 	const dispatch = useDispatch();
 	const history = useHistory();
+	const cartCtx = useContext(CartContext);
 	// const location = useLocation();
 
 	const logoutDispatcher = async (e) => {
 		e.preventDefault();
 		console.log('firing');
 		await dispatch(logout(auth.token));
-
+		await cartCtx.resetItems();
+		localStorage.removeItem('cartData');
 		// if (location.pathname !== '/') {
 		history.push('/login');
 		// }

@@ -7,8 +7,10 @@ import kiranaAPI from '../../apis/kiranaAPI';
 const localCartData = JSON.parse(localStorage.getItem('cartData'));
 
 const defaultCartState = {
-	items: localCartData.items ?? [],
-	totalAmount: localCartData.amount ?? 0,
+	items: localCartData && localCartData.items ? localCartData.items : [],
+	totalAmount: localCartData && localCartData.amount ? localCartData.amount : 0,
+	totalPrice:
+		localCartData && localCartData.totalPrice ? localCartData.totalPrice : 0, // NEEDS TO BE IMPLEMENTED
 };
 
 // This is a reducer for react hook (useReducer) to perform some action on the
@@ -17,27 +19,37 @@ const cartReducer = (state, action) => {
 	// ! because we are passing a object below {type and item } item is coming from the adding cart btn
 
 	if (action.type === 'ADD') {
-		const updatedTotalAmount =
-			state.totalAmount + +action.item.price * action.item.amount;
+		// console.log(
+		// 	state.totalAmount +
+		// 		' --  ' +
+		// 		action.item.price +
+		// 		' - -  ' +
+		// 		action.item.qty
+		// );
+		// console.log(action.item);
+		// This is updatedTotalPrice
+		const updatedTotalPrice =
+			state.totalPrice + +action.item.price * action.item.qty;
+		console.log(updatedTotalPrice);
 
 		// ######### Carefull its _id from the state data ########## !
 
 		const itemPresentInCartIndex = state.items.findIndex(
 			(item) => item.id === action.item.id
 		);
-		console.log(itemPresentInCartIndex);
+		// console.log(itemPresentInCartIndex);
 		const itemToBeUpdated = state.items[itemPresentInCartIndex];
 		// console.log(itemToBeUpdated);
 		let updatedItems;
 
 		if (itemToBeUpdated) {
 			console.log('Im reaching here');
-			console.log(itemPresentInCartIndex);
+			// console.log(itemPresentInCartIndex);
 			console.log(itemToBeUpdated);
 			// updating the item price if the item exist by cumulating the price
 			const updatedItem = {
 				...itemToBeUpdated,
-				amount: itemToBeUpdated.amount + action.item.amount,
+				qty: itemToBeUpdated.qty + action.item.qty,
 			};
 
 			// getting all the item from the previous state and then updating the specific item
@@ -50,7 +62,7 @@ const cartReducer = (state, action) => {
 
 		return {
 			items: updatedItems,
-			totalAmount: updatedTotalAmount,
+			totalPrice: updatedTotalPrice,
 		};
 	}
 
@@ -63,9 +75,8 @@ const cartReducer = (state, action) => {
 		const cartItemToBeUpdated = state.items[existingCartItemIndex];
 
 		// currently removing the entire item. So, full price of the item
-		const updatedTotalAmount =
-			state.totalAmount -
-			cartItemToBeUpdated.price * cartItemToBeUpdated.amount;
+		const updatedTotalPrice =
+			state.totalPrice - cartItemToBeUpdated.price * cartItemToBeUpdated.qty;
 
 		// filtering the item out
 		const updatedItemsArray = state.items.filter(
@@ -74,20 +85,22 @@ const cartReducer = (state, action) => {
 
 		return {
 			items: updatedItemsArray,
-			totalAmount: updatedTotalAmount,
+			totalPrice: updatedTotalPrice,
 		};
 	}
 
 	if (action.type === 'RESET_CART') {
 		return {
 			items: [],
-			totalAmount: 0,
+			totalPrice: 0,
 		};
 	}
 
-	if (action.type === 'UPDATE_CART_ITEMS') {
+	if (action.type === 'UPDATED_CART_DATA_FROM_DB') {
 		// either do this or add using the add action type
-		return {};
+		console.log(action.data);
+		// console.log(action);
+		return { items: action.data.cartItems, totalPrice: action.data.totalPrice };
 	}
 
 	if (action.type === 'REPLACE_CART') {
@@ -109,10 +122,10 @@ const CartProvider = (props) => {
 	const addItemToCartHandler = (item) => {
 		// adding id
 		item['id'] = item['_id'];
-		item['qty'] = item['amount'];
+		// item['qty'] = item['amount'];
 		//deleting _id
 		delete item['_id'];
-		delete item['amount'];
+		// delete item['amount'];
 
 		dispatchCartActions({ type: 'ADD', item });
 	};
@@ -129,20 +142,21 @@ const CartProvider = (props) => {
 
 			console.log(response.data);
 
-			dispatch({ type: 'REPLACE_CART', data: response.data });
+			dispatchCartActions({ type: 'REPLACE_CART', data: response.data });
 		}
 	};
 
-	const updateItemsFromCartHandler = async (items, totalAmount) => {
+	const updateItemsFromCartHandler = async (items, totalPrice) => {
 		console.log('Is this even working bro?');
 		if (auth.isAuthenticated) {
-			console.log('im firing here bro');
-			console.log(auth.token);
+			// console.log('im firing here bro');
+			// console.log(auth.token);
+			// * DB REQUEST TO MERGE ITEMS FROM CART
 			const response = await kiranaAPI.post(
 				'/carts/me',
 				{
 					cartItems: items,
-					amount: totalAmount,
+					amount: totalPrice,
 				},
 				{
 					headers: {
@@ -152,11 +166,19 @@ const CartProvider = (props) => {
 			);
 			console.log(response.data);
 
-			dispatch({ type: 'REPLACE_CART', data: response.data });
+			// if (response.data.cartItems && response.data.cartItems.length > 0) {
+			// 	response.data.cartItems.forEach((item) => (item.amount = item.qty));
+			// }
+			console.log(response.data.cartItems);
+
+			await dispatchCartActions({
+				type: 'UPDATED_CART_DATA_FROM_DB',
+				data: response.data,
+			});
 		}
 	};
 
-	const resetItemsFromCartHandler = (id) => {
+	const resetItemsFromCartHandler = () => {
 		dispatchCartActions({ type: 'RESET_CART' });
 	};
 
@@ -166,6 +188,7 @@ const CartProvider = (props) => {
 	// * the value
 	const cartContext = {
 		items: cartState.items,
+		totalPrice: cartState.totalPrice,
 		totalAmount: cartState.totalAmount,
 		addItem: addItemToCartHandler,
 		removeItem: removeItemFromCartHandler,

@@ -9,25 +9,21 @@ const HeaderCartButton = () => {
 
 	// * Storing the cart details to localStorage.
 	// TODO: Need to modify it to dispatch a request to cart to db if logged in
+
 	useEffect(() => {
 		const data = {
 			items: cartCtx.items,
-			amount: cartCtx.totalAmount,
+			totalPrice: cartCtx.totalPrice,
 		};
 		// storing this locally
 		localStorage.setItem('cartData', JSON.stringify(data));
-	}, [cartCtx.items, cartCtx.totalAmount]);
-
-	useEffect(() => {
-		if (auth.isAuthenticated) {
-			cartCtx.updateItems(cartCtx.items, cartCtx.totalAmount);
-		}
-	}, [auth.isAuthenticated, cartCtx.items, cartCtx.totalAmount]);
+	}, [auth.isAuthenticated, cartCtx.items, cartCtx.totalPrice]);
 
 	// console.log(cartCtx);
 	const noOfCartItems = cartCtx.items.reduce((curNumber, item) => {
-		// console.log(cartCtx);
-		return curNumber + item.amount;
+		console.log(cartCtx);
+		const quantity = item.amount ?? item.qty;
+		return curNumber + quantity;
 	}, 0);
 
 	return (

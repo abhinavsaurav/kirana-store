@@ -17,44 +17,58 @@ router.get('/me', authMiddleware, cartMiddleware, (req, res, next) => {
 
 router.post('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
 	try {
+		console.log(req.body);
+
 		// TODO MAYBE REMOVE THE BELOW LINE IF FRONTEND CHANGES ARE MADE
 
-		req.body.cartItems.forEach((item) => {
-			if (item.amount) {
-				item.qty = item.amount;
-			}
-		});
+		// req.body.cartItems.forEach((item) => {
+		// 	if (item.amount) {
+		// 		item.qty = item.amount;
+		// 	}
+		// });
 		const data = req.body.cartItems;
 
 		if (req.cart.cartItems.length === 0) {
 			// * When cart is empty on login and there are cartItems
 			req.cart.cartItems = data;
 		} else {
-			console.log(chalk.inverse.yellow(req.cart));
-			console.log(req.body.cartItems);
+			// console.log(chalk.inverse.yellow(req.cart));
+			// console.log(req.body.cartItems);
 
 			// * Cart items when there
 			// ! Need to improve time complexity here or atleast use the for loop instead of foreach
-			req.cart.cartItems.forEach((item) => {
-				req.body.cartItems.forEach((newItem) => {
-					// console.log(newItem);
+			req.body.cartItems.forEach((newItem) => {
+				let flag = false;
+				req.cart.cartItems.forEach((item) => {
+					// console.log(item.qty + ' ' + newItem.qty);
 					if (newItem.id === item.id.toString()) {
+						flag = true;
 						item.qty += +newItem.qty;
 					}
 				});
+
+				if (!flag) {
+					req.cart.cartItems.push(newItem);
+				}
 			});
 		}
 
-		// * calculating the total amount
+		// * calculating the total quantity for the user
 		const initialVal = 0;
-		const totalAmount = await req.cart.cartItems.reduce(
+		const totalPrice = await req.cart.cartItems.reduce(
 			(currentVal, item) =>
 				currentVal + parseInt(item.qty) * parseFloat(item.price),
 			initialVal
 		);
 
-		req.cart.totalAmount = parseFloat(totalAmount);
+		// * Calculating the total price for the user
+		const totalQty = await req.cart.cartItems.reduce(
+			(currentVal, item) => currentVal + parseInt(item.qty),
+			initialVal
+		);
 
+		req.cart.totalQty = parseFloat(totalQty);
+		req.cart.totalPrice = parseFloat(totalPrice);
 		await req.cart.save();
 
 		res.send(req.cart);
