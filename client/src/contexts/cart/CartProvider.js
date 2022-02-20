@@ -1,7 +1,6 @@
 import { useReducer } from 'react';
 import CartContext from './CartContext';
 import useAuth from '../../hooks/useAuth';
-import { useDispatch } from 'react-redux';
 import kiranaAPI from '../../apis/kiranaAPI';
 
 const localCartData = JSON.parse(localStorage.getItem('cartData'));
@@ -19,23 +18,15 @@ const cartReducer = (state, action) => {
 	// ! because we are passing a object below {type and item } item is coming from the adding cart btn
 
 	if (action.type === 'ADD') {
-		// console.log(
-		// 	state.totalAmount +
-		// 		' --  ' +
-		// 		action.item.price +
-		// 		' - -  ' +
-		// 		action.item.qty
-		// );
-		// console.log(action.item);
 		// This is updatedTotalPrice
 		const updatedTotalPrice =
 			state.totalPrice + +action.item.price * action.item.qty;
-		console.log(updatedTotalPrice);
+		// console.log(updatedTotalPrice);
 
 		// ######### Carefull its _id from the state data ########## !
 
 		const itemPresentInCartIndex = state.items.findIndex(
-			(item) => item.id === action.item.id
+			(item) => item.id._id === action.item.id || item.id === action.item.id
 		);
 		// console.log(itemPresentInCartIndex);
 		const itemToBeUpdated = state.items[itemPresentInCartIndex];
@@ -43,9 +34,9 @@ const cartReducer = (state, action) => {
 		let updatedItems;
 
 		if (itemToBeUpdated) {
-			console.log('Im reaching here');
+			// console.log('Im reaching here');
 			// console.log(itemPresentInCartIndex);
-			console.log(itemToBeUpdated);
+			// console.log(itemToBeUpdated);
 			// updating the item price if the item exist by cumulating the price
 			const updatedItem = {
 				...itemToBeUpdated,
@@ -68,8 +59,9 @@ const cartReducer = (state, action) => {
 
 	if (action.type === 'REMOVE') {
 		// console.log('Inside the delete reducer ');
+		console.log(state.items);
 		const existingCartItemIndex = state.items.findIndex(
-			(item) => item.id === action.id
+			(item) => item.id._id === action.id || item.id === action.id
 		);
 
 		const cartItemToBeUpdated = state.items[existingCartItemIndex];
@@ -79,9 +71,16 @@ const cartReducer = (state, action) => {
 			state.totalPrice - cartItemToBeUpdated.price * cartItemToBeUpdated.qty;
 
 		// filtering the item out
-		const updatedItemsArray = state.items.filter(
-			(item) => item.id !== action.id
-		);
+
+		const updatedItemsArray = state.items.filter((item) => {
+			if (typeof item.id === 'object' && item.id._id === action.id) {
+				return;
+			} else if (item.id === action.id) {
+				return;
+			}
+
+			return item;
+		});
 
 		return {
 			items: updatedItemsArray,
@@ -112,7 +111,6 @@ const cartReducer = (state, action) => {
 // It allows consuming components to subscribe to context changes.
 const CartProvider = (props) => {
 	const auth = useAuth();
-	const dispatch = useDispatch();
 
 	const [cartState, dispatchCartActions] = useReducer(
 		cartReducer,
@@ -120,6 +118,7 @@ const CartProvider = (props) => {
 	);
 
 	const addItemToCartHandler = (item) => {
+		console.log(item);
 		// adding id
 		item['id'] = item['_id'];
 		// item['qty'] = item['amount'];

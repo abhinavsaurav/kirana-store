@@ -7,13 +7,18 @@ const CartItem = ({
 	countInStock,
 	price,
 	qty,
-	deleteBtnHandler,
+	handleItemDelete,
 	history,
 	toggleShowModal,
 }) => {
-	console.log(countInStock + '  ' + qty);
+	if (typeof id === 'object') {
+		countInStock = id.countInStock;
+	}
 
-	const linkClickHandler = (e) => {
+	console.log(countInStock + '  ' + qty);
+	console.log(id);
+
+	const linkOnClickHandler = (e) => {
 		e.preventDefault();
 		console.log('I am printing');
 		toggleShowModal();
@@ -29,7 +34,7 @@ const CartItem = ({
 				<ul>
 					<li className={classes.name}>
 						<span>
-							<Link to={'#'} onClick={linkClickHandler}>
+							<Link to={'#'} onClick={linkOnClickHandler}>
 								{name}
 							</Link>
 						</span>
@@ -45,7 +50,7 @@ const CartItem = ({
 					<span>{qty}</span>
 					<span>{`|`}</span>
 					<span>
-						<button onClick={() => deleteBtnHandler(id)}>Delete</button>
+						<button onClick={() => handleItemDelete(id)}>Delete</button>
 					</span>
 				</p>
 			</div>

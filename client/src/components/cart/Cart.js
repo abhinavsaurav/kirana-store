@@ -9,23 +9,27 @@ const Cart = (props) => {
 	const cartCtx = useContext(CartContext);
 	const history = useHistory();
 
-	const deleteBtnHandler = (id) => {
-		// console.log('delete btn clicked id:' + id);
-		cartCtx.removeItem(id);
+	const handleItemDelete = (id) => {
+		// Since Id will be populated handling its case when its a object and when its not
+		let productId = id;
+		if (typeof id === 'object') {
+			productId = id._id;
+		}
+		cartCtx.removeItem(productId);
 	};
 
 	const cartItemsList = cartCtx.items.map((item) => {
 		return (
 			<CartItem
-				key={item.id}
+				key={item._id}
 				{...props}
 				{...item}
-				deleteBtnHandler={deleteBtnHandler}
+				handleItemDelete={handleItemDelete}
 			/>
 		);
 	});
 
-	const handleCheckoutButtonClick = (toggleShowModal) => {
+	const handleCheckout = (toggleShowModal) => {
 		if (cartCtx.items.length === 0) {
 			console.log('Nothing in cart');
 			return;
@@ -49,9 +53,7 @@ const Cart = (props) => {
 					<span>{cartCtx.totalPrice.toFixed(2)}</span>
 				</div>
 				<div className={classes['checkout-btn']}>
-					<button
-						onClick={(e) => handleCheckoutButtonClick(props.toggleShowModal)}
-					>
+					<button onClick={(e) => handleCheckout(props.toggleShowModal)}>
 						<span>Proceed to Checkout</span>
 					</button>
 				</div>

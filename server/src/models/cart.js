@@ -58,6 +58,22 @@ const cartSchema = new mongoose.Schema(
 	}
 );
 
+cartSchema.statics.findItemQuantity = async function (owner) {
+	const items = await Cart.findOne({ owner });
+	console.log(items);
+	const populatedItems = await items.populate(
+		'cartItems.id',
+		'_id price countInStock' // selecting value here if there was subdocuments we could do like this {path:'cartItems.id',model:'Product',select:'_id price countInStock'}
+	);
+	console.log('I am here' + populatedItems);
+
+	// Fetching the latest price of the cart item
+	populatedItems.cartItems.forEach((item) => (item.price = item.id.price));
+
+	return populatedItems;
+	// cartItem.forEach()
+};
+
 cartSchema.statics.findCartByUserId = async function (owner) {
 	const cart = Cart.findOne({ owner });
 

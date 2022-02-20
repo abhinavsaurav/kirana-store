@@ -19,13 +19,13 @@ router.post('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
 	try {
 		console.log(req.body);
 
-		// TODO MAYBE REMOVE THE BELOW LINE IF FRONTEND CHANGES ARE MADE
+		// // TODO MAYBE REMOVE THE BELOW LINE IF FRONTEND CHANGES ARE MADE
+		// // req.body.cartItems.forEach((item) => {
+		// // 	if (item.amount) {
+		// // 		item.qty = item.amount;
+		// // 	}
+		// // });
 
-		// req.body.cartItems.forEach((item) => {
-		// 	if (item.amount) {
-		// 		item.qty = item.amount;
-		// 	}
-		// });
 		const data = req.body.cartItems;
 
 		if (req.cart.cartItems.length === 0) {
@@ -53,50 +53,63 @@ router.post('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
 			});
 		}
 
+		// console.log('reaching here');
+		const populatedData = await Cart.findItemQuantity(req.cart.owner);
+		// console.log('reaching here 2');
+		// console.log(populatedData);
+
 		// * calculating the total quantity for the user
 		const initialVal = 0;
-		const totalPrice = await req.cart.cartItems.reduce(
+		const totalPrice = await populatedData.cartItems.reduce(
 			(currentVal, item) =>
 				currentVal + parseInt(item.qty) * parseFloat(item.price),
 			initialVal
 		);
 
 		// * Calculating the total price for the user
-		const totalQty = await req.cart.cartItems.reduce(
+		const totalQty = await populatedData.cartItems.reduce(
 			(currentVal, item) => currentVal + parseInt(item.qty),
 			initialVal
 		);
 
-		req.cart.totalQty = parseFloat(totalQty);
-		req.cart.totalPrice = parseFloat(totalPrice);
-		await req.cart.save();
+		populatedData.totalQty = parseFloat(totalQty);
+		populatedData.totalPrice = parseFloat(totalPrice);
+		await populatedData.save();
 
-		res.send(req.cart);
+		res.send(populatedData);
 	} catch (err) {
 		next(err);
 	}
 });
 
-// For performing update request on the cart
-router.patch('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
-	const allowedUpdates = ['cartItems', 'totalAmount'];
-	const updateKeys = Object.keys(req.body);
-	const updateAllowed = updateKeys.every((key) => allowedUpdates.includes(key));
+// For performing update request on the cart items
+// TODO For performing a request to cart item
+router.patch(
+	'/me/:itemid',
+	authMiddleware,
+	cartMiddleware,
+	async (req, res, next) => {
+		const allowedUpdates = ['cartItems', 'totalAmount'];
+		const updateKeys = Object.keys(req.body);
+		const updateAllowed = updateKeys.every((key) =>
+			allowedUpdates.includes(key)
+		);
 
-	if (!updateAllowed) {
-		return res.status(400).send({ error: 'invalid update or req' });
+		if (!updateAllowed) {
+			return res.status(400).send({ error: 'invalid update or req' });
+		}
+
+		try {
+			updateKeys.forEach((key) => (req.cart[key] = req.body[key]));
+			await req.cart.save();
+
+			res.send(req.cart);
+		} catch (err) {
+			req.status(401);
+			next(err);
+		}
 	}
-
-	try {
-		updateKeys.forEach((key) => (req.cart[key] = req.body[key]));
-		await req.cart.save();
-
-		res.send(req.cart);
-	} catch (err) {
-		req.status(401);
-		next(err);
-	}
-});
+);
 
 // TODO Probably will be used by the ADMIN to see the cart items of a user
 // BUt currently its just returning the cart data based off of the id
