@@ -6,14 +6,19 @@ const CartItem = ({
 	image,
 	countInStock,
 	price,
-	amount,
-	deleteBtnHandler,
+	qty,
+	handleItemDelete,
 	history,
 	toggleShowModal,
 }) => {
-	// console.log(countInStock + '  ' + amount);
+	if (typeof id === 'object') {
+		countInStock = id.countInStock;
+	}
 
-	const linkClickHandler = (e) => {
+	console.log(countInStock + '  ' + qty);
+	console.log(id);
+
+	const linkOnClickHandler = (e) => {
 		e.preventDefault();
 		console.log('I am printing');
 		toggleShowModal();
@@ -29,27 +34,23 @@ const CartItem = ({
 				<ul>
 					<li className={classes.name}>
 						<span>
-							<Link to={'#'} onClick={linkClickHandler}>
+							<Link to={'#'} onClick={linkOnClickHandler}>
 								{name}
 							</Link>
 						</span>
 					</li>
 
-					<li
-						className={+countInStock >= +amount ? classes.green : classes.red}
-					>
-						<span>
-							{+countInStock >= +amount ? 'In Stock' : 'Out Of Stock'}
-						</span>
+					<li className={+countInStock >= +qty ? classes.green : classes.red}>
+						<span>{+countInStock >= +qty ? 'In Stock' : 'Out Of Stock'}</span>
 					</li>
 					<li className={classes.dummy}></li>
 				</ul>
 				<p className={classes['quant-delete']}>
 					<span>Quantity: </span>
-					<span>{amount}</span>
+					<span>{qty}</span>
 					<span>{`|`}</span>
 					<span>
-						<button onClick={() => deleteBtnHandler(id)}>Delete</button>
+						<button onClick={() => handleItemDelete(id)}>Delete</button>
 					</span>
 				</p>
 			</div>

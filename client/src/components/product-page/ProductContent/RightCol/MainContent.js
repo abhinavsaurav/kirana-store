@@ -17,10 +17,10 @@ const MainContent = ({ data }) => {
 	const [cartItemQuantity, setCartItemQuantity] = useState(1);
 
 	const addToCartHandler = (e, check) => {
-		console.log('hi' + data);
+		console.log('hi', data);
 		console.log(+cartItemQuantity);
 
-		cartCtx.addItem({ ...data, amount: +cartItemQuantity });
+		cartCtx.addItem({ ...data, qty: +cartItemQuantity }); // changed from amount to qty
 	};
 
 	return (

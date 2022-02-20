@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import classes from './Cart.module.scss';
 import CartContext from '../../contexts/cart/CartContext';
 import CartItem from './CartItem';
@@ -6,22 +7,36 @@ import CartItem from './CartItem';
 // Cart will be displayed on the modal and below is the action just for that
 const Cart = (props) => {
 	const cartCtx = useContext(CartContext);
+	const history = useHistory();
 
-	const deleteBtnHandler = (id) => {
-		// console.log('delete btn clicked id:' + id);
-		cartCtx.removeItem(id);
+	const handleItemDelete = (id) => {
+		// Since Id will be populated handling its case when its a object and when its not
+		let productId = id;
+		if (typeof id === 'object') {
+			productId = id._id;
+		}
+		cartCtx.removeItem(productId);
 	};
 
 	const cartItemsList = cartCtx.items.map((item) => {
 		return (
 			<CartItem
-				key={item.id}
+				key={item._id}
 				{...props}
 				{...item}
-				deleteBtnHandler={deleteBtnHandler}
+				handleItemDelete={handleItemDelete}
 			/>
 		);
 	});
+
+	const handleCheckout = (toggleShowModal) => {
+		if (cartCtx.items.length === 0) {
+			console.log('Nothing in cart');
+			return;
+		}
+		history.push('/address-select');
+		toggleShowModal();
+	};
 
 	return (
 		<div className={classes['flex-wrapper']}>
@@ -35,10 +50,10 @@ const Cart = (props) => {
 			<div className={classes['checkout-wrapper']}>
 				<div className={classes['total-price']}>
 					<span className={classes.first}>Total Price:</span>
-					<span>{cartCtx.totalAmount.toFixed(2)}</span>
+					<span>{cartCtx.totalPrice.toFixed(2)}</span>
 				</div>
 				<div className={classes['checkout-btn']}>
-					<button>
+					<button onClick={(e) => handleCheckout(props.toggleShowModal)}>
 						<span>Proceed to Checkout</span>
 					</button>
 				</div>

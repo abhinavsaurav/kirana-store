@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NavLink, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import useAuth from '../../hooks/useAuth';
@@ -11,6 +11,7 @@ import {
 	ERROR_LOGIN_SUBMIT,
 } from '../../data/constants';
 
+import CartContext from '../../contexts/cart/CartContext';
 import Button from '../UI/button/Button';
 import Spinner from '../UI/spinner/Spinner';
 import InputField from '../UI/input/InputField';
@@ -22,6 +23,7 @@ const Login = (props) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const location = useLocation();
+	const cartCtx = useContext(CartContext);
 
 	const [email, setEmail] = useState('');
 	const [pass, setPass] = useState('');
@@ -43,8 +45,24 @@ const Login = (props) => {
 		}
 	}, [apiError]);
 
+	// useEffect(() => {
+
+	// }, [, cartCtx.items, cartCtx.totalAmount]);
+
+	useEffect(() => {
+		const data = {
+			items: cartCtx.items,
+			amount: cartCtx.totalAmount,
+		};
+		// storing this locally
+		localStorage.setItem('cartData', JSON.stringify(data));
+	}, [cartCtx.items, cartCtx.totalAmount]);
+
+	// * Redirecting After Login
 	useEffect(() => {
 		if (auth.isAuthenticated) {
+			console.log('I am firing');
+			cartCtx.updateItems(cartCtx.items, cartCtx.totalPrice);
 			history.push(redirect);
 		}
 	}, [history, auth.isAuthenticated, redirect]);

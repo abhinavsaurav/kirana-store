@@ -20,7 +20,6 @@ import {
 
 import DefaultPage from './components/DefaultPage';
 import Login from './components/login/Login';
-import Signup from './components/signup/Signup';
 import Layout from './components/Layout/Layout';
 import SearchPage from './components/search-page/SearchPage';
 
@@ -28,6 +27,10 @@ import classes from './App.module.scss';
 import ProductPage from './components/product-page/ProductPage';
 
 import CartProvider from './contexts/cart/CartProvider';
+import PrivateRoute from './components/UI/routes/PrivateRoute';
+import Address from './components/address-page/Address';
+import Signup from './components/signup/Signup';
+import { useEffect, useState } from 'react';
 
 library.add(
 	faShoppingCart,
@@ -40,8 +43,17 @@ library.add(
 );
 
 function App() {
+	// * For removing the intial pre-loading screen
+	useEffect(() => {
+		const elem = document.getElementById('pre-loader');
+		if (elem) {
+			elem.remove();
+			clearInterval(window.timeoutId);
+		}
+	}, []);
+
 	return (
-		<div className={classes.App}>
+		<div id="app" className={classes.App}>
 			<CartProvider>
 				<Router>
 					{/**
@@ -57,6 +69,15 @@ function App() {
 									</Route>
 									<Route path="/login" exact component={Login} />
 									<Route path="/users/signup" component={Signup} />
+									<PrivateRoute path="/address-select" component={Address} />
+									<PrivateRoute
+										path="/orders/payment-selection"
+										component={<div>Payment page</div>}
+									/>
+									<PrivateRoute
+										path="/orders/review-order"
+										component={<div>Review order</div>}
+									/>
 									<Route path="/search" exact>
 										<SearchPage />
 									</Route>
