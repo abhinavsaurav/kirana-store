@@ -117,19 +117,46 @@ const CartProvider = (props) => {
 		defaultCartState
 	);
 
-	const addItemToCartHandler = (item) => {
+	const addItemToCartHandler = async (item) => {
 		console.log(item);
 		// adding id
 		item['id'] = item['_id'];
-		// item['qty'] = item['amount'];
-		//deleting _id
 		delete item['_id'];
+
 		// delete item['amount'];
+
+		if (auth.isAuthenticated) {
+			// * DB REQUEST TO MERGE ITEMS TO CART
+			const response = await kiranaAPI.post(
+				'/carts/me/',
+				{
+					cartItems: [item],
+					amount: item.price,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${auth.token}`,
+					},
+				}
+			);
+			console.log(response.data);
+		}
 
 		dispatchCartActions({ type: 'ADD', item });
 	};
 
-	const removeItemFromCartHandler = (id) => {
+	// This will remove entire item from the cart
+	const removeItemFromCartHandler = async (id) => {
+		console.log(id);
+		if (auth.isAuthenticated) {
+			// delete req takes body at as 3rd param
+			const response = await kiranaAPI.delete(`/carts/me/${id}`, {
+				headers: {
+					Authorization: `Bearer ${auth.token}`,
+				},
+			});
+		}
+
 		dispatchCartActions({ type: 'REMOVE', id });
 	};
 

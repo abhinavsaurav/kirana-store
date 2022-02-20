@@ -58,9 +58,9 @@ const cartSchema = new mongoose.Schema(
 	}
 );
 
-cartSchema.statics.findItemQuantity = async function (owner) {
+cartSchema.statics.populateProduct = async function (owner) {
 	const items = await Cart.findOne({ owner });
-	console.log(items);
+	// console.log(items);
 	const populatedItems = await items.populate(
 		'cartItems.id',
 		'_id price countInStock' // selecting value here if there was subdocuments we could do like this {path:'cartItems.id',model:'Product',select:'_id price countInStock'}
@@ -83,6 +83,27 @@ cartSchema.statics.findCartByUserId = async function (owner) {
 	}
 
 	return cart;
+};
+
+cartSchema.methods.calculateTotalQuantity = async function () {
+	const cart = this;
+	const initialVal = 0;
+
+	return await cart.cartItems.reduce(
+		(currentVal, item) => currentVal + parseInt(item.qty),
+		initialVal
+	);
+};
+
+cartSchema.methods.calculateTotalPrice = async function () {
+	const cart = this;
+	const initialVal = 0;
+
+	return await cart.cartItems.reduce(
+		(currentVal, item) =>
+			currentVal + parseInt(item.qty) * parseFloat(item.price),
+		initialVal
+	);
 };
 
 cartSchema.methods.toJSON = function () {

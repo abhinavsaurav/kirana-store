@@ -21,7 +21,7 @@ const Cart = (props) => {
 	const cartItemsList = cartCtx.items.map((item) => {
 		return (
 			<CartItem
-				key={item._id}
+				key={item._id ?? item.id}
 				{...props}
 				{...item}
 				handleItemDelete={handleItemDelete}

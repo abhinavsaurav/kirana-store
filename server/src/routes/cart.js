@@ -3,6 +3,7 @@ const authMiddleware = require('../../middleware/authMiddleware');
 const cartMiddleware = require('../../middleware/cartMiddleware');
 const Cart = require('../models/cart');
 const chalk = require('chalk');
+const { request } = require('express');
 
 const router = express.Router();
 
@@ -17,24 +18,12 @@ router.get('/me', authMiddleware, cartMiddleware, (req, res, next) => {
 
 router.post('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
 	try {
-		console.log(req.body);
-
-		// // TODO MAYBE REMOVE THE BELOW LINE IF FRONTEND CHANGES ARE MADE
-		// // req.body.cartItems.forEach((item) => {
-		// // 	if (item.amount) {
-		// // 		item.qty = item.amount;
-		// // 	}
-		// // });
-
 		const data = req.body.cartItems;
 
 		if (req.cart.cartItems.length === 0) {
 			// * When cart is empty on login and there are cartItems
 			req.cart.cartItems = data;
 		} else {
-			// console.log(chalk.inverse.yellow(req.cart));
-			// console.log(req.body.cartItems);
-
 			// * Cart items when there
 			// ! Need to improve time complexity here or atleast use the for loop instead of foreach
 			req.body.cartItems.forEach((newItem) => {
@@ -48,33 +37,24 @@ router.post('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
 				});
 
 				if (!flag) {
+					console.log('onFlag' + newItem);
 					req.cart.cartItems.push(newItem);
 				}
 			});
 		}
 
-		// console.log('reaching here');
-		const populatedData = await Cart.findItemQuantity(req.cart.owner);
-		// console.log('reaching here 2');
-		// console.log(populatedData);
+		// * Total Price after merge
+		const totalPrice = await req.cart.calculateTotalPrice();
 
-		// * calculating the total quantity for the user
-		const initialVal = 0;
-		const totalPrice = await populatedData.cartItems.reduce(
-			(currentVal, item) =>
-				currentVal + parseInt(item.qty) * parseFloat(item.price),
-			initialVal
-		);
+		// * Total Quantity after merge
+		const totalQty = await req.cart.calculateTotalQuantity();
 
-		// * Calculating the total price for the user
-		const totalQty = await populatedData.cartItems.reduce(
-			(currentVal, item) => currentVal + parseInt(item.qty),
-			initialVal
-		);
+		req.cart.totalQty = parseFloat(totalQty);
+		req.cart.totalPrice = parseFloat(totalPrice);
+		await req.cart.save();
 
-		populatedData.totalQty = parseFloat(totalQty);
-		populatedData.totalPrice = parseFloat(totalPrice);
-		await populatedData.save();
+		// Mergin the cart data up and then taking and sending the data back
+		const populatedData = await Cart.populateProduct(req.cart.owner);
 
 		res.send(populatedData);
 	} catch (err) {
@@ -82,6 +62,37 @@ router.post('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
 	}
 });
 
+router.delete(
+	'/me/:itemid',
+	authMiddleware,
+	cartMiddleware,
+	async (req, res, next) => {
+		try {
+			const itemid = req.params.itemid;
+			// console.log(typeof itemid);
+			req.cart.cartItems = req.cart.cartItems.filter(
+				(item) => item.id.toString() !== itemid
+			);
+			// console.log(req.cart.cartItems);
+
+			// * Total Price after deletion
+			const totalPrice = await req.cart.calculateTotalPrice();
+
+			// * Total Quantity after deletion
+			const totalQty = await req.cart.calculateTotalQuantity();
+
+			req.cart.totalQty = parseFloat(totalQty);
+			req.cart.totalPrice = parseFloat(totalPrice);
+
+			await req.cart.save();
+			res.send();
+		} catch (err) {
+			next(err);
+		}
+	}
+);
+
+// ! Incomplete
 // For performing update request on the cart items
 // TODO For performing a request to cart item
 router.patch(
