@@ -18,6 +18,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "devDB": "sh runMDB.sh && yarn run dev",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "killp5000": "echo '\ncommand is dangerous\n' && kill -9 $(netstat -lntp | grep 5000 | tr -s ' '|cut -d ' ' -f 7|cut -d'/' -f 1)"

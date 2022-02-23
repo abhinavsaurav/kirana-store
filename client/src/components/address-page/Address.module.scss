@@ -3,14 +3,41 @@
 	// border: 1px solid black;
 	min-width: 800px;
 	max-width: 1400px;
+
+	.address-banner {
+		font-size: 1.75rem;
+		font-weight: bold;
+		margin: 10px 10px;
+	}
+
+	.address-btn {
+		text-align: center;
+		padding: 100px 0;
+	}
+
+	.form-wrapper {
+		width: 75%;
+		margin: 30px 10px;
+	}
 }
-h1 {
-	// font-family: 'Zilla Slab', serif;
-	// font-family: 'Play', sans-serif;
-}
-label {
-	font-size: 1.25rem;
-	// font-style:normal;
-	// font-family: 'Zilla Slab', serif;
-	// font-weight: bold;
+
+form {
+	.header > div {
+		font-size: 1.75rem;
+		font-weight: bold;
+		margin: 10px 0;
+	}
+
+	label {
+		font-size: 1.25rem;
+		// font-style:normal;
+		// font-family: 'Zilla Slab', serif;
+		// font-weight: bold;
+	}
+
+	.btn-container {
+		padding: 10px;
+		width: 100%;
+		text-align: center;
+	}
 }

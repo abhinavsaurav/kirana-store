@@ -34,7 +34,7 @@ const Cart = (props) => {
 			console.log('Nothing in cart');
 			return;
 		}
-		history.push('/address-select');
+		history.push('/checkout/shipping');
 		toggleShowModal();
 	};
 

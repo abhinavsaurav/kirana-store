@@ -11,6 +11,7 @@ export const LOGOUT = 'logout';
 export const LOADING = 'LOADING';
 export const IDLE = 'IDLE';
 export const ERROR = 'ERROR';
+export const SET_CHECKOUT_ADDRESS = 'SET_CHECKOUT_ADDRESS';
 
 // Errors - LOGIN PAGE
 export const ERROR_LOGIN_SUBMIT = 'Username or Password entered is wrong!';
@@ -19,3 +20,5 @@ export const ERROR_LOGIN_EMAIL = 'Username format is incorrect';
 // Extra
 export const EMAIL_VALIDATION_PATTERN =
 	/^[a-zA-Z][a-zA-Z0-9_-]{4,}@[a-zA-Z0-9]{2,}(\.(com|in|[a-zA-Z0-9]{2,6})){1,3}$/g;
+export const IS_NUMBER_REGEX = /^[0-9]*$/;
+// export const PHONE_NO_REGEX = /^[0-9]*$/

@@ -16,6 +16,8 @@ import {
 	Switch,
 	Route,
 	Redirect,
+	useHistory,
+	useLocation,
 } from 'react-router-dom';
 
 import DefaultPage from './components/DefaultPage';
@@ -68,14 +70,15 @@ function App() {
 										<DefaultPage />
 									</Route>
 									<Route path="/login" exact component={Login} />
-									<Route path="/users/signup" component={Signup} />
-									<PrivateRoute path="/address-select" component={Address} />
+									<Route path="/users/signup" exact component={Signup} />
+									<PrivateRoute path="/checkout/shipping" component={Address} />
+
 									<PrivateRoute
-										path="/orders/payment-selection"
+										path="/checkout/payment"
 										component={<div>Payment page</div>}
 									/>
 									<PrivateRoute
-										path="/orders/review-order"
+										path="/checkout/review"
 										component={<div>Review order</div>}
 									/>
 									<Route path="/search" exact>
