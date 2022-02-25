@@ -21,7 +21,7 @@ const HeaderCartButton = () => {
 
 	// console.log(cartCtx);
 	const noOfCartItems = cartCtx.items.reduce((curNumber, item) => {
-		console.log(cartCtx);
+		// console.log(cartCtx);
 		const quantity = item.amount ?? item.qty;
 		return curNumber + quantity;
 	}, 0);

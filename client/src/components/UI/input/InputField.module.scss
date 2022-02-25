@@ -1,3 +1,5 @@
+@import './Radio.module.scss';
+
 input[type='text'],
 input[type='password'] {
 	width: 100%;
@@ -23,7 +25,7 @@ input[type='file'] {
 		display: block;
 		padding: 5px;
 		padding-left: 2px;
-		font-size: 1rem;
+		// font-size: 1rem;
 	}
 
 	input {

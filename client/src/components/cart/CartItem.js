@@ -15,12 +15,12 @@ const CartItem = ({
 		countInStock = id.countInStock;
 	}
 
-	console.log(countInStock + '  ' + qty);
-	console.log(id);
+	// console.log(countInStock + '  ' + qty);
+	// console.log(id);
 
 	const linkOnClickHandler = (e) => {
 		e.preventDefault();
-		console.log('I am printing');
+		// console.log('I am printing');
 		toggleShowModal();
 		history.push(`/products/${id}`);
 	};

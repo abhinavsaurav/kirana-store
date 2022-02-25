@@ -1,0 +1,43 @@
+.payment-selection-container {
+	min-width: 1000px;
+	max-width: 1400px;
+	margin-top: 40px;
+
+	.header {
+		margin-bottom: 20px;
+	}
+
+	form {
+		margin-top: 30px;
+	}
+}
+.content-container {
+	display: flex;
+	gap: 50px;
+	padding: 0 10px;
+	.payment-list-wrapper {
+		flex: 1;
+	}
+
+	.continue-btn-container {
+		display: flex;
+		border: 1px solid black;
+		align-items: center;
+		justify-content: center;
+		padding: 50px;
+		margin: 0 auto;
+		border-radius: 10px;
+		height: 150px;
+	}
+}
+.subheader {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+
+	.field {
+		border-radius: 10px;
+		border: 1px solid black;
+		padding-left: 10px;
+	}
+}

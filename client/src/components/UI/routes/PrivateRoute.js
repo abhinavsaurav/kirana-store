@@ -1,13 +1,17 @@
 import { Route, Redirect } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 
-const PrivateRoute = (props) => {
+const PrivateRoute = ({ children, component, ...props }) => {
 	const auth = useAuth();
 
 	return (
 		<>
 			{auth.isAuthenticated ? (
-				<Route {...props} />
+				component ? (
+					<Route {...props} component={component} />
+				) : (
+					<Route {...props}>{children}</Route>
+				)
 			) : (
 				<Redirect to={`/login?ret=${props.path}`} />
 			)}
