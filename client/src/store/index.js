@@ -15,6 +15,5 @@ const store = configureStore({
 	},
 });
 
-export const paymentAction = paymentSlice.actions;
 export const authAction = authSlice.actions;
 export default store;
