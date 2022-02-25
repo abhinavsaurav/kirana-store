@@ -3,15 +3,14 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import InputField from '../UI/input/InputField';
 import Button from '../UI/button/Button';
-import { paymentAction } from '../../store';
-
 import classes from './PaymentSelection.module.scss';
+import { setPaymentMethod } from '../../store/checkout/paymentSlice';
 
 const PaymentSelection = (props) => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const addressCheck = useSelector((state) => state.address);
-	const [paymentMethod, setPaymentMethod] = useState('');
+	const [payment, setPayment] = useState('');
 
 	useEffect(() => {
 		if (!addressCheck.shippingAddress) {
@@ -20,12 +19,18 @@ const PaymentSelection = (props) => {
 	}, [addressCheck]);
 
 	const handleOnChange = (e) => {
-		setPaymentMethod(e.target.name);
+		setPayment(e.target.getAttribute('data-payment-name'));
 	};
 
-	const handleOnSubmit = (e) => {
+	const handleOnSubmit = async (e) => {
 		e.preventDefault();
-		dispatch(paymentAction.setPaymentMethod(paymentMethod));
+		console.log(payment);
+		if (payment === '') {
+			console.log('payment method not selected handle this error');
+			return;
+		}
+
+		dispatch(setPaymentMethod(payment));
 		history.push('/checkout/review');
 	};
 
@@ -46,6 +51,7 @@ const PaymentSelection = (props) => {
 									name="payment-method"
 									label="Paypal"
 									id="paypal"
+									data-payment-name="Paypal"
 									onChange={handleOnChange}
 								/>
 							</div>
@@ -53,8 +59,9 @@ const PaymentSelection = (props) => {
 								<InputField
 									type="radio"
 									name="payment-method"
-									label="Stripe"
-									id="stripe"
+									label="Razorpay"
+									id="razorpay"
+									data-payment-name="Razorpay"
 									onChange={handleOnChange}
 									// disabled
 								/>
