@@ -9,11 +9,13 @@ const InputField = ({
 	value,
 	onChange,
 	placeholder,
+	children,
 	...props
 }) => {
 	// console.log(type);
 
 	if (parseInt(variant) === 1) {
+		// contains label
 		return (
 			<div className={classes.variant1}>
 				<label htmlFor={id}>{label}</label>
@@ -25,6 +27,22 @@ const InputField = ({
 					placeholder={placeholder ?? null}
 					{...props}
 				/>
+			</div>
+		);
+	}
+
+	if (type === 'radio') {
+		return (
+			<div className={classes.radio}>
+				<input
+					id={id}
+					type={type}
+					value={value}
+					onChange={onChange}
+					placeholder={placeholder ?? null}
+					{...props}
+				/>
+				<label htmlFor={id}>{label}</label>
 			</div>
 		);
 	}

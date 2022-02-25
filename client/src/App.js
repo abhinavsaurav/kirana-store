@@ -1,4 +1,4 @@
-// import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
 	faShoppingCart,
@@ -16,8 +16,6 @@ import {
 	Switch,
 	Route,
 	Redirect,
-	useHistory,
-	useLocation,
 } from 'react-router-dom';
 
 import DefaultPage from './components/DefaultPage';
@@ -32,7 +30,8 @@ import CartProvider from './contexts/cart/CartProvider';
 import PrivateRoute from './components/UI/routes/PrivateRoute';
 import Address from './components/address-page/Address';
 import Signup from './components/signup/Signup';
-import { useEffect, useState } from 'react';
+import PaymentSelection from './components/payment-selection-page/PaymentSelection';
+import CartReview from './components/cart-review-page/CartReview';
 
 library.add(
 	faShoppingCart,
@@ -71,15 +70,20 @@ function App() {
 									</Route>
 									<Route path="/login" exact component={Login} />
 									<Route path="/users/signup" exact component={Signup} />
-									<PrivateRoute path="/checkout/shipping" component={Address} />
-
+									{/* Probably need to set-up a nested route maybe not required */}
+									<PrivateRoute
+										path="/checkout/shipping"
+										exact
+										component={Address}
+									/>
 									<PrivateRoute
 										path="/checkout/payment"
-										component={<div>Payment page</div>}
+										exact
+										component={PaymentSelection}
 									/>
 									<PrivateRoute
 										path="/checkout/review"
-										component={<div>Review order</div>}
+										component={CartReview}
 									/>
 									<Route path="/search" exact>
 										<SearchPage />
