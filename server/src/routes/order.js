@@ -19,7 +19,7 @@ router.post('/', authMiddleware, async (req, res, next) => {
 
 		await order.save();
 
-		req.send(order);
+		res.status(201).send(order);
 	} catch (err) {
 		next(err);
 	}
@@ -37,7 +37,7 @@ router.get('/:id', authMiddleware, async (req, res, next) => {
 			throw new Error('404 Not found ');
 		}
 
-		req.send(order);
+		res.send(order);
 	} catch (err) {
 		next(err);
 	}

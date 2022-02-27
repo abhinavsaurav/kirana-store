@@ -5,6 +5,7 @@ import authSlice from './authSlice';
 import productSlice from './productSlice';
 import addressSlice from './checkout/addressSlice';
 import paymentSlice from './checkout/paymentSlice';
+import orderSlice from './checkout/orderSlice';
 
 const store = configureStore({
 	reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
 		product: productSlice.reducer,
 		address: addressSlice.reducer,
 		payment: paymentSlice.reducer,
+		order: orderSlice.reducer,
 	},
 });
 

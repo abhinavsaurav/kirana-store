@@ -32,7 +32,7 @@ const orderSchema = mongoose.Schema(
 			pin: { type: Number, required: true },
 			country: { type: String, required: true },
 			phone: { type: String, required: true },
-			fullname: { type: String, required: true },
+			fullName: { type: String, required: true },
 		},
 		paymentMethod: {
 			type: String,
