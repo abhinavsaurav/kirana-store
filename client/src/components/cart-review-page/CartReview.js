@@ -1,17 +1,20 @@
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 import CartContext from '../../contexts/cart/CartContext';
 import Cart from '../cart/Cart';
-import { createOrder } from '../../store/checkout/orderActions';
+import { createOrder, orderPayment } from '../../store/checkout/orderActions';
 
 import Button from '../UI/button/Button';
 import classes from './CartReview.module.scss';
 import { SUCCESS } from '../../data/constants';
+import kiranaAPI from '../../apis/kiranaAPI';
 
 const CartReview = (props) => {
 	const history = useHistory();
+	const auth = useAuth();
 	const dispatch = useDispatch();
 	const cartCtx = useContext(CartContext);
 
@@ -44,16 +47,36 @@ const CartReview = (props) => {
 
 	useEffect(() => {
 		if (orderStatus === SUCCESS) {
-			const getKeyId = async () => {};
+			const getKeyId = async () => {
+				const response = await kiranaAPI.post('/config/razorpay', null, {
+					headers: {
+						Authorization: `Bearer ${auth.token}`,
+					},
+				});
+
+				return response.data;
+			};
+
+			const keyId = getKeyId();
+
 			var options = {
-				key: 'YOUR_KEY_ID', // Enter the Key ID generated from the Dashboard
-				amount: '50000', // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-				currency: 'INR',
+				key: keyId,
+				amount: order.paymentOrder.amount,
+				currency: order.paymentOrder.currency,
 				name: 'Kirana Corp',
 				description: 'This is a Test Transaction',
 				image: 'https://example.com/your_logo',
-				order_id: 'order_DBJOWzybf0sJbb', //This is a sample Order ID. Pass the `id` obtained in the previous step
+				order_id: order.paymentOrder.orderId,
 				handler: function (response) {
+					dispatch(
+						orderPayment({
+							response: {
+								razorpay_payment_id: response.razorpay_payment_id,
+								razorpay_order_id: response.razorpay_order_id,
+								razorpay_signature: response.razorpay_signature,
+							},
+						})
+					);
 					alert(response.razorpay_payment_id);
 					alert(response.razorpay_order_id);
 					alert(response.razorpay_signature);
@@ -70,7 +93,7 @@ const CartReview = (props) => {
 					color: '#3399cc',
 				},
 			};
-			var rzp1 = new Razorpay(options);
+			var rzp1 = new window.Razorpay(options);
 			rzp1.on('payment.failed', function (response) {
 				alert(response.error.code);
 				alert(response.error.description);
@@ -80,7 +103,7 @@ const CartReview = (props) => {
 				alert(response.error.metadata.order_id);
 				alert(response.error.metadata.payment_id);
 			});
-			(function (e) {
+			(function () {
 				rzp1.open();
 				// e.preventDefault();
 			})();
