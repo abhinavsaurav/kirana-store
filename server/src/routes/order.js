@@ -101,7 +101,7 @@ router.get('/:id', authMiddleware, async (req, res, next) => {
 });
 
 // Expects a response of id and response containing the payment details
-app.post('/payment/:id/verify', authMiddleware, async (req, res, next) => {
+router.post('/payment/:id/verify', authMiddleware, async (req, res, next) => {
 	const _id = req.params.id;
 
 	try {
