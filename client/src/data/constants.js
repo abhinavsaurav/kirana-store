@@ -9,9 +9,17 @@ export const FETCH_PRODUCT = 'fetchProduct';
 export const LOGIN = 'login';
 export const LOGOUT = 'logout';
 export const LOADING = 'LOADING';
+export const SUCCESS = 'SUCCESS';
 export const IDLE = 'IDLE';
 export const ERROR = 'ERROR';
 export const SET_CHECKOUT_ADDRESS = 'SET_CHECKOUT_ADDRESS';
+export const ORDER_CREATE_REQUEST = 'ORDER_CREATE_REQUEST';
+// export const ORDER_CREATE_SUCCESS = 'ORDER_CREATE_SUCCESS';
+// export const ORDER_CREATE_FAILED = 'ORDER_CREATE_FAILED';
+
+export const ORDER_PAYMENT_REQUEST = 'ORDER_PAYMENT_REQUEST';
+// export const ORDER_PAYMENT_SUCCESS = 'ORDER_PAYMENT_SUCCESS';
+// export const ORDER_PAYMENT_FAILED = 'ORDER_PAYMENT_FAILED';
 
 // Errors - LOGIN PAGE
 export const ERROR_LOGIN_SUBMIT = 'Username or Password entered is wrong!';

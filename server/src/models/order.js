@@ -29,17 +29,33 @@ const orderSchema = mongoose.Schema(
 		shippingAddress: {
 			address: { type: String, required: true },
 			city: { type: String, required: true },
-			postalCode: { type: Number, required: true },
+			pin: { type: Number, required: true },
 			country: { type: String, required: true },
+			phone: { type: String, required: true },
+			fullName: { type: String, required: true },
 		},
 		paymentMethod: {
 			type: String,
 			required: true,
 		},
+		paymentOrder: {
+			// should be applicable for tracking at the server side things
+			id: { type: String },
+			orderId: { type: String },
+			notes: [{ type: String }],
+			amount: { type: Number },
+			amount_paid: { type: Number },
+			amount_due: { type: Number },
+			currency: { type: String },
+			created_at: { type: Date },
+		},
 		paymentResult: {
 			id: { type: String },
 			status: { type: String },
-			update_time: { type: String },
+			update_time: {
+				type: Date,
+				default: () => Date.now() + 7 * 24 * 60 * 60 * 1000,
+			},
 			email_address: { type: String },
 		},
 		taxPrice: {
@@ -63,7 +79,7 @@ const orderSchema = mongoose.Schema(
 			default: false,
 		},
 		paidAt: {
-			type: Date,
+			type: String,
 		},
 		isDelivered: {
 			type: Boolean,

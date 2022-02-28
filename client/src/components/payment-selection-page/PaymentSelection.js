@@ -30,6 +30,7 @@ const PaymentSelection = (props) => {
 			return;
 		}
 
+		localStorage.setItem('paymentSelected', payment);
 		dispatch(setPaymentMethod(payment));
 		history.push('/checkout/review');
 	};

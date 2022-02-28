@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const payment = localStorage.getItem('paymentSelected');
 const initialState = {
-	paymentMethod: '',
+	paymentMethod: payment ?? '',
 };
 
 const paymentSlice = createSlice({

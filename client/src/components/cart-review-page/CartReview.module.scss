@@ -16,15 +16,14 @@
 .content-container {
 	display: flex;
 
-	gap: 50px;
+	gap: 20px;
 	padding: 0px 10px;
 
 	.content-list-wrapper {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		// margin-top: 20px;
-		gap: 10px;
+		gap: 20px;
 
 		.add-space {
 			padding: 20px;
@@ -34,22 +33,32 @@
 		}
 
 		.address {
+			border-radius: 10px;
 			border: 1px solid black;
 		}
 
 		.cart-items {
+			border-radius: 10px;
 			border: 1px solid black;
 		}
 	}
 
-	.continue-btn-container {
+	.right-container {
 		display: flex;
+		flex-direction: column-reverse;
+		// align-items: flex-end;
+		justify-content: flex-end;
+		gap: 20px;
+	}
+
+	.right-container .wrapper .continue-btn-container {
 		border: 1px solid black;
+		display: flex;
 		align-items: center;
 		justify-content: space-evenly;
 		flex-direction: column-reverse;
 		gap: 20px;
-		padding: 50px;
+		// padding: 50px;
 		margin: 0 auto;
 		border-radius: 10px;
 		height: 150px;
@@ -81,6 +90,7 @@
 		padding-left: 10px;
 	}
 }
+
 .subheader {
 	font-size: 1.25rem;
 	font-weight: bold;
@@ -92,5 +102,42 @@
 	&::after {
 		content: ':';
 		text-decoration: none;
+	}
+}
+.price {
+	border: 1px solid black;
+	padding: 30px;
+	// padding: 25px 50px 75px;
+	border-radius: 10px;
+	height: 250px;
+	display: table;
+	// border-collapse: ;
+
+	.subheader {
+		padding: 0;
+	}
+
+	p {
+		display: table-row;
+	}
+
+	#rule {
+		display: relative;
+		margin-bottom: 2px;
+
+		span {
+			border-top: 1px solid black;
+			padding: 0;
+		}
+	}
+
+	span {
+		// padding: 10px;
+		display: table-cell;
+		// height: px;
+		padding: 5px;
+		&:last-child {
+			text-align: right;
+		}
 	}
 }
