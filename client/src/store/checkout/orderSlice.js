@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IDLE, LOADING, ERROR, SUCCESS } from '../../data/constants';
-import { createOrder } from './orderActions';
+import { createOrder, orderPayment } from './orderActions';
 
 const initialState = {
 	orderId: '',
@@ -10,11 +10,13 @@ const initialState = {
 	cart: [],
 	address: {},
 	paymentMethod: '',
-	paymentOrder: {},
+	paymentOrder: {}, // Before the frontend payment it will be used
+	paymentResult: {},
 	price: {},
 	orderedAt: '',
 	isModifiedAt: '',
 	status: IDLE,
+	paymentStatus: IDLE,
 	error: null,
 };
 
@@ -64,6 +66,19 @@ const orderSlice = createSlice({
 		},
 		[createOrder.rejected]: (state, action) => {
 			state.status = ERROR;
+			state.error = action.payload;
+		},
+		[orderPayment.pending]: (state, action) => {
+			state.paymentStatus = LOADING;
+		},
+		[orderPayment.fulfilled]: (state, action) => {
+			state.paymentStatus = SUCCESS;
+			state.paymentResult = action.payload;
+			state.status = IDLE;
+		},
+		[orderPayment.rejected]: (state, action) => {
+			state.paymentStatus = ERROR;
+			state.status = IDLE;
 			state.error = action.payload;
 		},
 	},

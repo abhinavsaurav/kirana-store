@@ -8,6 +8,7 @@ import { createOrder } from '../../store/checkout/orderActions';
 
 import Button from '../UI/button/Button';
 import classes from './CartReview.module.scss';
+import { SUCCESS } from '../../data/constants';
 
 const CartReview = (props) => {
 	const history = useHistory();
@@ -18,7 +19,8 @@ const CartReview = (props) => {
 	const token = useSelector((state) => state.auth.token);
 	const address = useSelector((state) => state.address);
 	const paymentMethod = useSelector((state) => state.payment.paymentMethod);
-	// const orderStatus = useSelector((state) => state.order.status);
+	const orderStatus = useSelector((state) => state.order.status);
+	const order = useSelector((state) => state.order);
 
 	const totalItemsPrice = cartCtx.totalPrice;
 
@@ -30,9 +32,60 @@ const CartReview = (props) => {
 	priceAfterTax = taxPrice + +totalItemsPrice; // will charge 12% tax i guess
 	priceToPay = priceAfterTax + shippingCharge;
 
-	// useEffect(() => {
+	useEffect(() => {
+		const script = document.createElement('script');
+		script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+		document.body.appendChild(script);
 
-	// }, [orderStatus]);
+		return () => {
+			document.body.removeChild(script);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (orderStatus === SUCCESS) {
+			const getKeyId = async () => {};
+			var options = {
+				key: 'YOUR_KEY_ID', // Enter the Key ID generated from the Dashboard
+				amount: '50000', // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+				currency: 'INR',
+				name: 'Kirana Corp',
+				description: 'This is a Test Transaction',
+				image: 'https://example.com/your_logo',
+				order_id: 'order_DBJOWzybf0sJbb', //This is a sample Order ID. Pass the `id` obtained in the previous step
+				handler: function (response) {
+					alert(response.razorpay_payment_id);
+					alert(response.razorpay_order_id);
+					alert(response.razorpay_signature);
+				},
+				prefill: {
+					name: 'Kirana Inc',
+					email: 'abhinavsaurav1@gmail.com',
+					contact: '9999999999',
+				},
+				notes: {
+					address: 'KiranaStore Corporate Office',
+				},
+				theme: {
+					color: '#3399cc',
+				},
+			};
+			var rzp1 = new Razorpay(options);
+			rzp1.on('payment.failed', function (response) {
+				alert(response.error.code);
+				alert(response.error.description);
+				alert(response.error.source);
+				alert(response.error.step);
+				alert(response.error.reason);
+				alert(response.error.metadata.order_id);
+				alert(response.error.metadata.payment_id);
+			});
+			(function (e) {
+				rzp1.open();
+				// e.preventDefault();
+			})();
+		}
+	}, [orderStatus]);
 
 	const handleOrderAndPayment = async (e) => {
 		e.preventDefault();

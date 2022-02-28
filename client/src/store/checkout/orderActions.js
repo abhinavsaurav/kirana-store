@@ -1,6 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import kiranaAPI from '../../apis/kiranaAPI';
-import { ORDER_CREATE_REQUEST } from '../../data/constants';
+import {
+	ORDER_CREATE_REQUEST,
+	ORDER_PAYMENT_REQUEST,
+} from '../../data/constants';
 
 export const createOrder = createAsyncThunk(
 	ORDER_CREATE_REQUEST,
@@ -17,6 +20,23 @@ export const createOrder = createAsyncThunk(
 			console.log(response.data);
 
 			return response.data;
+		} catch (err) {
+			if (!err.response) {
+				throw err;
+			}
+
+			return thunkAPI.rejectWithValue(err.response.data);
+		} finally {
+		}
+	}
+);
+
+export const orderPayment = createAsyncThunk(
+	ORDER_PAYMENT_REQUEST,
+	async (data, thunkAPI) => {
+		try {
+			localStorage.setItem('PaymentResult', JSON.stringify(data));
+			return data;
 		} catch (err) {
 			if (!err.response) {
 				throw err;
