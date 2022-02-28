@@ -75,6 +75,8 @@ const CartReview = (props) => {
 								razorpay_order_id: response.razorpay_order_id,
 								razorpay_signature: response.razorpay_signature,
 							},
+							token: auth.token,
+							orderId: order.orderId,
 						})
 					);
 					alert(response.razorpay_payment_id);

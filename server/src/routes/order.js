@@ -105,7 +105,7 @@ router.post('/payment/:id/verify', authMiddleware, async (req, res, next) => {
 	const _id = req.params.id;
 
 	try {
-		if (!validator.isHexadecimal(_id) || _id.length !== 24) {
+		if (_id.length !== 24) {
 			return res.status(400).send();
 		}
 		const order = await Order.findOne({ _id });
@@ -115,7 +115,7 @@ router.post('/payment/:id/verify', authMiddleware, async (req, res, next) => {
 		console.log(typeof order.paymentOrder.id);
 
 		let body =
-			order.paymentOrder.id + '|' + req.body.response.razorpay_payment_id;
+			order.paymentOrder.orderId + '|' + req.body.response.razorpay_payment_id;
 
 		console.log(body);
 
@@ -126,10 +126,18 @@ router.post('/payment/:id/verify', authMiddleware, async (req, res, next) => {
 		console.log('sig received ', req.body.response.razorpay_signature);
 		console.log('sig generated ', expectedSignature);
 
-		const response = { signatureIsValid: 'false' };
+		let response = { signatureIsValid: 'false' };
 
 		if (expectedSignature === req.body.response.razorpay_signature) {
-			response = { signatureIsValid: 'true' };
+			order.isPaid = true;
+			order.paidAt = new Date().toString();
+			order.paymentResult = {
+				id: req.body.response.razorpay_payment_id,
+				status: 'success',
+			};
+
+			await order.save();
+			response = { signatureIsValid: 'true', order: order };
 		}
 
 		res.send(response);

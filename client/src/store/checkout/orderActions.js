@@ -35,8 +35,26 @@ export const orderPayment = createAsyncThunk(
 	ORDER_PAYMENT_REQUEST,
 	async (data, thunkAPI) => {
 		try {
-			localStorage.setItem('PaymentResult', JSON.stringify(data));
-			return data;
+			const verifySignature = await kiranaAPI.post(
+				`/orders/payment/${data.orderId}/verify`,
+				{ response: data.response },
+				{
+					headers: {
+						Authorization: `Bearer ${data.token}`,
+					},
+				}
+			);
+
+			localStorage.setItem(
+				'PaymentResult',
+				JSON.stringify({ serverResponse: verifySignature.data, data })
+			);
+			return {
+				serverResponse: verifySignature.data,
+				data: {
+					response: data.response,
+				},
+			};
 		} catch (err) {
 			if (!err.response) {
 				throw err;
