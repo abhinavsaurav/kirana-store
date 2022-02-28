@@ -10,6 +10,7 @@ const initialState = {
 	cart: [],
 	address: {},
 	paymentMethod: '',
+	paymentOrder: {},
 	price: {},
 	orderedAt: '',
 	isModifiedAt: '',
@@ -32,6 +33,7 @@ const orderSlice = createSlice({
 				orderItems,
 				shippingAddress,
 				paymentMethod,
+				paymentOrder,
 				taxPrice,
 				shippingPrice,
 				totalPrice,
@@ -46,6 +48,7 @@ const orderSlice = createSlice({
 			state.cart = orderItems;
 			state.address = shippingAddress;
 			state.paymentMethod = paymentMethod;
+			state.paymentOrder = paymentOrder;
 			state.price = {
 				taxed: taxPrice,
 				shipping: shippingPrice,

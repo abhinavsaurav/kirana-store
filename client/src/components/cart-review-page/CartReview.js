@@ -17,8 +17,8 @@ const CartReview = (props) => {
 	const userId = useSelector((state) => state.auth.userInfo._id);
 	const token = useSelector((state) => state.auth.token);
 	const address = useSelector((state) => state.address);
-	const payment = useSelector((state) => state.payment.paymentMethod);
-	const orderStatus = useSelector((state) => state.order.status);
+	const paymentMethod = useSelector((state) => state.payment.paymentMethod);
+	// const orderStatus = useSelector((state) => state.order.status);
 
 	const totalItemsPrice = cartCtx.totalPrice;
 
@@ -30,7 +30,9 @@ const CartReview = (props) => {
 	priceAfterTax = taxPrice + +totalItemsPrice; // will charge 12% tax i guess
 	priceToPay = priceAfterTax + shippingCharge;
 
-	useEffect(() => {}, []);
+	// useEffect(() => {
+
+	// }, [orderStatus]);
 
 	const handleOrderAndPayment = async (e) => {
 		e.preventDefault();
@@ -71,7 +73,7 @@ const CartReview = (props) => {
 			user: userId,
 			cart: formattedCart,
 			address: { address: address.shippingAddress, ...address },
-			paymentMethod: payment,
+			paymentMethod: paymentMethod,
 			price: {
 				taxed: taxPrice,
 				shipping: shippingCharge,
@@ -108,9 +110,7 @@ const CartReview = (props) => {
 						</div>
 						<div className={classes['selected-payment-wrapper']}>
 							<div className={classes.subheader}>Payment method</div>
-							<div className={classes['payment-name']}>
-								{payment.paymentMethod}
-							</div>
+							<div className={classes['payment-name']}>{paymentMethod}</div>
 						</div>
 						{/* <div className={classes.} */}
 					</div>

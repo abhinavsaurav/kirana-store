@@ -38,8 +38,20 @@ const orderSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		paymentOrder: {
+			// should be applicable for tracking at the server side things
+			id: { type: String },
+			orderId: { type: String },
+			notes: [{ type: String }],
+			amount: { type: Number },
+			amount_paid: { type: Number },
+			amount_due: { type: Number },
+			currency: { type: String },
+			created_at: { type: Date },
+		},
 		paymentResult: {
 			id: { type: String },
+			order_id: { type: String },
 			status: { type: String },
 			update_time: { type: String },
 			email_address: { type: String },
