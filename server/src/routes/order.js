@@ -100,6 +100,44 @@ router.get('/:id', authMiddleware, async (req, res, next) => {
 	}
 });
 
+// Expects a response of id and response containing the payment details
+app.post('/payment/:id/verify', authMiddleware, async (req, res, next) => {
+	const _id = req.params.id;
+
+	try {
+		if (!validator.isHexadecimal(_id) || _id.length !== 24) {
+			return res.status(400).send();
+		}
+		const order = await Order.findOne({ _id });
+
+		console.log('order id');
+		console.log(order.paymentOrder.id);
+		console.log(typeof order.paymentOrder.id);
+
+		let body =
+			order.paymentOrder.id + '|' + req.body.response.razorpay_payment_id;
+
+		console.log(body);
+
+		var expectedSignature = await crypto
+			.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+			.update(body.toString())
+			.digest('hex');
+		console.log('sig received ', req.body.response.razorpay_signature);
+		console.log('sig generated ', expectedSignature);
+
+		const response = { signatureIsValid: 'false' };
+
+		if (expectedSignature === req.body.response.razorpay_signature) {
+			response = { signatureIsValid: 'true' };
+		}
+
+		res.send(response);
+	} catch (err) {
+		next(err);
+	}
+});
+
 // @params payment, totalPrice
 // router.post('/:id/pay', authMiddleware, async (req, res, next) => {
 // 	const id = req.params.id;
