@@ -19,7 +19,7 @@ export const ORDER_CREATE_REQUEST = 'ORDER_CREATE_REQUEST';
 
 export const ORDER_PAYMENT_REQUEST = 'ORDER_PAYMENT_REQUEST';
 // export const ORDER_PAYMENT_SUCCESS = 'ORDER_PAYMENT_SUCCESS';
-// export const ORDER_PAYMENT_FAILED = 'ORDER_PAYMENT_FAILED';
+export const ORDER_PAYMENT_ERROR = 'ORDER_PAYMENT_ERROR';
 
 // Errors - LOGIN PAGE
 export const ERROR_LOGIN_SUBMIT = 'Username or Password entered is wrong!';

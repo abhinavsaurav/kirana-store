@@ -32,6 +32,7 @@ import Address from './components/address-page/Address';
 import Signup from './components/signup/Signup';
 import PaymentSelection from './components/payment-selection-page/PaymentSelection';
 import CartReview from './components/cart-review-page/CartReview';
+import OrderResult from './components/order-result-page/OrderResult';
 
 library.add(
 	faShoppingCart,
@@ -85,6 +86,7 @@ function App() {
 										path="/checkout/review"
 										component={CartReview}
 									/>
+									<PrivateRoute path="/orders/result" component={OrderResult} />
 									<Route path="/search" exact>
 										<SearchPage />
 									</Route>

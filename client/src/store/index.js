@@ -17,5 +17,6 @@ const store = configureStore({
 	},
 });
 
+export const orderDefaultAction = orderSlice.actions;
 export const authAction = authSlice.actions;
 export default store;
