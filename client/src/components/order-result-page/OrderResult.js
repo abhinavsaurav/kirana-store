@@ -18,56 +18,68 @@ const OrderResult = () => {
 
 	useEffect(() => {
 		if (order.paymentStatus !== SUCCESS) {
-			// history.push('/');
+			history.push('/');
 		}
 
 		return () => {
-			// dispatch(orderDefaultAction.resetPaymentStatus());
+			dispatch(orderDefaultAction.resetPaymentStatus());
 		};
 	}, []);
 
 	const renderConditionalData = () => (
 		<>
 			<div className={classes['order-info']}>
-				<h2>Order Information</h2>
-				<p>
-					<span>Order Id</span>
-					<span>{order.orderId}</span>
-				</p>
-				<p>
-					<span>Order Placed At</span>
-					<span>{orderResult ? orderResult.order.paidAt : 'Dummy'}</span>
-				</p>
-				<p>
-					<span>
-						Shipping to{' '}
-						<b>
-							{orderResult
-								? orderResult.order.shippingAddress.fullName
-								: 'Dummy'}
-						</b>
-					</span>
-					<span>
-						{' '}
-						at{' '}
-						<b>
-							{orderResult
-								? orderResult.order.shippingAddress.address
-								: 'Dummy'}
-							, {orderResult ? orderResult.order.shippingAddress.city : 'Dummy'}{' '}
-							- {orderResult ? orderResult.order.shippingAddress.pin : 'Dummy'},{' '}
-							{orderResult
-								? orderResult.order.shippingAddress.country
-								: 'Dummy'}{' '}
-						</b>
-					</span>
-				</p>
+				<h2>
+					<span>Order Information</span>
+				</h2>
+				<div className={classes['table-container']}>
+					<p>
+						<span>Order Id</span>
+						<span>:</span>
+						<span>{order.orderId || 'Dummy'}</span>
+					</p>
+					<p>
+						<span>Order Placed At</span>
+						<span>:</span>
+						<span>{orderResult ? orderResult.order.paidAt : 'Dummy'}</span>
+					</p>
+					<p>
+						<span>Shipping to </span>
+						<span>:</span>
+						<span>
+							<b>
+								{orderResult
+									? orderResult.order.shippingAddress.fullName
+									: 'Dummy'}
+							</b>{' '}
+							at{' '}
+							<b>
+								{orderResult
+									? orderResult.order.shippingAddress.address
+									: 'Dummy'}
+								,{' '}
+								{orderResult ? orderResult.order.shippingAddress.city : 'Dummy'}{' '}
+								-{' '}
+								{orderResult ? orderResult.order.shippingAddress.pin : 'Dummy'},{' '}
+								{orderResult
+									? orderResult.order.shippingAddress.country
+									: 'Dummy'}{' '}
+							</b>
+						</span>
+					</p>
+					<p>
+						<span>Payment Method</span>
+						<span>:</span>
+						<span>{order.paymentMethod || 'Dummy'}</span>
+					</p>
+				</div>
 				<div className={classes.items}>
 					<h3>Ordered Items</h3>
 					{orderResult &&
 						orderResult.order.orderItems.map(
-							({ name, qty, image, product }) => (
+							({ name, qty, image, product }, ind) => (
 								<div className={classes['item-container']} key={product}>
+									<div className={classes['serial-no']}>{ind + 1}.</div>
 									<Link to={`/products/${product}`}>
 										<div className={classes.pic}>
 											<img src={image} alt={name} />
@@ -77,6 +89,8 @@ const OrderResult = () => {
 												<span>{name}</span>
 											</div>
 											<div>
+												<span>Quantity</span>
+												<span>:</span>
 												<span>{qty}</span>
 											</div>
 										</div>
@@ -113,7 +127,7 @@ const OrderResult = () => {
 							</div>
 						) : orderResult.signatureIsValid === 'true' &&
 						  orderResult.order.isPaid ? (
-							<div>
+							<div className={classes.wrapper}>
 								<BadgeCheck
 									classes={classes.check}
 									width="1.75rem"
