@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 
 import useDimension from '../../../hooks/useDimension';
 
@@ -19,8 +19,11 @@ const MainHeader = () => {
 	const [showCartModal, setShowCartModal] = useState(false);
 
 	const history = useHistory();
+	const location = useLocation();
 
 	const dimension = useDimension();
+
+	console.log(/^\/checkout\//.test(location.pathname));
 
 	const toggleShowPinModal = () => {
 		setShowPinModal(!showPinModal);
@@ -120,29 +123,41 @@ const MainHeader = () => {
 
 	return (
 		<header>
-			<nav className={classes['header-nav']} style={{ width: dynamicWidth }}>
+			<nav
+				className={
+					/^\/checkout\//.test(location.pathname)
+						? `${classes['lone-header']} ${classes['header-nav']}`
+						: `${classes['header-nav']}`
+				}
+				style={{ width: dynamicWidth }}
+			>
 				{/* <div className={classes['nav-content-wrapper']}> */}
 				{/* <div>Width:{dimension.width}</div> */}
 				<Logo />
-				<Pin />
-				{/** //! Below div encapsulates the search bar along with its category and searchbtn as a whole  */}
-				<div className={classes['search-elem']}>
-					<div className={classes['outline-elem']}>
-						<Category />
-						<div className={classes[`search-bar`]}>
-							<InputField
-								type="text"
-								value={searchText}
-								onChange={(e) => setSearchText(e.target.value)}
-								onKeyUp={checkEnterKeyPress}
-							/>
+				{/^\/checkout\//.test(location.pathname) ? (
+					''
+				) : (
+					<>
+						<Pin />
+						{/** //! Below div encapsulates the search bar along with its category and searchbtn as a whole  */}
+						<div className={classes['search-elem']}>
+							<div className={classes['outline-elem']}>
+								<Category />
+								<div className={classes[`search-bar`]}>
+									<InputField
+										type="text"
+										value={searchText}
+										onChange={(e) => setSearchText(e.target.value)}
+										onKeyUp={checkEnterKeyPress}
+									/>
+								</div>
+								<SearchBtn />
+							</div>
 						</div>
-						<SearchBtn />
-					</div>
-				</div>
-				<LoginStatus classes={classes} />
-				<CartBtn />
-				{/* </div> */}
+						<LoginStatus classes={classes} />
+						<CartBtn />
+					</>
+				)}
 			</nav>
 		</header>
 	);

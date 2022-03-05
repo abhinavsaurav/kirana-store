@@ -1,0 +1,64 @@
+.steps-container {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
+	margin-top: -10px;
+
+	.wrapper,
+	.main-wrapper {
+		display: flex;
+		justify-content: center;
+
+		.all-steps {
+			display: flex;
+			justify-content: center;
+			gap: 10px;
+		}
+	}
+
+	// .main-wrapper {
+	//     di
+	// 	align-items: center;
+	// 	justify-content: center;
+	// }
+}
+
+.line-wrapper {
+	display: flex;
+	position: relative;
+	text-align: center;
+
+	// border: 1px solid black;
+	// width: 390px;
+	// content: 'Hi';
+	height: 15px;
+
+	.line {
+		border-bottom: 1px solid black;
+		width: 390px;
+	}
+	.variable {
+		position: absolute;
+		border-bottom: 3px solid black;
+		width: 15px;
+		bottom: -1px;
+		left: 0; // step 1
+	}
+
+	.cart {
+		position: absolute;
+		float: left;
+		// bottom: -15px;   // for top
+		bottom: -12px;
+		left: 10px; // step 1
+		// left: 70px; // step 2
+		// left: 135px; // step 3
+		// left: 210px; // step 4
+		// left: 315px; // step 5
+	}
+
+	.step1 .line1 {
+		width: 10px;
+		border: 1px solid black;
+	}
+}
