@@ -1,5 +1,5 @@
 const express = require('express');
-const authMiddleware = require('../../middleware/authMiddleware');
+const { authMiddleware } = require('../../middleware/authMiddleware');
 const crypto = require('crypto');
 
 const Razorpay = require('razorpay');

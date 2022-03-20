@@ -1,9 +1,28 @@
 const express = require('express');
-const authMiddleware = require('../../middleware/authMiddleware');
+const { authMiddleware } = require('../../middleware/authMiddleware');
 const User = require('../models/user');
 const Cart = require('../models/cart');
+const Order = require('../models/order');
 
 const router = express.Router();
+
+router.get('/', authMiddleware, async (req, res, next) => {
+	try {
+		// console.log(req.user);
+		const orderResult = await Order.find({ user: req.user._id });
+
+		const userProfile = {
+			user: req.user,
+			order: orderResult,
+		};
+		res.send(userProfile);
+		// res.send(orderResult);
+	} catch (err) {
+		// console.log(err.message);
+		// res.status(500).send(err);
+		next(err);
+	}
+});
 
 // Create user
 router.post('/', async (req, res) => {

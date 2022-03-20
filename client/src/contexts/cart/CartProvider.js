@@ -205,6 +205,8 @@ const CartProvider = (props) => {
 	};
 
 	const resetItemsFromCartHandler = async () => {
+		// Below is used for making a reset to cart items if logged in
+		// basically on cart order placement
 		if (auth.isAuthenticated) {
 			const response = await kiranaAPI.delete('/carts/me', {
 				headers: {
