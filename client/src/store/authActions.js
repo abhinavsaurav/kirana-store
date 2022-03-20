@@ -39,16 +39,17 @@ export const logout = createAsyncThunk(LOGOUT, async (token, thunkAPI) => {
 		});
 
 		// if (response.status === 200) {
-		localStorage.removeItem('userInfo');
+
 		// }
 
 		return;
 	} catch (err) {
-		localStorage.removeItem('userInfo');
 		console.log(err);
 		if (!err.response) {
 			throw err;
 		}
 		return thunkAPI.rejectWithValue(err.response.data);
+	} finally {
+		localStorage.removeItem('userInfo');
 	}
 });

@@ -1,7 +1,7 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import CartContext from '../../../../contexts/cart/CartContext';
 import { useDispatch } from 'react-redux';
-import { NavLink, useHistory } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
 import { logout } from '../../../../store/authActions';
 import Dropdown from '../../../UI/dropdown/Dropdown.js';
@@ -13,15 +13,19 @@ const LoginStatus = ({ classes }) => {
 	const cartCtx = useContext(CartContext);
 	// const location = useLocation();
 
+	useEffect(() => {
+		if (!auth.isAuthenticated) {
+			cartCtx.resetItems();
+			localStorage.removeItem('cartData');
+			// if (location.pathname !== '/') {
+			history.push('/login');
+		}
+	}, [auth.isAuthenticated]);
+
 	const logoutDispatcher = async (e) => {
 		e.preventDefault();
 		console.log('firing');
 		await dispatch(logout(auth.token));
-		await cartCtx.resetItems();
-		localStorage.removeItem('cartData');
-		// if (location.pathname !== '/') {
-		history.push('/login');
-		// }
 	};
 
 	return (
@@ -33,10 +37,10 @@ const LoginStatus = ({ classes }) => {
 		>
 			{auth.isAuthenticated ? (
 				<Dropdown defaultValue={`Hi ${auth.userInfo.name}`}>
-					<a href="/search?item='test'">My profile</a>
-					<a href="#" onClick={logoutDispatcher}>
+					<Link to="/search?item='test'">My profile</Link>
+					<Link to="#" onClick={logoutDispatcher}>
 						Log out
-					</a>
+					</Link>
 					{/* <a href="#">test3</a> */}
 				</Dropdown>
 			) : (
