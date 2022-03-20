@@ -204,7 +204,16 @@ const CartProvider = (props) => {
 		}
 	};
 
-	const resetItemsFromCartHandler = () => {
+	const resetItemsFromCartHandler = async () => {
+		if (auth.isAuthenticated) {
+			const response = await kiranaAPI.delete('/carts/me', {
+				headers: {
+					Authorization: `Bearer ${auth.token}`,
+				},
+			});
+			console.log(response);
+		}
+
 		dispatchCartActions({ type: 'RESET_CART' });
 	};
 

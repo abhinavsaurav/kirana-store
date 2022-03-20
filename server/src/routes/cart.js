@@ -2,8 +2,7 @@ const express = require('express');
 const authMiddleware = require('../../middleware/authMiddleware');
 const cartMiddleware = require('../../middleware/cartMiddleware');
 const Cart = require('../models/cart');
-const chalk = require('chalk');
-const { request } = require('express');
+// const chalk = require('chalk');
 
 const router = express.Router();
 
@@ -37,7 +36,7 @@ router.post('/me', authMiddleware, cartMiddleware, async (req, res, next) => {
 				});
 
 				if (!flag) {
-					console.log('onFlag' + newItem);
+					// console.log('onFlag' + newItem);
 					req.cart.cartItems.push(newItem);
 				}
 			});
@@ -83,6 +82,25 @@ router.delete(
 
 			req.cart.totalQty = parseFloat(totalQty);
 			req.cart.totalPrice = parseFloat(totalPrice);
+
+			await req.cart.save();
+			res.send();
+		} catch (err) {
+			next(err);
+		}
+	}
+);
+
+// for deleting all items
+router.delete(
+	'/me/',
+	authMiddleware,
+	cartMiddleware,
+	async (req, res, next) => {
+		try {
+			req.cart.cartItems = [];
+			req.cart.totalQty = 0;
+			req.cart.totalPrice = 0;
 
 			await req.cart.save();
 			res.send();

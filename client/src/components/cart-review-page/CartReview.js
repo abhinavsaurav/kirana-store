@@ -5,12 +5,17 @@ import useAuth from '../../hooks/useAuth';
 
 import CartContext from '../../contexts/cart/CartContext';
 import Cart from '../cart/Cart';
-import { createOrder, orderPayment } from '../../store/checkout/orderActions';
+import {
+	createOrder,
+	orderPayment,
+	orderPaymentError,
+} from '../../store/checkout/orderActions';
 
 import Button from '../UI/button/Button';
 import classes from './CartReview.module.scss';
 import { SUCCESS } from '../../data/constants';
 import kiranaAPI from '../../apis/kiranaAPI';
+import CheckoutSteps from '../UI/checkout-steps/CheckoutSteps';
 
 const CartReview = (props) => {
 	const history = useHistory();
@@ -24,6 +29,7 @@ const CartReview = (props) => {
 	const paymentMethod = useSelector((state) => state.payment.paymentMethod);
 	const orderStatus = useSelector((state) => state.order.status);
 	const order = useSelector((state) => state.order);
+	const paymentResult = useSelector((state) => state.order.paymentStatus);
 
 	const totalItemsPrice = cartCtx.totalPrice;
 
@@ -67,6 +73,8 @@ const CartReview = (props) => {
 				description: 'This is a Test Transaction',
 				image: 'https://example.com/your_logo',
 				order_id: order.paymentOrder.orderId,
+				// callback_url: 'http://localhost:3000/order/success', this is being sent to the server
+				// redirect: true,
 				handler: function (response) {
 					dispatch(
 						orderPayment({
@@ -79,9 +87,9 @@ const CartReview = (props) => {
 							orderId: order.orderId,
 						})
 					);
-					alert(response.razorpay_payment_id);
-					alert(response.razorpay_order_id);
-					alert(response.razorpay_signature);
+					// alert(response.razorpay_payment_id);
+					// alert(response.razorpay_order_id);
+					// alert(response.razorpay_signature);
 				},
 				prefill: {
 					name: 'Kirana Inc',
@@ -97,13 +105,27 @@ const CartReview = (props) => {
 			};
 			var rzp1 = new window.Razorpay(options);
 			rzp1.on('payment.failed', function (response) {
-				alert(response.error.code);
-				alert(response.error.description);
-				alert(response.error.source);
-				alert(response.error.step);
-				alert(response.error.reason);
-				alert(response.error.metadata.order_id);
-				alert(response.error.metadata.payment_id);
+				const { code, description, source, step, reason, metadata } =
+					response.error;
+
+				dispatch(
+					orderPaymentError({
+						code,
+						description,
+						source,
+						step,
+						reason,
+						metadata,
+					})
+				);
+
+				// alert(response.error.code);
+				// alert(response.error.description);
+				// alert(response.error.source);
+				// alert(response.error.step);
+				// alert(response.error.reason);
+				// alert(response.error.metadata.order_id);
+				// alert(response.error.metadata.payment_id);
 			});
 			(function () {
 				rzp1.open();
@@ -111,6 +133,13 @@ const CartReview = (props) => {
 			})();
 		}
 	}, [orderStatus]);
+
+	useEffect(() => {
+		if (paymentResult === SUCCESS) {
+			cartCtx.resetItems();
+			history.push('/orders/result');
+		}
+	}, [paymentResult]);
 
 	const handleOrderAndPayment = async (e) => {
 		e.preventDefault();
@@ -168,6 +197,7 @@ const CartReview = (props) => {
 
 	return (
 		<div className={`${classes['review-container']}`}>
+			<CheckoutSteps step="4" />
 			<div className={classes.header}>
 				<h2>Review your order</h2>
 			</div>

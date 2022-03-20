@@ -6,6 +6,7 @@ import Button from '../UI/button/Button';
 import classes from './Address.module.scss';
 import { IS_NUMBER_REGEX } from '../../data/constants';
 import { useHistory } from 'react-router-dom';
+import CheckoutSteps from '../UI/checkout-steps/CheckoutSteps';
 
 const Address = (props) => {
 	const history = useHistory();
@@ -86,6 +87,7 @@ const Address = (props) => {
 				''
 			)}
 			<div className={classes['form-wrapper']}>
+				<CheckoutSteps step="2" />
 				<form onSubmit={handleOnSubmit} className={classes['new-address']}>
 					<div className={classes['header']}>
 						<div>

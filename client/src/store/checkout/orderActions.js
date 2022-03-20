@@ -3,6 +3,7 @@ import kiranaAPI from '../../apis/kiranaAPI';
 import {
 	ORDER_CREATE_REQUEST,
 	ORDER_PAYMENT_REQUEST,
+	ORDER_PAYMENT_ERROR,
 } from '../../data/constants';
 
 export const createOrder = createAsyncThunk(
@@ -49,12 +50,31 @@ export const orderPayment = createAsyncThunk(
 				'PaymentResult',
 				JSON.stringify({ serverResponse: verifySignature.data, data })
 			);
+			localStorage.removeItem('PaymentError');
+
 			return {
 				serverResponse: verifySignature.data,
 				data: {
 					response: data.response,
 				},
 			};
+		} catch (err) {
+			if (!err.response) {
+				throw err;
+			}
+
+			return thunkAPI.rejectWithValue(err.response.data);
+		} finally {
+		}
+	}
+);
+
+export const orderPaymentError = createAsyncThunk(
+	ORDER_PAYMENT_ERROR,
+	async (data, thunkAPI) => {
+		try {
+			localStorage.setItem('PaymentError', JSON.stringify(data));
+			return data;
 		} catch (err) {
 			if (!err.response) {
 				throw err;

@@ -1,0 +1,104 @@
+.steps-container {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
+	margin-top: -10px;
+
+	.wrapper,
+	.main-wrapper {
+		display: flex;
+		justify-content: center;
+
+		.all-steps {
+			display: flex;
+			justify-content: center;
+			gap: 10px;
+		}
+	}
+
+	.active {
+		font-weight: bold;
+	}
+}
+
+.line-wrapper {
+	display: flex;
+	position: relative;
+	text-align: center;
+	height: 15px;
+
+	.line {
+		border-bottom: 1px solid black;
+		width: 390px;
+	}
+	.variable {
+		position: absolute;
+		border-bottom: 3px solid black;
+		bottom: -1px;
+		left: 0; // step 1
+	}
+
+	.cart {
+		position: absolute;
+		float: left;
+		// bottom: -15px;   // for top
+		bottom: -12px;
+	}
+}
+
+.one {
+	.variable {
+		width: 15px; // step 1
+	}
+	.cart {
+		left: 10px; // step 1
+	}
+}
+
+.two {
+	.variable {
+		width: 77px; // step 2
+	}
+	.cart {
+		left: 71px; // step 2
+	}
+}
+
+.three {
+	.variable {
+		width: 142px; // step 3
+	}
+	.cart {
+		left: 136px; // step 3
+	}
+}
+
+.four {
+	.variable {
+		width: 218px; // step 4
+	}
+	.cart {
+		left: 212px; // step 4
+	}
+}
+
+.five {
+	.variable {
+		width: 322px; // step 5
+	}
+	.cart {
+		left: 317px; // step 5
+	}
+}
+
+// Skipping animation as would take 10 total animation write-up to acheive the effect
+// Making it smaller will probably need to properly make the steps as common and only change
+// the routes based on the page
+// but the below seems more appropriate as it doesn't rely on other pieces of code set-up in a
+// way to allow the animation to happen
+
+// @keyframes step2 {
+// 	0%{
+// 		width: 15px;
+// 	}
+// }

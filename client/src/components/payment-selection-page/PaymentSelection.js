@@ -5,6 +5,7 @@ import InputField from '../UI/input/InputField';
 import Button from '../UI/button/Button';
 import classes from './PaymentSelection.module.scss';
 import { setPaymentMethod } from '../../store/checkout/paymentSlice';
+import CheckoutSteps from '../UI/checkout-steps/CheckoutSteps';
 
 const PaymentSelection = (props) => {
 	const history = useHistory();
@@ -37,6 +38,7 @@ const PaymentSelection = (props) => {
 
 	return (
 		<div className={classes['payment-selection-container']}>
+			<CheckoutSteps step="3" />
 			<div className={classes.header}>
 				<h2>Select a payment method</h2>
 			</div>
@@ -50,21 +52,22 @@ const PaymentSelection = (props) => {
 								<InputField
 									type="radio"
 									name="payment-method"
-									label="Paypal"
-									id="paypal"
-									data-payment-name="Paypal"
+									label="Razorpay"
+									id="razorpay"
+									data-payment-name="Razorpay"
 									onChange={handleOnChange}
+									// disabled
 								/>
 							</div>
 							<div className={classes.field}>
 								<InputField
 									type="radio"
 									name="payment-method"
-									label="Razorpay"
-									id="razorpay"
-									data-payment-name="Razorpay"
+									label="Paypal"
+									id="paypal"
+									data-payment-name="Paypal"
 									onChange={handleOnChange}
-									// disabled
+									disabled
 								/>
 							</div>
 						</div>
