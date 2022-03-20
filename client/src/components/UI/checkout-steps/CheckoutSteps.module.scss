@@ -16,21 +16,15 @@
 		}
 	}
 
-	// .main-wrapper {
-	//     di
-	// 	align-items: center;
-	// 	justify-content: center;
-	// }
+	.active {
+		font-weight: bold;
+	}
 }
 
 .line-wrapper {
 	display: flex;
 	position: relative;
 	text-align: center;
-
-	// border: 1px solid black;
-	// width: 390px;
-	// content: 'Hi';
 	height: 15px;
 
 	.line {
@@ -40,7 +34,6 @@
 	.variable {
 		position: absolute;
 		border-bottom: 3px solid black;
-		width: 15px;
 		bottom: -1px;
 		left: 0; // step 1
 	}
@@ -50,15 +43,62 @@
 		float: left;
 		// bottom: -15px;   // for top
 		bottom: -12px;
-		left: 10px; // step 1
-		// left: 70px; // step 2
-		// left: 135px; // step 3
-		// left: 210px; // step 4
-		// left: 315px; // step 5
-	}
-
-	.step1 .line1 {
-		width: 10px;
-		border: 1px solid black;
 	}
 }
+
+.one {
+	.variable {
+		width: 15px; // step 1
+	}
+	.cart {
+		left: 10px; // step 1
+	}
+}
+
+.two {
+	.variable {
+		width: 77px; // step 2
+	}
+	.cart {
+		left: 71px; // step 2
+	}
+}
+
+.three {
+	.variable {
+		width: 142px; // step 3
+	}
+	.cart {
+		left: 136px; // step 3
+	}
+}
+
+.four {
+	.variable {
+		width: 218px; // step 4
+	}
+	.cart {
+		left: 212px; // step 4
+	}
+}
+
+.five {
+	.variable {
+		width: 322px; // step 5
+	}
+	.cart {
+		left: 317px; // step 5
+	}
+}
+
+// Skipping animation as would take 10 total animation write-up to acheive the effect
+// Making it smaller will probably need to properly make the steps as common and only change
+// the routes based on the page
+// but the below seems more appropriate as it doesn't rely on other pieces of code set-up in a
+// way to allow the animation to happen
+
+// @keyframes step2 {
+// 	0%{
+// 		width: 15px;
+// 	}
+// }

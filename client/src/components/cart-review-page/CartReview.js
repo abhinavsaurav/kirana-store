@@ -15,6 +15,7 @@ import Button from '../UI/button/Button';
 import classes from './CartReview.module.scss';
 import { SUCCESS } from '../../data/constants';
 import kiranaAPI from '../../apis/kiranaAPI';
+import CheckoutSteps from '../UI/checkout-steps/CheckoutSteps';
 
 const CartReview = (props) => {
 	const history = useHistory();
@@ -196,6 +197,7 @@ const CartReview = (props) => {
 
 	return (
 		<div className={`${classes['review-container']}`}>
+			<CheckoutSteps step="4" />
 			<div className={classes.header}>
 				<h2>Review your order</h2>
 			</div>
