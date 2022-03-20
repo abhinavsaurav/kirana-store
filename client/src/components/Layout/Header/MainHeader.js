@@ -12,6 +12,7 @@ import HeaderCartButton from './main-header-sections/HeaderCartButton';
 
 import classes from './MainHeader.module.scss';
 import Pic1 from '../../../assets/pictures/carousel/pic1.png';
+import AdminButton from './main-header-sections/AdminButton';
 
 const MainHeader = () => {
 	const [searchText, setSearchText] = useState('');
@@ -155,6 +156,7 @@ const MainHeader = () => {
 							</div>
 						</div>
 						<LoginStatus classes={classes} />
+						<AdminButton classes={classes} history={history} />
 						<CartBtn />
 					</>
 				)}

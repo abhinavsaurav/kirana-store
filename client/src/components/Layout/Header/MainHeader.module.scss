@@ -36,7 +36,8 @@ header {
 .header-nav {
 	.logo,
 	.search-elem,
-	.login {
+	.login,
+	.admin {
 		@include flex-center-row();
 	}
 

@@ -33,6 +33,7 @@ import Signup from './components/signup/Signup';
 import PaymentSelection from './components/payment-selection-page/PaymentSelection';
 import CartReview from './components/cart-review-page/CartReview';
 import OrderResult from './components/order-result-page/OrderResult';
+import AdminRoutesLayout from './components/Layout/AdminRoutesLayout';
 
 library.add(
 	faShoppingCart,
@@ -91,6 +92,9 @@ function App() {
 										<SearchPage />
 									</Route>
 									<Route path="/products/:id" exact component={ProductPage} />
+
+									<Route path="/admin" component={AdminRoutesLayout} />
+
 									<Route path="/">
 										<Redirect to="/" />
 									</Route>
