@@ -11,6 +11,8 @@ const userRouter = require('./routes/user');
 const productRouter = require('./routes/product');
 const cartRouter = require('./routes/cart');
 const orderRouter = require('./routes/order');
+const adminRouter = require('./routes/admin/index');
+
 const { authMiddleware } = require('../middleware/authMiddleware');
 
 const app = express();
@@ -28,6 +30,7 @@ app.use('/users', userRouter);
 app.use('/products', productRouter);
 app.use('/carts', cartRouter);
 app.use('/orders', orderRouter);
+app.use('/admin', adminRouter);
 
 // SENDING PRIVATE KEY_ID
 app.post('/config/razorpay', authMiddleware, (req, res, next) => {

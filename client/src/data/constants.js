@@ -21,6 +21,9 @@ export const ORDER_PAYMENT_REQUEST = 'ORDER_PAYMENT_REQUEST';
 // export const ORDER_PAYMENT_SUCCESS = 'ORDER_PAYMENT_SUCCESS';
 export const ORDER_PAYMENT_ERROR = 'ORDER_PAYMENT_ERROR';
 
+export const CHART_PAID_UNPAID_COUNT = 'CHART_PAID_UNPAID_COUNT';
+export const CHART_TOTAL_MONTHLY_ORDER = 'CHART_TOTAL_MONTHLY_ORDER';
+
 // Errors - LOGIN PAGE
 export const ERROR_LOGIN_SUBMIT = 'Username or Password entered is wrong!';
 export const ERROR_LOGIN_EMAIL = 'Username format is incorrect';
