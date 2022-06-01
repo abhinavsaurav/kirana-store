@@ -51,7 +51,20 @@ const totalMonthlyOrder = async (req, res, next) => {
 			},
 		]);
 
-		res.send({ totalMonthlyOrder });
+		console.log();
+
+		totalMonthlyOrder.map((data) => {
+			if (data._id) {
+				// console.log(data._id);
+				data.month = data._id;
+			}
+
+			delete data._id;
+		});
+
+		res.send({
+			totalMonthlyOrder,
+		});
 	} catch (err) {
 		next(err);
 	}

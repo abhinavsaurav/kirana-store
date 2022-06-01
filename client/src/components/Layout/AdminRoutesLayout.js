@@ -5,6 +5,7 @@ import ManageProducts from '../admin/ManageProducts';
 import ManageOrders from '../admin/ManageOrders';
 import Insights from '../admin/Insights';
 import useAuth from '../../hooks/useAuth';
+import classes from './AdminRoutesLayout.module.scss';
 
 const AdminRoutesLayout = () => {
 	const auth = useAuth();
@@ -20,7 +21,7 @@ const AdminRoutesLayout = () => {
 	}
 
 	return (
-		<div>
+		<div className={`${classes['admin-container']}}`}>
 			<h1>Admin Section</h1>
 			<div>
 				<Switch>
