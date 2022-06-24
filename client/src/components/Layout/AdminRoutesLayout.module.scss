@@ -1,3 +1,32 @@
 .admin-container {
-	width: 1400px;
+	width: 100vw !important;
+	// height: 100% !important;
+	flex-grow: 1;
+	display: flex;
+
+	.sidebar {
+		// resize: horizontal;
+		padding-top: 5px;
+		height: 100%;
+		min-width: 240px;
+		max-width: 340px;
+		overflow: auto;
+		display: flex;
+		border-right: 2px solid black;
+		justify-content: center;
+	}
+
+	.body {
+		flex: 1;
+		background-color: orange;
+		min-width: calc(100%-240px);
+		max-width: calc(100%-340px);
+	}
+	// .separator {
+
+	// 	border-left: 2px solid black;
+	// 	width: 10px;
+	// 	content: ' ';
+	// 	// border: 1px solid;
+	// }
 }

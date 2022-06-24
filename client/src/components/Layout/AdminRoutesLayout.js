@@ -21,9 +21,14 @@ const AdminRoutesLayout = () => {
 	}
 
 	return (
-		<div className={`${classes['admin-container']}}`}>
-			<h1>Admin Section</h1>
-			<div>
+		<div className={classes['admin-container']}>
+			<div className={classes.sidebar}>
+				<div className={classes.header}>
+					<h1>Admin</h1>
+				</div>
+			</div>
+			{/* <div className={classes.separator}></div> */}
+			<div className={classes.body}>
 				<Switch>
 					<PrivateRoute path="/admin/insights" component={Insights} />
 					<PrivateRoute path="/admin/users" exact component={ManageUsers} />

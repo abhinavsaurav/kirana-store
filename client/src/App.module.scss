@@ -6,10 +6,11 @@
 
 	main {
 		flex-grow: 1;
-
+		display: flex;
 		.main-wrapper {
 			margin: 0 auto;
 			display: flex;
+			// flex-direction: column;
 			justify-content: center;
 		}
 	}

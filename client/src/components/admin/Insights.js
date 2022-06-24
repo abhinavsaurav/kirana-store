@@ -155,7 +155,7 @@ const Insights = (props) => {
 							},
 							tooltip: {
 								xAlign: 'left',
-								yAlign: 'top', // ! Not working this needs to be corrected probably need to override configuration in default chart
+								yAlign: 'top',
 							},
 						},
 					}}

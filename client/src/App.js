@@ -93,6 +93,7 @@ function App() {
 									</Route>
 									<Route path="/products/:id" exact component={ProductPage} />
 
+									{/* For Admin routes */}
 									<Route path="/admin" component={AdminRoutesLayout} />
 
 									<Route path="/">
