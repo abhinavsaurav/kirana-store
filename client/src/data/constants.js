@@ -1,5 +1,5 @@
 // URL
-const PRODUCTION_API_URL = '';
+const PRODUCTION_API_URL = 'http://localhost:5000/'; // for now its acting as production too
 const DEVELOPMENT_API_URL = 'http://localhost:5000/';
 export const API_URL = PRODUCTION_API_URL || DEVELOPMENT_API_URL;
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const {
 	routeNotFound,
@@ -22,8 +23,11 @@ app.use(cors());
 // for parsing req body - json
 app.use(express.json());
 
+console.log(path.join(__dirname + '/../../client/build'));
+app.use(express.static(path.join(__dirname + '/../../client/build')));
+
 app.get('/', (req, res) => {
-	res.send('Kirana-store-api working!');
+	res.render('index.html');
 });
 
 app.use('/users', userRouter);
