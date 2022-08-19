@@ -15,8 +15,9 @@ const DefaultPage = () => {
 	const dispatch = useDispatch();
 	const productsData = useSelector((state) => state.product.products);
 	// const [productsData, setProductsData] = useState([]);
-
+	console.log(1, productsData);
 	useEffect(() => {
+		console.log(2, productsData);
 		dispatch(fetchAllProducts());
 	}, [dispatch]);
 
@@ -39,20 +40,23 @@ const DefaultPage = () => {
 		<div className={classes['products-container']} style={{}}>
 			<div className={classes.wrapper} style={{}}>
 				{productsData ? (
-					productsData.message ? (
+					productsData.length === 0 ? (
 						<div
 							style={{
 								width: '100%',
 								height: '300px',
-								color: 'white',
+								color: 'red',
 								// border: '1px solid white',
-								// background: 'white',
+								// background: 'red',
 							}}
 						>
-							<h2>
-								Failed to load data. Please refresh again! This is not properly
-								handled so needs to be redone
-							</h2>
+							<span>
+								<h2>
+									Loading please wait if not Please refresh again! This is not
+									properly handled so needs to be redone
+								</h2>
+								<Spinner w="50px" h="50px" />
+							</span>
 						</div>
 					) : (
 						productsData.map((data) => {

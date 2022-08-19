@@ -10,6 +10,7 @@ const authIntialState = {
 	isAuthenticated: userInfoFromStorage ? true : false,
 	token: userInfoFromStorage ? userInfoFromStorage.token : null,
 	userInfo: userInfoFromStorage ? userInfoFromStorage.user : {},
+	hasRedirected: !!userInfoFromStorage,
 	status: 'idle',
 	error: null,
 };
@@ -20,6 +21,9 @@ const authSlice = createSlice({
 	reducers: {
 		resetAuthError(state, action) {
 			state.error = null;
+		},
+		setRedirectionFlag(state, action) {
+			state.hasRedirected = action.payload;
 		},
 	},
 	extraReducers: {
@@ -44,6 +48,7 @@ const authSlice = createSlice({
 			state.isAuthenticated = false;
 			state.userInfo = {};
 			state.token = null;
+			state.hasRedirected = false;
 		},
 		[logout.rejected]: (state, action) => {
 			state.isAuthenticated = false;
@@ -51,6 +56,7 @@ const authSlice = createSlice({
 			state.token = null;
 			state.status = ERROR;
 			state.error = action.payload;
+			state.hasRedirected = false;
 		},
 	},
 });

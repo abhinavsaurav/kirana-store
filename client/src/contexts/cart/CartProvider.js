@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useEffect } from 'react';
 import CartContext from './CartContext';
 import useAuth from '../../hooks/useAuth';
 import kiranaAPI from '../../apis/kiranaAPI';
@@ -59,12 +59,14 @@ const cartReducer = (state, action) => {
 
 	if (action.type === 'REMOVE') {
 		// console.log('Inside the delete reducer ');
-		console.log(state.items);
 		const existingCartItemIndex = state.items.findIndex(
 			(item) => item.id._id === action.id || item.id === action.id
 		);
 
 		const cartItemToBeUpdated = state.items[existingCartItemIndex];
+
+		console.log(state.items, '--actionID->-', action.id);
+		// console.log();
 
 		// currently removing the entire item. So, full price of the item
 		const updatedTotalPrice =
@@ -89,10 +91,12 @@ const cartReducer = (state, action) => {
 	}
 
 	if (action.type === 'RESET_CART') {
-		return {
+		const data = {
 			items: [],
 			totalPrice: 0,
 		};
+		localStorage.setItem('cartData', data);
+		return data;
 	}
 
 	if (action.type === 'UPDATED_CART_DATA_FROM_DB') {
@@ -111,11 +115,37 @@ const cartReducer = (state, action) => {
 // It allows consuming components to subscribe to context changes.
 const CartProvider = (props) => {
 	const auth = useAuth();
+	// const cartCtx
 
 	const [cartState, dispatchCartActions] = useReducer(
 		cartReducer,
 		defaultCartState
 	);
+
+	function debounce(cb, timeout = 200, ...arg) {
+		let timer;
+
+		return function (...args) {
+			clearTimeout(timer);
+			timer = setTimeout(() => {
+				cb();
+			}, timeout);
+		};
+	}
+
+	useEffect(() => {
+		console.log('in cartProvider');
+		console.log('cartState:', cartState);
+		debounce(() => {
+			console.log('fired debounce timeout');
+			localStorage.setItem('cartData', JSON.stringify(cartState));
+		}, 500)();
+
+		return () => {
+			// localStorage.setItem('myTest', 'this ran brother');
+			// localStorage.removeItem('cartData');
+		};
+	}, [cartState]);
 
 	const addItemToCartHandler = async (item) => {
 		console.log(item);
@@ -139,6 +169,7 @@ const CartProvider = (props) => {
 					},
 				}
 			);
+			// response.then(response.data);
 			console.log(response.data);
 		}
 
@@ -205,6 +236,8 @@ const CartProvider = (props) => {
 	};
 
 	const resetItemsFromCartHandler = async () => {
+		// Below is used for making a reset to cart items if logged in
+		// basically on cart order placement
 		if (auth.isAuthenticated) {
 			const response = await kiranaAPI.delete('/carts/me', {
 				headers: {

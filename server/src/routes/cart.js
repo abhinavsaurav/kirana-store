@@ -1,5 +1,8 @@
 const express = require('express');
-const authMiddleware = require('../../middleware/authMiddleware');
+const {
+	authMiddleware,
+	adminMiddleware,
+} = require('../../middleware/authMiddleware');
 const cartMiddleware = require('../../middleware/cartMiddleware');
 const Cart = require('../models/cart');
 // const chalk = require('chalk');
@@ -140,9 +143,9 @@ router.patch(
 	}
 );
 
-// TODO Probably will be used by the ADMIN to see the cart items of a user
+// // TODO Probably will be used by the ADMIN to see the cart items of a user
 // BUt currently its just returning the cart data based off of the id
-router.get('/:id', authMiddleware, async (req, res, next) => {
+router.get('/:id', authMiddleware, adminMiddleware, async (req, res, next) => {
 	try {
 		// console.log(req.params.id);
 		if (req.params.id.length !== 24 || !/[0-9a-fA-F]{24}/.test(req.params.id)) {

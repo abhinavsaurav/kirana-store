@@ -34,4 +34,17 @@ const authMiddleware = async (req, res, next) => {
 	}
 };
 
-module.exports = authMiddleware;
+const adminMiddleware = async (req, res, next) => {
+	try {
+		if (req.user && req.user.isAdmin) {
+			next();
+		} else {
+			res.status(403);
+			throw new Error('Not Authorized as an Admin');
+		}
+	} catch (err) {
+		next(err);
+	}
+};
+
+module.exports = { authMiddleware, adminMiddleware };

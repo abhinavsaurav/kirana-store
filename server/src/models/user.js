@@ -92,6 +92,8 @@ userSchema.methods.toJSON = function () {
 	const userObjects = user.toObject();
 
 	delete userObjects.password;
+	// console.log(userObjects.isAdmin);
+
 	if (!userObjects.isAdmin) {
 		delete userObjects.isAdmin;
 	}

@@ -1,5 +1,5 @@
 // URL
-const PRODUCTION_API_URL = '';
+const PRODUCTION_API_URL = 'http://localhost:5000/'; // for now its acting as production too
 const DEVELOPMENT_API_URL = 'http://localhost:5000/';
 export const API_URL = PRODUCTION_API_URL || DEVELOPMENT_API_URL;
 
@@ -20,6 +20,9 @@ export const ORDER_CREATE_REQUEST = 'ORDER_CREATE_REQUEST';
 export const ORDER_PAYMENT_REQUEST = 'ORDER_PAYMENT_REQUEST';
 // export const ORDER_PAYMENT_SUCCESS = 'ORDER_PAYMENT_SUCCESS';
 export const ORDER_PAYMENT_ERROR = 'ORDER_PAYMENT_ERROR';
+
+export const CHART_PAID_UNPAID_COUNT = 'CHART_PAID_UNPAID_COUNT';
+export const CHART_TOTAL_MONTHLY_ORDER = 'CHART_TOTAL_MONTHLY_ORDER';
 
 // Errors - LOGIN PAGE
 export const ERROR_LOGIN_SUBMIT = 'Username or Password entered is wrong!';

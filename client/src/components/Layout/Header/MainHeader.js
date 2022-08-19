@@ -12,6 +12,7 @@ import HeaderCartButton from './main-header-sections/HeaderCartButton';
 
 import classes from './MainHeader.module.scss';
 import Pic1 from '../../../assets/pictures/carousel/pic1.png';
+import AdminButton from './main-header-sections/AdminButton';
 
 const MainHeader = () => {
 	const [searchText, setSearchText] = useState('');
@@ -121,11 +122,17 @@ const MainHeader = () => {
 		setDynamicWidth(dimension.width);
 	}, [dimension.width]);
 
+	const loneHeaderCheck = !!(
+		/^\/checkout\//.test(location.pathname) ||
+		/^\/login/.test(location.pathname)
+	);
+
 	return (
 		<header>
 			<nav
 				className={
-					/^\/checkout\//.test(location.pathname)
+					// /^\/checkout\//.test(location.pathname)
+					loneHeaderCheck
 						? `${classes['lone-header']} ${classes['header-nav']}`
 						: `${classes['header-nav']}`
 				}
@@ -134,7 +141,10 @@ const MainHeader = () => {
 				{/* <div className={classes['nav-content-wrapper']}> */}
 				{/* <div>Width:{dimension.width}</div> */}
 				<Logo />
-				{/^\/checkout\//.test(location.pathname) ? (
+				{loneHeaderCheck ? (
+					// /^\/checkout\//.test(location.pathname) ||
+					// /^\/login/.test(location.pathname) ? ( // ! removing the login test causes a bug due to loginstatus resetting
+					// 	// ! the cart
 					''
 				) : (
 					<>
@@ -155,6 +165,7 @@ const MainHeader = () => {
 							</div>
 						</div>
 						<LoginStatus classes={classes} />
+						<AdminButton classes={classes} history={history} />
 						<CartBtn />
 					</>
 				)}

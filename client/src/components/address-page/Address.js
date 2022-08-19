@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCheckoutAddress } from '../../store/checkout/addressActions';
 import InputField from '../UI/input/InputField';
@@ -21,6 +21,12 @@ const Address = (props) => {
 		country: 'INDIA',
 	});
 	console.log(address.fullName);
+
+	useEffect(() => {
+		// Modal makes the below hidden
+		// and due to re-direction its not added so added now
+		document.body.style.overflow = 'auto';
+	}, []);
 
 	// TODO Need to remove reference for it the address are added
 	const [isSelectAddress, setIsSelectAddress] = useState(false);

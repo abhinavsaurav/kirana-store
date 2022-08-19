@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const {
 	routeNotFound,
@@ -11,7 +12,9 @@ const userRouter = require('./routes/user');
 const productRouter = require('./routes/product');
 const cartRouter = require('./routes/cart');
 const orderRouter = require('./routes/order');
-const authMiddleware = require('../middleware/authMiddleware');
+const adminRouter = require('./routes/admin/index');
+
+const { authMiddleware } = require('../middleware/authMiddleware');
 
 const app = express();
 
@@ -20,14 +23,18 @@ app.use(cors());
 // for parsing req body - json
 app.use(express.json());
 
+console.log(path.join(__dirname + '/../../client/build'));
+app.use(express.static(path.join(__dirname + '/../../client/build')));
+
 app.get('/', (req, res) => {
-	res.send('Kirana-store-api working!');
+	res.render('index.html');
 });
 
 app.use('/users', userRouter);
 app.use('/products', productRouter);
 app.use('/carts', cartRouter);
 app.use('/orders', orderRouter);
+app.use('/admin', adminRouter);
 
 // SENDING PRIVATE KEY_ID
 app.post('/config/razorpay', authMiddleware, (req, res, next) => {
