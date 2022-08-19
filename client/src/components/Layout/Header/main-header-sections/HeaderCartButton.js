@@ -15,6 +15,8 @@ const HeaderCartButton = () => {
 			items: cartCtx.items,
 			totalPrice: cartCtx.totalPrice,
 		};
+		// console.log('and i will never change');
+
 		// storing this locally
 		localStorage.setItem('cartData', JSON.stringify(data));
 	}, [auth.isAuthenticated, cartCtx.items, cartCtx.totalPrice]);

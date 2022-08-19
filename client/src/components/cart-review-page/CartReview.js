@@ -34,12 +34,16 @@ const CartReview = (props) => {
 	const totalItemsPrice = cartCtx.totalPrice;
 
 	let taxPrice = 0; // will charge 12% tax i guess
-	let priceAfterTax = 0;
-	let shippingCharge = 10;
 	let priceToPay = 0;
-	taxPrice = +totalItemsPrice * (12 / 100); // will charge 12% tax i guess
-	priceAfterTax = taxPrice + +totalItemsPrice; // will charge 12% tax i guess
-	priceToPay = priceAfterTax + shippingCharge;
+	let shippingCharge = 0;
+	let priceAfterTax = 0;
+
+	if (cartCtx.items.length > 0) {
+		shippingCharge = 10;
+		taxPrice = cartCtx.items.length > 0 ? +totalItemsPrice * (12 / 100) : 0; // will charge 12% tax i guess
+		priceAfterTax = taxPrice + +totalItemsPrice; // will charge 12% tax i guess
+		priceToPay = priceAfterTax + shippingCharge;
+	}
 
 	useEffect(() => {
 		const script = document.createElement('script');
@@ -140,6 +144,14 @@ const CartReview = (props) => {
 			history.push('/orders/result');
 		}
 	}, [paymentResult]);
+
+	// ! This is a hack i am doing not sure why this is happening probably
+	// ! need more investigation to this
+	// useEffect(() => {
+	// 	if (cartCtx.items.length === 0) {
+	// 		cartCtx.resetItems();
+	// 	}
+	// }, [cartCtx.items]);
 
 	const handleOrderAndPayment = async (e) => {
 		e.preventDefault();

@@ -35,7 +35,10 @@ const Login = (props) => {
 	const apiError = auth.error;
 
 	const redirect = location.search ? location.search.split('=')[1] : '/';
-
+	const [redirectURL, setRedirectURL] = useState(
+		location.search ? location.search.split('=')[1] : '/'
+	);
+	console.log(redirectURL, '---', location);
 	useEffect(() => {
 		if (apiError) {
 			setHasError(true);
@@ -49,23 +52,45 @@ const Login = (props) => {
 
 	// }, [, cartCtx.items, cartCtx.totalAmount]);
 
-	useEffect(() => {
-		const data = {
-			items: cartCtx.items,
-			amount: cartCtx.totalAmount,
-		};
-		// storing this locally
-		localStorage.setItem('cartData', JSON.stringify(data));
-	}, [cartCtx.items, cartCtx.totalAmount]);
+	// useEffect(() => {
+	// 	const data = {
+	// 		items: cartCtx.items,
+	// 		amount: cartCtx.totalAmount,
+	// 	};
+	// 	// storing this locally
+	// 	// localStorage.setItem('cartData', JSON.stringify(data));
+	// }, [cartCtx.items, cartCtx.totalAmount]);
 
 	// * Redirecting After Login
 	useEffect(() => {
+		console.log('I am firing', auth.hasRedirected, auth.isAuthenticated);
+		console.log('redirect-->', redirectURL);
 		if (auth.isAuthenticated) {
-			console.log('I am firing');
-			cartCtx.updateItems(cartCtx.items, cartCtx.totalPrice);
-			history.push(redirect);
+			if (!auth.hasRedirected) {
+				console.log('this is turned on', !auth.hasRedirected);
+				console.log('current cartctx', cartCtx);
+				setTimeout(cartCtx.updateItems(cartCtx.items, cartCtx.totalPrice), 0); // no need of timeout i guess
+				dispatch(authDefaultActions.setRedirectionFlag(true));
+				// setTimeout(()=>{
+				// 	console.log("running a setTimeout");
+				// 	localStorage.setItem('cartData', JSON.stringify(cartCtx));
+				// },500)
+			}
+			history.push(redirectURL);
+			console.log('checking if this runs or not');
 		}
-	}, [history, auth.isAuthenticated, redirect]);
+	}, [history, auth.isAuthenticated]);
+
+	// useEffect(() => {
+	// 	const data = {
+	// 		items: cartCtx.items,
+	// 		totalPrice: cartCtx.totalPrice,
+	// 	};
+	// 	console.log('and i will never change');
+
+	// 	// storing this locally
+	// 	localStorage.setItem('cartData', JSON.stringify(data));
+	// }, [auth.isAuthenticated, cartCtx.items, cartCtx.totalPrice]);
 
 	const validateForm = async (email, password) => {
 		const emailRE = EMAIL_VALIDATION_PATTERN;
@@ -86,7 +111,7 @@ const Login = (props) => {
 	// * FORM HANDLER
 	const handleFormSubmit = async (e) => {
 		e.preventDefault();
-		await dispatch(authDefaultActions.resetAuthError());
+		dispatch(authDefaultActions.resetAuthError());
 		setErrorMessage('');
 		// const formVal
 		if (!validateForm(email, pass)) {
@@ -97,7 +122,7 @@ const Login = (props) => {
 		}
 
 		setHasError(false);
-		await dispatch(login({ email, pass }));
+		dispatch(login({ email, pass }));
 	};
 
 	const loginError = function () {

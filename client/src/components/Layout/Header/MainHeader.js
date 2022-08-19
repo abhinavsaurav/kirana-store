@@ -122,11 +122,17 @@ const MainHeader = () => {
 		setDynamicWidth(dimension.width);
 	}, [dimension.width]);
 
+	const loneHeaderCheck = !!(
+		/^\/checkout\//.test(location.pathname) ||
+		/^\/login/.test(location.pathname)
+	);
+
 	return (
 		<header>
 			<nav
 				className={
-					/^\/checkout\//.test(location.pathname)
+					// /^\/checkout\//.test(location.pathname)
+					loneHeaderCheck
 						? `${classes['lone-header']} ${classes['header-nav']}`
 						: `${classes['header-nav']}`
 				}
@@ -135,7 +141,10 @@ const MainHeader = () => {
 				{/* <div className={classes['nav-content-wrapper']}> */}
 				{/* <div>Width:{dimension.width}</div> */}
 				<Logo />
-				{/^\/checkout\//.test(location.pathname) ? (
+				{loneHeaderCheck ? (
+					// /^\/checkout\//.test(location.pathname) ||
+					// /^\/login/.test(location.pathname) ? ( // ! removing the login test causes a bug due to loginstatus resetting
+					// 	// ! the cart
 					''
 				) : (
 					<>
