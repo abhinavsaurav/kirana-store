@@ -5,7 +5,7 @@ const {
 	sendPublicKey,
 } = require('../controller/pushNotificationController');
 
-router.get('/subscribe', subscribe);
+router.post('/subscribe', subscribe);
 router.get('/subscribe/key', sendPublicKey);
 
 module.exports = router;

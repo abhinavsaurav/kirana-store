@@ -15,11 +15,15 @@ const sendPublicKey = (req, res, next) => {
 
 const subscribe = (req, res, next) => {
 	try {
+		console.log(req.body);
 		const subscription = req.body;
 		if (Object.keys(subscription).length === 0) {
 			throw new Error('No Subscription provided');
 		}
-		res.status(201).json({});
+		res.status(201).json({
+			title: 'Subscription',
+			body: 'You just subscribed to me',
+		});
 
 		// stringifying the payload
 		const payload = JSON.stringify({

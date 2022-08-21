@@ -4,6 +4,7 @@ const path = require('path');
 
 function vapidConfig() {
 	try {
+		console.log('Configuring webpush');
 		if (!!!process.env.VAPID_PUBLIC || !!!process.env.VAPID_PRIVATE) {
 			const vapidKeys = webpush.generateVAPIDKeys();
 			const textPublic = 'VAPID_PUBLIC=' + vapidKeys.publicKey + '\n';
@@ -12,19 +13,24 @@ function vapidConfig() {
 
 			const myFile = path.join(__dirname + '../../../.env');
 
-			fs.appendFile(myFile, text, (err) => {
-				if (err) {
-					console.log('error appending the file' + err);
-					console.log('');
-					return;
-				}
-				console.log('New VAPID keys Generated');
-				webpush.setVapidDetails(
-					'mailto:abhinavsaurav1@gmail.com',
-					process.env.VAPID_PUBLIC,
-					process.env.VAPID_PRIVATE
-				);
-			});
+			if (process.env.NODE_ENV === 'development') {
+				fs.appendFile(myFile, text, (err) => {
+					if (err) {
+						console.log('error appending the file' + err);
+						console.log('');
+						return;
+					}
+					console.log('New VAPID keys Generated');
+					webpush.setVapidDetails(
+						'mailto:abhinavsaurav1@gmail.com',
+						process.env.VAPID_PUBLIC,
+						process.env.VAPID_PRIVATE
+					);
+				});
+			} else {
+				process.env.VAPID_PUBLIC = vapidKeys.publicKey;
+				process.env.VAPID_PRIVATE = vapidKeys.privateKey;
+			}
 		} else {
 			webpush.setVapidDetails(
 				'mailto:abhinavsaurav1@gmail.com',
