@@ -40,7 +40,53 @@ export function register(config) {
 
 				// Add some additional logging to localhost, pointing developers to the
 				// service worker/PWA documentation.
-				navigator.serviceWorker.ready.then(() => {
+				navigator.serviceWorker.ready.then((registration) => {
+					async function requestPermission() {
+						if (!('Notification' in window)) {
+							// Check if the browser supports notifications
+							console.log('This browser does not support desktop notification');
+						} else if (Notification.permission === 'granted') {
+							// Check whether notification permissions have already been granted;
+							// if so, create a notification
+							// const notification = new Notification("Hi there!");
+							// …
+						} else if (Notification.permission !== 'denied') {
+							// We need to ask the user for permission
+							const permission = await Notification.requestPermission();
+							if (permission === 'granted') {
+								if (registration.active.state === 'activated') {
+									console.log('im running bro from sw');
+									const keyResponse = await fetch('/pn/subscribe/key');
+									const keyjson = await keyResponse.json();
+									const publicKey = keyjson.publicKey;
+
+									const subscription = await registration.pushManager.subscribe(
+										{
+											userVisibleOnly: true,
+											applicationServerKey: publicKey,
+										}
+									);
+
+									await fetch('/pn/subscribe', {
+										method: 'POST',
+										body: JSON.stringify(subscription),
+										headers: {
+											'Content-Type': 'application/json',
+										},
+									});
+								}
+								// const notification = new Notification("Hi there!");
+								// …
+								// window.location.reload(); // not working apparently
+							}
+							// .then((permission) => {
+							// 	// If the user accepts, let's create a notification
+							// });
+						}
+					}
+					requestPermission();
+					console.log('this is working or not');
+
 					console.log(
 						'This web app is being served cache-first by a service ' +
 							'worker. To learn more, visit https://cra.link/PWA'
@@ -59,25 +105,6 @@ function registerValidSW(swUrl, config) {
 		.register(swUrl)
 		.then(async (registration) => {
 			// web push subscibing
-			if (registration.active.state === 'activated') {
-				console.log('im running bro from sw');
-				const keyResponse = await fetch('/pn/subscribe/key');
-				const keyjson = await keyResponse.json();
-				const publicKey = keyjson.publicKey;
-
-				const subscription = await registration.pushManager.subscribe({
-					userVisibleOnly: true,
-					applicationServerKey: publicKey,
-				});
-
-				await fetch('/pn/subscribe', {
-					method: 'POST',
-					body: JSON.stringify(subscription),
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				});
-			}
 
 			registration.onupdatefound = () => {
 				const installingWorker = registration.installing;
@@ -125,7 +152,7 @@ function checkValidServiceWorker(swUrl, config) {
 	fetch(swUrl, {
 		headers: { 'Service-Worker': 'script' },
 	})
-		.then((response) => {
+		.then(async (response) => {
 			// Ensure service worker exists, and that we really are getting a JS file.
 			const contentType = response.headers.get('content-type');
 			if (
@@ -140,6 +167,7 @@ function checkValidServiceWorker(swUrl, config) {
 				});
 			} else {
 				// Service worker found. Proceed as normal.
+
 				registerValidSW(swUrl, config);
 			}
 		})

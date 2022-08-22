@@ -79,3 +79,10 @@ self.addEventListener('push', function (e) {
 		body: data.body,
 	});
 });
+
+// need to check more on this
+self.addEventListener('notificationclick', function (event) {
+	// event.notification.close();
+	console.log('notification click fired');
+	clients.openWindow('/');
+});
